@@ -1,0 +1,105 @@
+Example of Normalization
+Suppose you have a table called Orders that looks like this:
+
+OrderID	CustomerName	Product1	Product2	Product3	TotalAmount
+1	Alice	WidgetA	WidgetB	WidgetC	100
+2	Bob	WidgetD	WidgetE	NULL	50
+This table is not normalized because it includes repeating groups (Product1, Product2, Product3) and contains redundant
+information.
+
+Step 1: First Normal Form (1NF)
+Ensure that the table contains only atomic values.
+
+OrderID	CustomerName	Product	TotalAmount
+1	Alice	WidgetA	100
+1	Alice	WidgetB	100
+1	Alice	WidgetC	100
+2	Bob	WidgetD	50
+2	Bob	WidgetE	50
+Now each column contains only one piece of information per row.
+
+Step 2: Second Normal Form (2NF)
+Remove partial dependencies by moving data to related tables.
+
+Create a Customers table:
+
+CustomerID	CustomerName
+1	Alice
+2	Bob
+Create an Orders table:
+
+OrderID	CustomerID	TotalAmount
+1	1	100
+2	2	50
+Create an OrderDetails table to store each product:
+
+OrderID	Product
+1	WidgetA
+1	WidgetB
+1	WidgetC
+2	WidgetD
+2	WidgetE
+Step 3: Third Normal Form (3NF)
+Ensure that all columns are dependent on the primary key.
+
+In our example, the tables are already in 3NF because all non-key attributes (like CustomerName in the Customers table)
+are dependent on the primary key.
+
+Implementing Related Tables in SQLite
+To implement normalized tables with related data in SQLite, you can follow these steps:
+
+Create Tables:
+
+sql
+Copy code
+CREATE TABLE Customers (
+    CustomerID INTEGER PRIMARY KEY,
+    CustomerName TEXT NOT NULL
+);
+
+CREATE TABLE Orders (
+    OrderID INTEGER PRIMARY KEY,
+    CustomerID INTEGER,
+    TotalAmount REAL,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+CREATE TABLE OrderDetails (
+    OrderDetailID INTEGER PRIMARY KEY,
+    OrderID INTEGER,
+    Product TEXT,
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+);
+Insert Data:
+
+sql
+Copy code
+INSERT INTO Customers (CustomerName) VALUES ('Alice'), ('Bob');
+
+INSERT INTO Orders (CustomerID, TotalAmount) VALUES (1, 100), (2, 50);
+
+INSERT INTO OrderDetails (OrderID, Product) VALUES
+    (1, 'WidgetA'),
+    (1, 'WidgetB'),
+    (1, 'WidgetC'),
+    (2, 'WidgetD'),
+    (2, 'WidgetE');
+Querying Data:
+
+To retrieve data, you can use JOIN to combine information from multiple tables.
+
+sql
+Copy code
+SELECT Customers.CustomerName, Orders.OrderID, OrderDetails.Product, Orders.TotalAmount
+FROM Customers
+JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID;
+This query will return the customer name, order ID, product, and total amount for each order item.
+
+Benefits of Normalization
+Data Integrity: Ensures consistency and accuracy of the data.
+Reduction of Redundancy: Minimizes duplicate data, reducing storage requirements.
+Easier Maintenance: Simplifies updates, inserts, and deletions.
+Scalability: A well-normalized database can handle growing amounts of data more efficiently.
+However, it's important to balance normalization with performance needs. In some cases, denormalization (the opposite
+of normalization) might be considered for optimizing read-heavy applications, but that should be done carefully.
