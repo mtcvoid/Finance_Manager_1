@@ -1,11 +1,11 @@
 class NewAccount:
     """
-    Class that takes in a userID, account holder name, type of account(savings, checking, etc, and initial funds.
+    Class that takes in a userID, account holder name, type of account(savings, checking, etc.), and initial funds.
     account will be able to update funds. Check transactions
     """
 
     def __init__(self, user_id: int, new_password: str, user_name: str,
-                 holder_name: str = "", account_name: str = None,initial_funds: int = 0):
+                 holder_name: str = "", account_name: str = None, initial_funds: float = 0):
         self._account_name = account_name
         self.holder_name = holder_name
         self._user_id = user_id
@@ -13,13 +13,12 @@ class NewAccount:
         self._user_password = new_password
         self.initial_funds = initial_funds
         self._entire_balance = initial_funds
-        self.all_transactions = []
-        self._checking_balance = 0
+        self.all_transactions = [initial_funds]
+        self._checking_balance = 0 + initial_funds
         self.checking_transactions = []
         self._saving_balance = 0
         self.saving_transactions = []
         self.current_budget_warnings = 0
-
 
     @property
     def user_id(self):
@@ -59,7 +58,7 @@ class NewAccount:
     @account_name.setter
     def account_name(self, value):
         """
-        Setter property that can be used when changing account name from checking to savings or visa versa
+        Setter property that can be used when changing account name from checking to savings or vice versa
         """
         self._account_name = value
 
@@ -86,23 +85,29 @@ Total account Balance: {self._entire_balance}
 
     def get_account_details(self):
         """
-        Returns a dictionary value of account details.
+        Returns a dictionary value of account details for admin purposes. Use this when
+        manipulating and moving data. This will have more info than the view_account_details
         """
         return {'User ID': self._user_id, 'Account Holder Name': self.holder_name,
-                'Overall Balance': self._entire_balance}
+                'Overall Balance': self._entire_balance, 'User name': self.user_name,
+                'User password': self._user_password, 'Transaction History': self.all_transactions,
+                'Checking Balance': self._checking_balance, 'Savings Balance': self._saving_balance,
+                'Current Budget Warnings': self.current_budget_warnings}
 
     def deposit(self, account_type, amount: float = 0):
         """
         Adds amount to account_type and updates transaction history.
         """
-        if account_type == 'Checking':
+        if account_type == 'checking':
             self._checking_balance += amount
             self.checking_transactions.append(amount)
             self.all_transactions.append(amount)
-        elif account_type == "Savings":
+            self._entire_balance += amount
+        elif account_type == "savings":
             self._saving_balance += amount
             self.saving_transactions.append(amount)
             self.all_transactions.append(amount)
+            self._entire_balance += amount
         else:
             print('Please enter a valid account.')
 
@@ -111,23 +116,25 @@ Total account Balance: {self._entire_balance}
         """
         Withdrawals amount from account_type and updates transaction history
         """
-        if account_type == 'Savings':
+        if account_type == 'savings':
             while True:
                 if (self._saving_balance - amount) >= 0:
                     self._saving_balance -= amount
-                    self.saving_transactions.append(amount)
-                    self.all_transactions.append(amount)
+                    self.saving_transactions.append(-amount)
+                    self.all_transactions.append(-amount)
+                    self._entire_balance -= amount
                     print(f'${amount} has been removed from {account_type}. Current balance: {self._saving_balance}')
                     break
                 else:
                     print('The amount requested is more than current account value.')
-        elif account_type == 'Checking':
+        elif account_type == 'checking':
             while True:
                 if (self._checking_balance - amount) >= 0:
                     self._checking_balance -= amount
-                    self.checking_transactions.append(amount)
-                    self.all_transactions.append(amount)
-                    print(f'${amount} has been removed from {account_type}. Current balance: {self._saving_balance}')
+                    self.checking_transactions.append(-amount)
+                    self.all_transactions.append(-amount)
+                    self._entire_balance -= amount
+                    print(f'${amount} has been removed from {account_type}. Current balance: {self._checking_balance}')
                     break
                 else:
                     print('The amount requested is more than current account value.')

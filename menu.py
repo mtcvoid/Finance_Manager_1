@@ -82,6 +82,16 @@ def market_watch():
     pass  # this is a cool idea for later implementation. Will be nifty i think. everything in one app.
 
 
+# TESTING AREA
 matt = create_new_account()
-
+matt.deposit('checking',204)
+matt.withdrawal('checking',85)
+matt.deposit('savings', 200)
+matt.withdrawal('checking',8)
+matt.withdrawal('savings',16)
 account_details(matt)
+
+tester = matt.get_account_details()
+for key, value in tester.items():
+    print(key,value)
+
