@@ -12,7 +12,7 @@ class NewAccount:
         self.user_name = user_name
         self._user_password = new_password
         self.initial_funds = initial_funds
-        self._entire_balance = 0
+        self._entire_balance = initial_funds
         self.all_transactions = []
         self._checking_balance = 0
         self.checking_transactions = []
@@ -77,9 +77,12 @@ class NewAccount:
         """
         Prints account details to user.
         """
-        print(self._user_id)
-        print(self.holder_name)
-        print(self._entire_balance)
+        return (f"""
+********************************
+Account ID: {self._user_id}
+Account Holder: {self.holder_name}
+Total account Balance: {self._entire_balance}
+********************************""")
 
     def get_account_details(self):
         """
@@ -90,24 +93,30 @@ class NewAccount:
 
     def deposit(self, account_type, amount: float = 0):
         """
-        Adds amount to account_type
+        Adds amount to account_type and updates transaction history.
         """
         if account_type == 'Checking':
-            self._checking_balance += amount # UPDATE THIS: NEED TO ADD TRANSACTION HISTORY
+            self._checking_balance += amount
+            self.checking_transactions.append(amount)
+            self.all_transactions.append(amount)
         elif account_type == "Savings":
-            self._saving_balance += amount # UPDATE THIS: NEED TO ADD TRANSACTION HISTORY
+            self._saving_balance += amount
+            self.saving_transactions.append(amount)
+            self.all_transactions.append(amount)
         else:
             print('Please enter a valid account.')
 
     # you may need to mess with this more once implemented. Not sure if it should handle all the text to user.
     def withdrawal(self, account_type, amount: float = 0):
         """
-        Withdrawals amount from account_type.
+        Withdrawals amount from account_type and updates transaction history
         """
         if account_type == 'Savings':
             while True:
                 if (self._saving_balance - amount) >= 0:
-                    self._saving_balance -= amount # UPDATE THIS: NEED TO ADD TRANSACTION HISTORY
+                    self._saving_balance -= amount
+                    self.saving_transactions.append(amount)
+                    self.all_transactions.append(amount)
                     print(f'${amount} has been removed from {account_type}. Current balance: {self._saving_balance}')
                     break
                 else:
@@ -115,7 +124,9 @@ class NewAccount:
         elif account_type == 'Checking':
             while True:
                 if (self._checking_balance - amount) >= 0:
-                    self._checking_balance -= amount # UPDATE THIS: NEED TO ADD TRANSACTION HISTORY
+                    self._checking_balance -= amount
+                    self.checking_transactions.append(amount)
+                    self.all_transactions.append(amount)
                     print(f'${amount} has been removed from {account_type}. Current balance: {self._saving_balance}')
                     break
                 else:

@@ -85,7 +85,3 @@ def market_watch():
 matt = create_new_account()
 
 account_details(matt)
-
-matt.deposit(100)
-
-account_details(matt)
