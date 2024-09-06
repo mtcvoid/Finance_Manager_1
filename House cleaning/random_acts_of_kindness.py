@@ -88,7 +88,7 @@ def main_menu():
 
 
 
-# Start with the main menu
+# Start with the main Interface
 main_menu()
 
 while True:
