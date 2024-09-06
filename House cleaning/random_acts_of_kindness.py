@@ -1,61 +1,7 @@
-account = NewAccount(5555, '1234', '', 'Matthew ',
-                     '', 10)
+"""
+PAGE WILL BE DELETED ONCE COMPLETE. COPY AND PASE PAGE
 
-
-
-
-
-while True:
-    print("""
-    (1) Log into account
-    (2) Create new account.
-    """)
-    menu_1 = input('Choice: ')
-    if menu_1 == '1':
-        pass
-    if menu_1 == '2':
-        pass
-
-    def __init__(self, user_id: int, new_password: str, user_name: str,
-                 holder_name: str = "", account_name: str = None,initial_funds: int = 0):
-        self._account_name = account_name
-        self.holder_name = holder_name
-        self._user_id = user_id
-        self.user_name = user_name
-        self._user_password = new_password
-        self.initial_funds = initial_funds
-        self._entire_balance = 0
-        self.all_transactions = []
-        self._checking_balance = 0
-        self.checking_transactions = []
-        self._saving_balance = 0
-        self.saving_transactions = []
-        self.current_budget_warnings = 0
-
-        # TESTING AREA
-        matt = create_new_account()
-        account_deposit(matt, 'checking', 40)
-        account_withdrawal(matt, 'checking', 20)
-
-        tester = matt.get_account_details()
-        for key, value in tester.items():
-            print(key, value)
-
-#####################################################################################################################
-def create_new_account():  # build the logic for this so someone can actually make an account.
-    account = NewAccount(76487293, 'ReAlLyBaDPaSS', 'Mr_Banker2024', 'Matthew tester',
-                         'Checking/Savings', 234.98)
-    return account
-
-# ID creation should be done inside the new account class not before.
-
-
-
-
-
-
-#######################################################
-
+"""
 
 def func_1_tester():
 
@@ -67,9 +13,6 @@ def func_1_tester():
     ]
     menu_builder("Submenu", submenu_choices_and_funcs)
 
-
-def admin_options():
-    print("Admin Options")
 
 
 # Main Menu Choices
@@ -83,34 +26,21 @@ def main_menu():
     ]
     menu_builder(menu_header, main_choices_and_funcs)
 
-
-# Modified menu_builder to handle the 'None' function to exit
-
+from accounts.new_account import *
 
 
-# Start with the main Interface
-main_menu()
+import Interface.menu_handler
+################################################################################
 
-while True:
-    y_n = input('Create a new account? (Y)es, (N)o')
-    if y_n.lower() == 'y':
-        while True:
-            user_name = input('Please enter a username: ')
-            y_n = input(f'Is this correct: {user_name}. (Y)es, (N)o')
-            if y_n.lower() == 'y':
-                break
-            elif y_n.lower() == 'n':
-                print('Please try again.')
-                continue
-            else:
-                print('Please Enter a valid choice.')
-                print("""
-                           (1)
-                           """)
 
-            new_password = input()
-            holder_name = input()
-            account_name = input()
-    elif y_n.lower() == 'n':
-        break
+# Save this stuff for later.
 
+
+
+
+# testing area
+user_account = create_new_account()
+
+user_account.accounts.deposit('checking', 200)
+print(user_account.all_transactions)
+print(user_account.holder_name)

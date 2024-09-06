@@ -1,4 +1,4 @@
-import Interface.menu as menu
+from Interface.menu_handler import *
 
 
-menu.main_menu()
+main_menu()

@@ -1,19 +1,7 @@
-1. Personal Finance Manager
-Skills Involved: Classes, JSON/CSV/SQLite3, Context Managers, Logging
-Description: Build an application that tracks income and expenses. The app should allow users to add transactions,
- categorize them, and generate reports (e.g., monthly spending). Data should be saved in a SQLite3 database, and
- logs should be maintained for all transactions. You can extend it by adding features like budget tracking and
-  forecasting future expenses.
 
-
-
- user object that can have its own account with attributes.
- save information in a data base.
-
- will need a context manager to save data to and from database
    Looks like you can use sqlite3 and have normalized databases with reference tables. this should work for accounts,
    transaction logging, and account details.
-            Start thinking about how you want to structure your data. This is will important later.
+    Start thinking about how you want to structure your data. This is will important later.
 
 Your going to need a random number generator for customer ID's. and then make sure that you dont have duplicates.
 

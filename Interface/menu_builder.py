@@ -1,9 +1,11 @@
 """
 All functions for Interface building
 """
+
+
 def menu_builder(menu_header: str, choices_and_funcs):
     """
-    Displays a Interface and calls the appropriate function based on the user's choice.
+    Displays an Interface and calls the appropriate function based on the user's choice.
     """
     while True:
         print(f"""
@@ -29,8 +31,5 @@ def menu_builder(menu_header: str, choices_and_funcs):
                     break
             else:
                 print('Invalid choice. Please select a valid option.')
-        elif u_c == 'Admin':
-            admin_options_menu()
         else:
             print('Invalid input. Please enter a number corresponding to a choice.')
-            break
