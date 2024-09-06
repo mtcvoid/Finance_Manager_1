@@ -22,7 +22,18 @@ The following information will be required for creating a new account.
        - Initial fund's
                             **
 """)
-        break
+        y_n = input('')
+        user_name = input('Please enter a username: ')
+        y_n = input(f'Is this correct: {user_name} . (Y)es, (N)o')
+        if y_n == 'y'.lower() or
+        new_password = input()
+        holder_name = input()
+        account_name = input()
+
+        account = NewAccount(user_name,new_password,holder_name,account_name)
+        return account
+
+
 
 
 def log_in():
@@ -116,3 +127,4 @@ def menu_builder(menu_header: str, choices_and_funcs):
 
 # testing area
 create_new_account()
+

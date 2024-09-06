@@ -1,5 +1,5 @@
-account = NewAccount(5555, '1234', 'Mclouse', 'Matthew Clouse',
-                     'Checking', 10)
+account = NewAccount(5555, '1234', '', 'Matthew ',
+                     '', 10)
 
 
 

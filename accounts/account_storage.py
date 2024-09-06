@@ -19,3 +19,12 @@ during:
 also, STOP PUTTING THIS OFF. your going to have to figure it out sooner or later and implement it 
 review the stuff you found about context managers and sqlite. 
 """
+
+"""
+UPDATE!
+
+use dictionaries to store the accounts. use the random num to make account keys and then 
+match them to their own account object. You could use the USED ACCOUNT IDS to make sure the id's
+dont get used again.  also, you still need to figure out the database thing.
+
+"""
