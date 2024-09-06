@@ -1,15 +1,14 @@
 from accounts.new_account import NewAccount
 
-
-
 """
 All account functions
 """
-def create_new_account():# build the logic for this so someone can actually make an account.
+
+
+def create_new_account():  # build the logic for this so someone can actually make an account.
     account = NewAccount(76487293, 'ReAlLyBaDPaSS', 'Mr_Banker2024', 'Matthew tester',
                          'Checking/Savings', 234.98)
     return account
-
 
 
 def log_in():
@@ -22,6 +21,7 @@ def log_in():
 """
 All functions for account manipulation. 
 """
+
 
 def account_details(account):
     details = account.view_account_details()
@@ -41,7 +41,7 @@ All functions for menu building
 """
 
 
-def account_options_menu(): # have this inside the login menu. Not the main menu
+def account_options_menu():  # have this inside the login menu. Not the main menu
     pass
 
 
@@ -50,9 +50,7 @@ def admin_options_menu():
 
 
 def market_watch_menu():
-    pass  # this is a cool idea for later implementation. Will be nifty i think. everything in one app.
-
-
+    pass  # this is a cool idea for later implementation. Will be nifty I think. everything in one app.
 
 
 def menu_builder(menu_header: str, choices_and_funcs):
@@ -89,7 +87,4 @@ def menu_builder(menu_header: str, choices_and_funcs):
             print('Invalid input. Please enter a number corresponding to a choice.')
             break
 
-
-
-#testing area
-
+# testing area
