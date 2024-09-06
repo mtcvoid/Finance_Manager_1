@@ -1,20 +1,22 @@
+import random
+
+
 class NewAccount:
     """
     Class that takes in a userID, account holder name, type of account(savings, checking, etc.), and initial funds.
-    account will be able to update funds. Check transactions
+    account will be able to update funds. Check transactions.
     """
 
-    def __init__(self, user_id: int, new_password: str, user_name: str,
-                 holder_name: str = "", account_name: str = None, initial_funds: float = 0):
+    def __init__(self, user_name: str, new_password: str,
+                 holder_name: str = "", account_name: str = None):
         self._account_name = account_name
         self.holder_name = holder_name
-        self._user_id = user_id
+        self._user_id = random.randint(1, 31000)
         self.user_name = user_name
         self._user_password = new_password
-        self.initial_funds = initial_funds
-        self._entire_balance = initial_funds
-        self.all_transactions = [initial_funds]
-        self._checking_balance = 0 + initial_funds
+        self._entire_balance = 0
+        self.all_transactions = []
+        self._checking_balance = 0
         self.checking_transactions = []
         self._saving_balance = 0
         self.saving_transactions = []

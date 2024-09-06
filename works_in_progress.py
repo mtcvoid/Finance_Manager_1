@@ -42,6 +42,20 @@ while True:
             print(key, value)
 
 #####################################################################################################################
+def create_new_account():  # build the logic for this so someone can actually make an account.
+    account = NewAccount(76487293, 'ReAlLyBaDPaSS', 'Mr_Banker2024', 'Matthew tester',
+                         'Checking/Savings', 234.98)
+    return account
+
+# ID creation should be done inside the new account class not before.
+
+
+
+
+
+
+#######################################################
+
 
 def func_1_tester():
 

@@ -6,9 +6,23 @@ All account functions
 
 
 def create_new_account():  # build the logic for this so someone can actually make an account.
-    account = NewAccount(76487293, 'ReAlLyBaDPaSS', 'Mr_Banker2024', 'Matthew tester',
-                         'Checking/Savings', 234.98)
-    return account
+    while True:
+        print(f"""
+                   ####Finance Manager####
+                *****************************
+                      Account Creation
+                *****************************
+The following information will be required for creating a new account. 
+        Please review all information for accuracy. 
+                            **
+       - Account username and password for logging into account.
+       - Account holder full name.
+       - A name for the Account. (Ex: John's Investment account)
+            L All account's come with a checking and a savings
+       - Initial fund's
+                            **
+""")
+        break
 
 
 def log_in():
@@ -36,9 +50,21 @@ def account_withdrawal(account, account_type, amount):
     account.withdrawal(account_type, amount)
 
 
+def bill_tracking():
+    pass
+
+
+def email_notifier():
+    pass  # think this would be a cool idea. possibly text? figure this out.
+
+
 """
 All functions for menu building
 """
+
+
+def account_main_menu():
+    pass
 
 
 def account_options_menu():  # have this inside the login menu. Not the main menu
@@ -87,4 +113,6 @@ def menu_builder(menu_header: str, choices_and_funcs):
             print('Invalid input. Please enter a number corresponding to a choice.')
             break
 
+
 # testing area
+create_new_account()
