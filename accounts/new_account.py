@@ -62,7 +62,7 @@ Total account Balance: {self._entire_balance}
         else:
             print('Please enter a valid account.')
 
-    # you may need to mess with this more once implemented. Not sure if it should handle all the text to user.
+    # you may need to mess with this more once implemented.
     def withdrawal(self, account_type, amount: float = 0):
         """
         Withdrawals amount from account_type and updates transaction history

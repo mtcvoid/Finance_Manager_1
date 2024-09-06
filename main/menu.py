@@ -36,6 +36,29 @@ The following information will be required for creating a new account.
         return account
 
 
+def new_account_getter(getter_type: str):
+    routine_running = True
+    while routine_running:
+        getter = input(f'Please enter a {getter_type}: ')
+        y_n = input(f'Is this correct: {getter}. (Y)es, (N)o')
+        if y_n.lower() == 'y':
+            return getter
+        elif y_n.lower() == 'n':
+            print('Please try again.')
+            continue
+        else:
+            print('Please Enter a valid choice.')
+            o_t = input("""
+(1)Try again
+(2)Exit to main menu
+                               """)
+            if o_t == '1':
+                continue
+            else:
+                routine_running = False
+                # main_menu() # make this
+
+
 def log_in():
     user_name = input('Username: ')
     pass_word = input('Password: ')
@@ -61,56 +84,54 @@ def account_withdrawal(account, account_type, amount):
     account.withdrawal(account_type, amount)
 
 
-def bill_tracking():
-    pass
-
-
 def email_notifier():
     pass  # think this would be a cool idea. possibly text? figure this out.
 
 
 """
-All functions for menu building
+Menu's
 """
 
 
+def main_menu():
+    menu_header = 'Main Menu'
+    main_choices_and_funcs = []
+    menu_builder(menu_header, main_choices_and_funcs)
+
+
 def account_main_menu():
-    pass
+    menu_header = 'Account Menu'
+    main_choices_and_funcs = []
+    menu_builder(menu_header, main_choices_and_funcs)
 
 
-def new_account_getter(getter_type: str):
-    routine_running = True
-    while routine_running:
-        getter = input(f'Please enter a {getter_type}: ')
-        y_n = input(f'Is this correct: {getter}. (Y)es, (N)o')
-        if y_n.lower() == 'y':
-            return getter
-        elif y_n.lower() == 'n':
-            print('Please try again.')
-            continue
-        else:
-            print('Please Enter a valid choice.')
-            o_t = input("""
-(1)Try again
-(2)Exit to main menu
-                               """)
-            if o_t == '1':
-                continue
-            else:
-                routine_running = False
-                # main_menu() # make this
-
-
-def account_options_menu():  # have this inside the login menu. Not the main menu
-    pass
+def account_options_menu():
+    menu_header = 'Account Options '
+    main_choices_and_funcs = []
+    menu_builder(menu_header, main_choices_and_funcs)
 
 
 def admin_options_menu():
-    pass
+    menu_header = 'Admin Options'
+    main_choices_and_funcs = []
+    menu_builder(menu_header, main_choices_and_funcs)
 
 
 def market_watch_menu():
-    pass  # this is a cool idea for later implementation. Will be nifty I think. everything in one app.
+    menu_header = 'Stock Market Watcher '
+    main_choices_and_funcs = []
+    menu_builder(menu_header, main_choices_and_funcs)
+
+
+def bill_tracking_menu():
+    menu_header = 'Bill Tracking'
+    main_choices_and_funcs = []
+    menu_builder(menu_header, main_choices_and_funcs)
+
+
+"""
+All functions for menu building
+"""
 
 
 def menu_builder(menu_header: str, choices_and_funcs):
@@ -151,6 +172,6 @@ def menu_builder(menu_header: str, choices_and_funcs):
 # testing area
 user_account = create_new_account()
 
-user_account.deposit('checking',200)
+user_account.deposit('checking', 200)
 print(user_account.all_transactions)
 print(user_account.holder_name)
