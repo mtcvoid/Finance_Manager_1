@@ -91,3 +91,26 @@ def main_menu():
 # Start with the main menu
 main_menu()
 
+while True:
+    y_n = input('Create a new account? (Y)es, (N)o')
+    if y_n.lower() == 'y':
+        while True:
+            user_name = input('Please enter a username: ')
+            y_n = input(f'Is this correct: {user_name}. (Y)es, (N)o')
+            if y_n.lower() == 'y':
+                break
+            elif y_n.lower() == 'n':
+                print('Please try again.')
+                continue
+            else:
+                print('Please Enter a valid choice.')
+                print("""
+                           (1)
+                           """)
+
+            new_password = input()
+            holder_name = input()
+            account_name = input()
+    elif y_n.lower() == 'n':
+        break
+

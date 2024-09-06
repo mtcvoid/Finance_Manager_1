@@ -5,7 +5,7 @@ All account functions
 """
 
 
-def create_new_account():  # build the logic for this so someone can actually make an account.
+def create_new_account():
     while True:
         print(f"""
                    ####Finance Manager####
@@ -22,18 +22,18 @@ The following information will be required for creating a new account.
        - Initial fund's
                             **
 """)
-        y_n = input('Create a new account?')
-        user_name = input('Please enter a username: ')
-        y_n = input(f'Is this correct: {user_name} . (Y)es, (N)o')
-        if y_n == 'y'.lower() or
-        new_password = input()
-        holder_name = input()
-        account_name = input()
+        while True:
+            y_n = input('Create a new account? (Y)es, (N)o')
+            if y_n.lower() == 'y':
+                user_name = new_account_getter("Username")
+                new_password = new_account_getter('Password')
+                holder_name = new_account_getter("Account holder name")
+                account_name = new_account_getter('Name for the account')
+                break
 
-        account = NewAccount(user_name,new_password,holder_name,account_name)
+        account = NewAccount(user_name, new_password, holder_name, account_name)
+        print('Account Created')
         return account
-
-
 
 
 def log_in():
@@ -76,6 +76,32 @@ All functions for menu building
 
 def account_main_menu():
     pass
+
+
+def new_account_getter(getter_type: str):
+    routine_running = True
+    while routine_running:
+        getter = input(f'Please enter a {getter_type}: ')
+        y_n = input(f'Is this correct: {getter}. (Y)es, (N)o')
+        if y_n.lower() == 'y':
+            return getter
+        elif y_n.lower() == 'n':
+            print('Please try again.')
+            continue
+        else:
+            print('Please Enter a valid choice.')
+            o_t = input("""
+(1)Try again
+(2)Exit to main menu
+                               """)
+            if o_t == '1':
+                continue
+            else:
+                routine_running = False
+                main_menu() # make this
+
+
+
 
 
 def account_options_menu():  # have this inside the login menu. Not the main menu
@@ -127,4 +153,3 @@ def menu_builder(menu_header: str, choices_and_funcs):
 
 # testing area
 create_new_account()
-
