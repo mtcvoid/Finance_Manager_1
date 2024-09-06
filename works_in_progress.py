@@ -43,23 +43,8 @@ while True:
 
 #####################################################################################################################
 
-def func_1():
-    print("Function 1 from Main Menu")
+def func_1_tester():
 
-
-def func_2():
-    print("Function 2 from Main Menu")
-
-
-def submenu_1_func():
-    print("You are in Submenu 1")
-
-
-def submenu_2_func():
-    print("You are in Submenu 2")
-
-
-def submenu():
     """ A submenu with its own options """
     submenu_choices_and_funcs = [
         ("Submenu Option 1", submenu_1_func),
@@ -86,44 +71,7 @@ def main_menu():
 
 
 # Modified menu_builder to handle the 'None' function to exit
-def menu_builder(menu_header, choices_and_funcs):
-    """
-    Displays a menu and calls the appropriate function based on the user's choice.
 
-    :param menu_header: Header for the menu
-    :param choices_and_funcs: List of tuples where each tuple contains a menu choice and its corresponding function
-    """
-    while True:
-        print(f"""
-      #####Finance Manager#####
-******************************
-        {menu_header}
-******************************""")
-
-        # Dynamically print the menu choices
-        for index, (choice, _) in enumerate(choices_and_funcs, start=1):
-            print(f"({index}) {choice}")
-
-        print("******************************")
-
-        u_c = input('Choice: ')
-
-        if u_c.isdigit():  # Check if input is a number
-            u_c = int(u_c)
-            if 1 <= u_c <= len(choices_and_funcs):
-                choice, func = choices_and_funcs[u_c - 1]
-                if func:  # Only call the function if it's not None
-                    func()
-                else:
-                    print("Exiting...")
-                    break
-            else:
-                print("Invalid choice. Please select a valid option.")
-        elif u_c == 'admin':  # Admin option
-            admin_options()
-        else:
-            print("Invalid input. Please enter a number corresponding to a choice.")
-        break
 
 
 # Start with the main menu
