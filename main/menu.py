@@ -22,7 +22,7 @@ The following information will be required for creating a new account.
        - Initial fund's
                             **
 """)
-        y_n = input('')
+        y_n = input('Create a new account?')
         user_name = input('Please enter a username: ')
         y_n = input(f'Is this correct: {user_name} . (Y)es, (N)o')
         if y_n == 'y'.lower() or

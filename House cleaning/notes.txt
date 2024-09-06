@@ -79,3 +79,27 @@ Your going to need a random number generator for customer ID's. and then make su
         classes
             -Account
 
+
+Read me stuff****************************************************************
+https://realpython.com/readme-python-project/
+
+What was your motivation to build the project?
+What problem does the project solve?
+What technologies does the project use and why?
+What are the project’s most relevant features?
+How can users get started with the project?
+Where can users get help with your project?
+
+Project description: A short description of what your project does. A good way to do this right is to provide:
+A concise paragraph describing your project
+A representative screenshot or an animated GIF showing your project in action
+Installation: A series of steps that describe how to install the project. If your project is cross-platform, then make
+ sure you list the steps for all the supported platforms.
+Execution and usage: The instructions for executing the project if it’s an executable Python application. If the project is a Python library, then you can provide some code examples of using the library. Ideally, you should provide examples that showcase the project’s most relevant features.
+Used technologies: A list of used technologies, including third-party Python libraries and frameworks. You can provide a short description of each technology and, optionally, the reasons behind using it.
+Current features: A list of current features. You can take advantage of this section to do some marketing around your project by highlighting its most relevant features.
+Contributing: A series of steps for contributing to the project. Alternatively, you can create a dedicated contributor’s guide in a separate file, which is common practice in large projects.
+Contributors: The list of people who have somehow contributed to your Python project. Crediting contributors is an excellent way to make open-source contributors feel like they’re part of a team effort.
+Author’s info: The author’s name and contact information, such as social media accounts and email. This information will be handy for people who want to collaborate with you.
+Change log: A condensed change log listing the changes made to the project compared to the previous version.
+License: A quick statement about the license the software is under. You can include a LICENSE.txt file under your project’s root folder and then link to that file. For an open-source Python project, you could go to opensource.org and get the license that meets your needs.
