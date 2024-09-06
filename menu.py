@@ -43,12 +43,17 @@ Menu for navigating different functions and classes for the finance manager appl
 """
 
 
+def menu_builder(menu_header: str, choices_and_funcs: list):
+    """
+    Displays a menu and calls the appropriate function based on the user's choice.
+    """
+
+
 def log_in():
-    pass  # needs to return validation from password checker.
-
-
-def log_out():
-    pass
+    user_name = input('Username: ')
+    pass_word = input('Password: ')
+    # Build logic around a login system. You'll need to figure out how to store
+    # the objects and pull from that to check object username and password
 
 
 def account_details(account):
@@ -56,42 +61,31 @@ def account_details(account):
     print(details)
 
 
-def account_deposit():
-    pass
+def account_deposit(account, account_type, amount):
+    account.deposit(account_type, amount)
 
 
-def account_withdrawal():
-    pass
+def account_withdrawal(account, account_type, amount):
+    account.withdrawal(account_type, amount)
 
 
-def account_options():
+def account_options_menu():
     pass
 
 
 def create_new_account():
-    account = NewAccount(5555, '1234', 'mtester', 'Matthew tester',
-                         'Checking', 10)
+    account = NewAccount(76487293, 'ReAlLyBaDPaSS', 'Mr_Banker2024', 'Matthew tester',
+                         'Checking/Savings', 234.98)
     return account
 
 
-def admin_options():
+def admin_options_menu():
     pass
 
 
-def market_watch():
+def market_watch_menu():
     pass  # this is a cool idea for later implementation. Will be nifty i think. everything in one app.
 
 
-# TESTING AREA
-matt = create_new_account()
-matt.deposit('checking',204)
-matt.withdrawal('checking',85)
-matt.deposit('savings', 200)
-matt.withdrawal('checking',8)
-matt.withdrawal('savings',16)
-account_details(matt)
-
-tester = matt.get_account_details()
-for key, value in tester.items():
-    print(key,value)
-
+def view_options_menu():
+    pass

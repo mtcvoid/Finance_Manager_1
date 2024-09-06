@@ -84,6 +84,7 @@ Total account Balance: {self._entire_balance}
 ********************************""")
 
     def get_account_details(self):
+        # need to figure out the decimal place thing.
         """
         Returns a dictionary value of account details for admin purposes. Use this when
         manipulating and moving data. This will have more info than the view_account_details
@@ -91,7 +92,7 @@ Total account Balance: {self._entire_balance}
         return {'User ID': self._user_id, 'Account Holder Name': self.holder_name,
                 'Overall Balance': self._entire_balance, 'User name': self.user_name,
                 'User password': self._user_password, 'Transaction History': self.all_transactions,
-                'Checking Balance': self._checking_balance, 'Savings Balance': self._saving_balance,
+                f'Checking Balance': self._checking_balance, 'Savings Balance': self._saving_balance,
                 'Current Budget Warnings': self.current_budget_warnings}
 
     def deposit(self, account_type, amount: float = 0):
