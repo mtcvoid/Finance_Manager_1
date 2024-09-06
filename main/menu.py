@@ -98,10 +98,7 @@ def new_account_getter(getter_type: str):
                 continue
             else:
                 routine_running = False
-                main_menu() # make this
-
-
-
+                # main_menu() # make this
 
 
 def account_options_menu():  # have this inside the login menu. Not the main menu
@@ -152,4 +149,8 @@ def menu_builder(menu_header: str, choices_and_funcs):
 
 
 # testing area
-create_new_account()
+user_account = create_new_account()
+
+user_account.deposit('checking',200)
+print(user_account.all_transactions)
+print(user_account.holder_name)

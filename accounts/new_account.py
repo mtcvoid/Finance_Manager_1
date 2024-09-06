@@ -11,7 +11,7 @@ class NewAccount:
                  holder_name: str = "", account_name: str = None):
         self._account_name = account_name
         self.holder_name = holder_name
-        self._user_id = random.randint(1, 31000) # this will be used as an ID . All objects will be named account?
+        self._user_id = random.randint(1, 31000)  # this will be used as an ID . All objects will be named account?
         self.user_name = user_name
         self._user_password = new_password
         self._entire_balance = 0
@@ -21,58 +21,6 @@ class NewAccount:
         self._saving_balance = 0
         self.saving_transactions = []
         self.current_budget_warnings = 0
-
-    @property
-    def user_id(self):
-        """
-        returns user ID for validation with database.
-        """
-        return self._user_id
-
-    @property
-    def account_name(self):
-        """
-        returns account name that can be used to help with searching database/json documents.
-        """
-        return self._account_name
-
-    @property
-    def accounts_balance(self):
-        """
-        Returns balance of both checking and savings accounts.
-        """
-        return self._entire_balance
-
-    @property
-    def checking_balance(self):
-        """
-        Returns balance of checking account.
-        """
-        return self._checking_balance
-
-    @property
-    def savings_balance(self):
-        """
-        Returns balance of savings account.
-        """
-        return self._saving_balance
-
-    @account_name.setter
-    def account_name(self, value):
-        """
-        Setter property that can be used when changing account name from checking to savings or vice versa
-        """
-        self._account_name = value
-
-    @user_id.setter
-    def user_id(self, value):
-        """
-        Used for ADMIN purposes only. If needing to change user ID for some reason you can. NOT A GOOD IDEA. database
-        will not update automatically. You will need to pull ALL info from database before changing userID then re-write
-        to database. CURRENTLY, NOT IMPLEMENTED. And probably won't be. someone will fuck up and lose data.
-
-        """
-        self._user_id = value
 
     def view_account_details(self):
         """
