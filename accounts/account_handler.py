@@ -27,3 +27,7 @@ def log_in():
 
 def email_notifier():
     pass  # think this would be a cool idea. possibly text? figure this out.
+
+
+def change_password(self):
+    pass
