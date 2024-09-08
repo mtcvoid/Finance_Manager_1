@@ -6,7 +6,7 @@ class Transactions:
 
     def __init__(self):
         self.transactions = []
-        self.balance = {'Checking_balance': 300, 'Savings_balance': 745}
+        self.balance = {'Checking_balance': 0, 'Savings_balance': 0}
 
     def deposit_withdrawal(self, account: str, transaction_type: str, amount: float = 0):
         """
