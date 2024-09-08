@@ -62,5 +62,14 @@ class Transactions:
             else:
                 return False
 
-    def money_transfer(self):
-        pass
+    def money_transfer(self,transfer_account: str,  amount: float):
+        """
+        self.balance = {'Checking_balance': 0, 'Savings_balance': 0}
+
+        """
+        if transfer_account == 'Checking':
+            self.balance['Checking_balance'] -= amount
+            self.balance['Savings_balance'] += amount
+        elif transfer_account == 'Savings':
+            self.balance['Savings_balance'] -= amount
+            self.balance['Checking_balance'] += amount
