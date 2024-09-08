@@ -1,3 +1,56 @@
+o connect your new_account objects with transaction objects, a good approach would be to establish a relationship between them. Here’s a possible solution:
+
+Suggestions:
+Add a transactions attribute to the new_account class:
+
+The new_account class can have a list or dictionary that stores Transaction objects.
+Each time a transaction occurs, you create a Transaction object and append it to the account's transaction list.
+Pass Account Reference to Transaction:
+
+When a transaction is created, pass the account as a parameter so that each transaction is tied to its respective account.
+Database Relationship:
+
+Once you implement a database, you can use foreign key relationships to link the two tables (Accounts and Transactions).
+Example of Object-Oriented Link:
+python
+Copy code
+class Account:
+    def __init__(self, holder_name):
+        self.holder_name = holder_name
+        self.balance = {'Checking': 0, 'Savings': 0}
+        self.transactions = []  # Store transactions for the account
+
+    def add_transaction(self, transaction):
+        self.transactions.append(transaction)
+
+class Transaction:
+    def __init__(self, account, transaction_type, amount):
+        self.account = account  # Link to account object
+        self.transaction_type = transaction_type
+        self.amount = amount
+
+        # Automatically update the account's balance
+        if transaction_type == 'Deposit':
+            account.balance['Checking'] += amount
+        elif transaction_type == 'Withdrawal':
+            account.balance['Checking'] -= amount
+
+        # Record the transaction in the account's transaction list
+        account.add_transaction(self)
+
+# Example usage
+account = Account('John Doe')
+transaction1 = Transaction(account, 'Deposit', 500)
+transaction2 = Transaction(account, 'Withdrawal', 200)
+
+# Account's transactions are now linked to the account object
+print(account.transactions)  # Shows the transaction history
+How This Helps:
+Every account object has a list of transactions associated with it, so when you export data to a database, you can simply access the transaction list for that account.
+You can easily extend this structure to work with databases, where each Transaction can reference an Account object via a foreign key.
+
+
+
 
    Looks like you can use sqlite3 and have normalized databases with reference tables. this should work for accounts,
    transaction logging, and account details.
