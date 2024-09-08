@@ -26,7 +26,7 @@ def main_menu():
     ]
     menu_builder(menu_header, main_choices_and_funcs)
 
-from accounts.new_account import *
+from accounts.account import *
 
 
 import Interface.menu_handler
