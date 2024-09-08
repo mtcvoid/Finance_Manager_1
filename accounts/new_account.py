@@ -1,7 +1,7 @@
 import random
 
 
-class NewAccount:
+class Account:
     """
     Class that takes in a userID, account holder name, type of account(savings, checking, etc.), and initial funds.
     account will be able to update funds. Check transactions.
@@ -14,12 +14,10 @@ class NewAccount:
         self._user_id = random.randint(1, 31000)  # this will be used as an ID . All objects will be named account?
         self.user_name = user_name
         self._user_password = new_password
-        self.account_transactions = []
-        self._checking_balance = 0
-        self._saving_balance = 0
+        self.transactions = []
         self.current_budget_warnings = 0
 
-    def view_account_details(self):
+    def view_account_details(self,checking_balance, savings_balance):
         """
         Prints account details to user.
         """
@@ -27,19 +25,18 @@ class NewAccount:
 ********************************
 Account ID: {self._user_id}
 Account Holder: {self.holder_name}
-Total account Balance: {self._entire_balance}
+Checking Balance: {checking_balance}
+Savings Balance: {savings_balance}
 ********************************""")
 
-    def get_account_details(self):
-        # need to figure out the decimal place thing.
+    def get_account_details(self,checking_balance, savings_balance):
         """
         Returns a dictionary value of account details for admin purposes. Use this when
         manipulating and moving data. This will have more info than the view_account_details
         """
-        return {'User ID': self._user_id, 'Account Holder Name': self.holder_name,
-                'Overall Balance': self._entire_balance, 'User name': self.user_name,
-                'User password': self._user_password, 'Transaction History': self.all_transactions,
-                f'Checking Balance': self._checking_balance, 'Savings Balance': self._saving_balance,
+        return {'User ID': self._user_id, 'Account Holder Name': self.holder_name, 'User name': self.user_name,
+                'User password': self._user_password, 'Transaction History': self.transactions,
+                'Checking Balance': checking_balance, 'Savings Balance': savings_balance,
                 'Current Budget Warnings': self.current_budget_warnings}
 
 
@@ -69,7 +66,7 @@ The following information will be required for creating a new account.
                 account_name = new_account_getter('Name for the account')
                 break
 
-        account = NewAccount(user_name, new_password, holder_name, account_name)
+        account = Account(user_name, new_password, holder_name, account_name)
         print('Account Created')
         return account
 
