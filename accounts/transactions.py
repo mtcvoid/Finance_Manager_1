@@ -10,7 +10,21 @@ class Transactions:
 
     def deposit_withdrawal(self, account: str, transaction_type: str, amount: float = 0):
         """
-        Adds amount to account_type and updates transaction history.
+        Processes a deposit or withdrawal transaction for a specified account type.
+
+        This method handles two types of accounts: 'Checking' and 'Savings'. It supports
+        two transaction types: 'Deposit' and 'Withdrawal'. If a deposit is made, the amount
+        is added to the specified account. If a withdrawal is made, the method checks if
+        the withdrawal amount would cause an overdraft and either processes the transaction
+        or returns a warning if insufficient funds are available.
+
+        example:
+        deposit_withdrawal('Checking','Deposit', 120.34)
+
+        :param account:
+        :param transaction_type:
+        :param amount:
+        :return:
         """
         if amount < 0 and transaction_type == Transactions.DEPOSIT:
             return f'Cannot deposit a negative amount: {amount}'
@@ -47,3 +61,6 @@ class Transactions:
                 return True
             else:
                 return False
+
+    def money_transfer(self):
+        pass
