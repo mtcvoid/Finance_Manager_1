@@ -18,7 +18,7 @@ class Account:
         """
         self._account_name = account_name
         self.holder_name = holder_name
-        self._user_id = random.randint(1, 31000)  # this will be used as an ID . All objects will be named account?
+        self._user_id = 555  # this will be used as an ID . All objects will be named account?
         self.user_name = user_name
         self._user_password = new_password
         self.transactions = []
