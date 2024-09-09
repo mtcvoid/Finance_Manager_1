@@ -1,5 +1,5 @@
 import random
-
+import json
 
 class Account:
     """
@@ -62,7 +62,7 @@ Savings Balance: {savings_balance}
         :return:
         """
         return {'User_ID': self._user_id, 'Account_Holder_Name': self.holder_name, 'User_name': self.user_name,
-                'User_password': self._user_password, 'Transaction_History': trans_history,
+                'User_password': self._user_password, 'Transaction_History': json.dumps(trans_history),
                 'Checking_Balance': checking_balance, 'Savings_Balance': savings_balance,
                 'Current_Budget_Warnings': self.current_budget_warnings}
 
