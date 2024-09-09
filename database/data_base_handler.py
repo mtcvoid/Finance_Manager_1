@@ -44,7 +44,7 @@ class DatabaseUnpacker:
             cursor = connection.cursor()
             cursor.execute('CREATE TABLE IF NOT EXISTS accountlog(userID integer primary key, account_holder_name '
                            'text, user_name text, user_password text, transaction_history text, checking_balance '
-                           'integer, savings_balance integer, current_budget_warnings integer)')
+                           'real, savings_balance real, current_budget_warnings integer)')
 
     def push_to_database(self, account, tran):
         """
