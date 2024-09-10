@@ -1,7 +1,10 @@
 from accounts.account import Account
 
+"""
+ACCOUNT CREATORS
+"""
 
-# Step 1: Separate account creation logic from user interaction
+
 def create_new_account_interface():
     """
     Handles the user interaction for account creation.
@@ -45,7 +48,32 @@ def create_new_account():
     return Account(user_name, new_password, holder_name, account_name)
 
 
-# Step 2: Refactor the input gathering logic
+def print_account_creation_banner():
+    """
+    Prints the account creation banner.
+    """
+    print(f"""
+                   ####Finance Manager####
+                *****************************
+                      Account Creation
+                *****************************
+The following information will be required for creating a new account. 
+        Please review all information for accuracy. 
+                            **
+       - Account username and password for logging into account.
+       - Account holder full name.
+       - A name for the Account. (Ex: John's Investment account)
+            L All account's come with a checking and a savings
+       - Initial fund's
+                            **
+    """)
+
+
+"""
+USER INTERACTION
+"""
+
+
 def input_with_validation(field_name):
     """
     Handles input validation and allows users to confirm their input.
@@ -88,25 +116,3 @@ def get_retry_or_exit_choice():
             return 'exit'
         else:
             print('Invalid choice. Please select 1 or 2.')
-
-
-# Step 3: Clean up the interface
-def print_account_creation_banner():
-    """
-    Prints the account creation banner.
-    """
-    print(f"""
-                   ####Finance Manager####
-                *****************************
-                      Account Creation
-                *****************************
-The following information will be required for creating a new account. 
-        Please review all information for accuracy. 
-                            **
-       - Account username and password for logging into account.
-       - Account holder full name.
-       - A name for the Account. (Ex: John's Investment account)
-            L All account's come with a checking and a savings
-       - Initial fund's
-                            **
-    """)
