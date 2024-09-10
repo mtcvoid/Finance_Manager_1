@@ -90,19 +90,4 @@ def get_retry_or_exit_choice():
             print('Invalid choice. Please select 1 or 2.')
 
 
-def get_user_choice(choices_and_funcs):
-    """
-    Prompts the user to select a choice from a list of options, then executes the corresponding function.
 
-    Parameters:
-    choices_and_funcs (list): A list of tuples where each tuple contains a string description of the choice
-                              and the function to be executed for that choice.
-
-    Returns:
-    None
-    """
-    while True:
-        string_choice = input('Choice: ')
-        int_choice = int(string_choice)
-        _, func_choice = choices_and_funcs[int_choice - 1]
-        func_choice()
