@@ -1,62 +1,86 @@
 
-# Finance Manager
+Finance Manager Application
 
-## Project Overview
+Overview
+--------
 
-**Finance Manager** is a simple Python-based application designed to help users manage their personal finances. It provides tools to create accounts, track transactions, and deposit funds through an intuitive, menu-driven interface.
+The Finance Manager application is a terminal-based financial account management tool that allows users to interact with various account-related functionalities, including account creation, modification, and data management. The application presents a simple menu-driven interface, enabling users to navigate and perform financial tasks intuitively.
 
-## Features
+Features
+--------
 
-- **Account Management**: Create and manage multiple financial accounts.
-- **Transaction Tracking**: Deposit funds and view transaction history.
-- **Menu Navigation**: Easy-to-use main menu and submenu structure for accessing different features.
+- Account Management:
+  - Create new accounts.
+  - Select and modify existing accounts.
+- Menu-Driven Interface:
+  - Provides an easy-to-use menu system for navigating different options.
+- Modular Design:
+  - The application is organized into different modules, each responsible for specific aspects of the program, making it easily extendable and maintainable.
 
-## Installation
+Project Structure
+-----------------
 
-To use the Finance Manager, you will need:
+Finance_Manager_1-master/
+├── account_objects/           # Handles financial account-related objects and classes
+├── data_handler/              # Manages data storage, retrieval, and modification
+├── interface/                 # Contains user interface and menu handling
+│   ├── menu_handler.py        # Builds and manages menus for user interaction
+│   └── user_interaction.py    # Handles input/output with users
+├── main/                      # Core application logic
+│   └── app.py                 # Entry point for the application
+├── mods/                      # Contains any additional modifications or enhancements
+├── testing/                   # Unit tests for the various modules
+└── README.md                  # Project description and instructions
 
-- **Python 3.x**: Download from [python.org](https://www.python.org/).
+How It Works
+------------
 
-### Steps
+The application is based on a menu-driven system where users are presented with different options based on the available actions. These menus are built using Python and organized in the interface module, specifically within the menu_handler.py file.
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/mtcvoid/Finance_Manager_1.git
-   ```
-2. Navigate into the project folder:
-   ```bash
-   cd Finance_Manager_1
-   ```
-3. Run the Python program:
-   ```bash
-   python main.py
-   ```
+Main Components
+---------------
 
-## Usage
+- app.py (Main entry point): The app.py file starts the application by invoking the main_menu() function from menu_handler.py. This initializes the first user interaction.
 
-After starting the program, users will be guided by a menu interface to perform tasks such as:
+- menu_handler.py: This file is responsible for displaying menus, handling user selections, and calling the corresponding functions for each menu option. It uses a dictionary structure (MENU_LIST) to map options to specific functions like "Create Account" or "Choose Account."
 
-1. Creating an account.
-2. Depositing money into the account.
-3. Viewing the transaction history.
+- Account Management: The actual account management functionality is modularized in the account_objects/ folder, which handles the creation, modification, and retrieval of account data.
 
-Example:
-```python
-user_account = create_new_account()
-user_account.accounts.deposit('checking', 200)
-print(user_account.all_transactions)
-```
+Example Flow
+------------
 
-## Project Structure
+1. Main Menu: The program first displays the main menu with options like "Create Account" or "Choose Account."
+2. User Input: Based on the user's choice, the program executes the corresponding function. For example, selecting "Create Account" leads to the account creation process.
+3. Submenus: Depending on the action, the program may present further submenus to refine the user's choice or collect additional information.
 
-- **accounts/**: Contains modules related to account management.
-- **transactions/**: Manages deposits, withdrawals, and transaction history.
-- **interface/**: Handles the menu-driven navigation system.
-- **main.py**: The entry point for the program.
-- **tests/**: Unit tests for the application's core features.
+Dependencies
+------------
 
-## Contributing
+This application uses only Python's standard libraries, making it lightweight and easy to run. However, it is important to ensure that Python 3.x is installed on your machine.
 
-Contributions are welcome! Fork the repository, make your changes, and submit a pull request. Please make sure your code adheres to the project's style guidelines.
+Installation
+------------
+
+To get started with the Finance Manager application, follow these steps:
+
+1. Clone this repository or download the zip file.
+2. Ensure that you have Python 3.x installed.
+3. Navigate to the project directory.
+4. Run the application:
+   python3 main/app.py
+
+Testing
+-------
+
+The testing/ folder contains unit tests for various components of the application. To run the tests, use the following command:
+
+python3 -m unittest discover -s testing
+
+Future Improvements
+-------------------
+
+- Add more financial functionalities such as transaction tracking and report generation.
+- Implement data encryption for enhanced security.
+- Expand the account options with more detailed financial information.
 
 
