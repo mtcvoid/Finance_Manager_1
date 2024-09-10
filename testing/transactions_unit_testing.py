@@ -7,7 +7,6 @@ Small balance edge cases: Test edge cases where the account balance is just enou
 Invalid account types: Test invalid account types to check how the class handles them.
 """
 
-from accounting.transactions import *
 import unittest
 
 class TestTransactions(unittest.TestCase):

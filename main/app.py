@@ -1,4 +1,4 @@
-from Interface.menu_handler import *
+from interface.menu_handler import *
 
 
 main_menu()

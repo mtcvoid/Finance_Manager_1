@@ -1,4 +1,4 @@
-from context_manager.context_manager import ContextManager
+from data_handler.context_manager.context_manager import ContextManager
 
 
 class DatabaseUnpacker:

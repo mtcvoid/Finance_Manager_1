@@ -1,9 +1,8 @@
 import unittest
-from unittest.mock import patch, call
-from accounts.account import Account
-from Interface.user_interaction import (
+from unittest.mock import patch
+from account_objects.accounts import Account
+from interface.user_interaction import (
     create_new_account_interface,
-    create_new_account,
     input_with_validation,
     get_user_confirmation,
     get_retry_or_exit_choice

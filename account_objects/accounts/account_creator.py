@@ -14,11 +14,11 @@ Functions:
 Dependencies:
 -------------
 - Requires the `Account` class from `accounts.account` to create new account objects.
-- Requires input validation and user interaction functions from `Interface.user_interaction`
+- Requires input validation and user interaction functions from `interface.user_interaction`
   (e.g., `input_with_validation`, `get_user_confirmation`).
 """
-from Interface.user_interaction import *
-from accounts.account import Account
+from interface.user_interaction import *
+from account_objects.accounts.account import Account
 
 
 def create_new_account_interface():

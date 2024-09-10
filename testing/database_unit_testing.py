@@ -1,6 +1,6 @@
 import unittest
 import sqlite3
-from database.data_base_handler import DatabaseUnpacker
+from data_handler.database.data_base_handler import DatabaseUnpacker
 
 class TestDatabaseUnpackerRealDB(unittest.TestCase):
 

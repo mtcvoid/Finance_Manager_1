@@ -25,7 +25,7 @@ MENU_LIST = {
 
 Dependencies:
 -------------
-- Requires functions from `Interface.user_interaction`, which handles user choice selection (e.g., `get_user_choice`).
+- Requires functions from `interface.user_interaction`, which handles user choice selection (e.g., `get_user_choice`).
 """
 
 

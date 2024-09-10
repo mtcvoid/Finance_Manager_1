@@ -1,6 +1,6 @@
 import unittest
-from accounts.account import Account  # Assuming this is in `accounts.py`
-from accounting.transactions import Transactions  # Assuming this is in `accounts.py`
+from account_objects.accounts import Account  # Assuming this is in `accounts.py`
+from account_objects.accounting.transactions import Transactions  # Assuming this is in `accounts.py`
 
 
 class TestAccountTransactionInteraction(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from accounts.account import NewAccount  # replace 'your_module' with the actual module name
+from account_objects.accounts import NewAccount  # replace 'your_module' with the actual module name
 
 
 class TestNewAccount(unittest.TestCase):
