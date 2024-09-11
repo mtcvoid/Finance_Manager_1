@@ -73,3 +73,6 @@ class Transactions:
         elif transfer_account == 'Savings':
             self.balance['Savings_balance'] -= amount
             self.balance['Checking_balance'] += amount
+
+    def view_balances(self):
+        pass
