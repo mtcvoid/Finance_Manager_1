@@ -78,13 +78,33 @@ class DatabaseUnpacker:
     def pull_from_database(self, user_id):
         """
         Retrieves the account information for a specific user from the 'accountlog' table in the 'BankingData.db'
-        database. The information is printed to the console.
+        database and returns it as a dictionary. If no account is found for the provided user ID, a message is printed.
 
         Parameters:
-            user_id (int): The user ID of the account you want to retrieve from the database.
+        ----------
+        user_id : int
+            The user ID of the account you want to retrieve from the database.
 
         Returns:
-            None: The account information is printed to the console. If no account is found, a message is printed.
+        -------
+        dict or None:
+            If the account is found, a dictionary containing the following account information is returned:
+                - 'user_id' (int): The user's ID.
+                - 'Account_Holder_Name' (str): The name of the account holder.
+                - 'user_name' (str): The username.
+                - 'user_password' (str): The user's password.
+                - 'transaction_history' (str): The user's transaction history.
+                - 'checking_balance' (float): The current balance in the checking account.
+                - 'savings_balance' (float): The current balance in the savings account.
+                - 'current_budget_warnings' (int): The number of budget warnings.
+
+            If no account is found for the given user ID, `None` is returned and a message is printed to the console.
+
+        Example:
+        -------
+        account_info = pull_from_database(1)
+        if account_info:
+            print(account_info)
         """
         with ContextManager('BankingData.db') as connection:
             cursor = connection.cursor()
@@ -106,62 +126,36 @@ class DatabaseUnpacker:
                 }
 
                 # Print the account info
-                for key, value in account_info.items():
-                    print(f'{key}: {value}')
+                return account_info
             else:
                 print(f'No account found for userID: {user_id}')
 
+    def account_list_from_database(self):
+        with ContextManager('BankingData.db') as connection:
+            cursor = connection.cursor()
+            cursor.execute('SELECT user_name, userID FROM accountlog')
+            row = cursor.fetchall()
 
-def account_list_from_database():
-    """
-    Fetches the list of account usernames and user IDs from the `accountlog` table in the 'BankingData.db'
-    database and displays them in a numbered list.
+            # Enumerate through the rows and print the usernames with numbers
+            for idx, (username, ident) in enumerate(row, start=1):
+                print(f"{idx}. {username}")
 
-    The function enumerates the usernames and adds an additional option for the user to return to the main menu.
-    It prompts the user to select an option by entering a number.
+            # Add an extra option for returning to the main menu
+            print(f"{len(row) + 1}. Return to main menu")
 
-    The function performs the following actions:
-    - Lists the usernames along with their corresponding index.
-    - Provides an additional option for returning to the main menu.
-    - Based on user input:
-        - If the user selects a valid account, it displays the selected username and user ID.
-        - If the user selects the "Return to main menu" option, it invokes the `main_menu()` function.
-        - If the user enters invalid input, it displays an error message and prompts the user to try again.
+            # Here you can prompt the user for input and handle their selection
+            user_input = input("Select an option: ")
 
-    Note: This function assumes that `ContextManager` is properly defined to handle database connections,
-    and that `main_menu()` is another function responsible for returning to the application's main menu.
+            # Convert user input to integer and check their selection
+            if user_input.isdigit():
+                user_selection = int(user_input)
 
-    Parameters:
-    None
-
-    Returns:
-    None
-    """
-    with ContextManager('BankingData.db') as connection:
-        cursor = connection.cursor()
-        cursor.execute('SELECT user_name, userID FROM accountlog')
-        row = cursor.fetchall()
-
-        # Enumerate through the rows and print the usernames with numbers
-        for idx, (username, ident) in enumerate(row, start=1):
-            print(f"{idx}. {username}")
-
-        # Add an extra option for returning to the main menu
-        print(f"{len(row) + 1}. Return to main menu")
-
-        # Here you can prompt the user for input and handle their selection
-        user_input = input("Select an option: ")
-
-        # Convert user input to integer and check their selection
-        if user_input.isdigit():
-            user_selection = int(user_input)
-
-            if user_selection == len(row) + 1:
-                main_menu()
-            elif 1 <= user_selection <= len(row):
-                selected_user = row[user_selection - 1]
-                print(f"You selected: {selected_user[0]} (ID: {selected_user[1]})")
+                if user_selection == len(row) + 1:
+                    main_menu()
+                elif 1 <= user_selection <= len(row):
+                    selected_user = row[user_selection - 1]
+                    print(f"You selected: {selected_user[0]} (ID: {selected_user[1]})")
+                else:
+                    print("Invalid selection, please try again.")
             else:
-                print("Invalid selection, please try again.")
-        else:
-            print("Invalid input, please enter a number.")
+                print("Invalid input, please enter a number.")

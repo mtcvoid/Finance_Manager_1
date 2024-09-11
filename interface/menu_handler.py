@@ -31,6 +31,7 @@ from interface.user_interface_transactions import transaction_interaction, trans
 from interface.user_interface_bill_tracker import *
 from interface.user_interface_budget import *
 from interface.user_interface_market_watch import *
+from account_objects.accounts.account_creator import create_new_account_interface
 def menu_header(header_title):
     """
     Displays a formatted header for a menu.
@@ -129,7 +130,7 @@ def get_user_choice(choices_and_funcs):
 MENU_LIST = {
     'Main Menu': [
         (1, 'Choose Account', 'Choose Account'),
-        (2, 'Create Account', 'Create Account'),
+        (2, 'Create Account', create_new_account_interface()),
         (3, 'Exit', exit_program)
     ],
 
@@ -150,7 +151,7 @@ MENU_LIST = {
         (3, 'Withdrawal', transaction_interaction('Withdrawal')),
         (4, 'View Bill Tracker', 'Bill Tracker'),
         (5, 'View Budget', 'Budgeted'),
-        (6, 'Personal Market Watch', 'Personal Market Watch':),
+        (6, 'Personal Market Watch', 'Personal Market Watch'),
         (7, 'Return to Main Menu', main_menu)  # Return to Main Menu
     ],
 
