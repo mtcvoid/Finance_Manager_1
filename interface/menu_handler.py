@@ -27,8 +27,10 @@ Dependencies:
 -------------
 - Requires functions from `interface.user_interaction`, which handles user choice selection (e.g., `get_user_choice`).
 """
-
-
+from interface.user_interface_transactions import transaction_interaction, transaction_vew_balance
+from interface.user_interface_bill_tracker import *
+from interface.user_interface_budget import *
+from interface.user_interface_market_watch import *
 def menu_header(header_title):
     """
     Displays a formatted header for a menu.
@@ -143,37 +145,39 @@ MENU_LIST = {
     ],
 
     'Chosen-Account Menu': [
-        (1, 'View Balances', view_balances),
-        (2, 'Deposit', deposit),
-        (3, 'Withdrawal', withdrawal),
-        (4, 'View Bill Tracker', view_bill_tracker),
-        (5, 'View Budget', view_budget),
-        (6, 'Personal Market Watch', personal_market_watch),
+        (1, 'View Balances', transaction_vew_balance() ),
+        (2, 'Deposit', transaction_interaction('Deposit')),
+        (3, 'Withdrawal', transaction_interaction('Withdrawal')),
+        (4, 'View Bill Tracker', 'Bill Tracker'),
+        (5, 'View Budget', 'Budgeted'),
+        (6, 'Personal Market Watch', 'Personal Market Watch':),
         (7, 'Return to Main Menu', main_menu)  # Return to Main Menu
     ],
 
     'Bill Tracker': [
-        (1, 'Add Bill', add_bill),
-        (2, 'Remove Bill', remove_bill),
-        (3, 'View Current List of All Bills', view_all_bills),
+        (1, 'Add Bill', user_add_bill()),
+        (2, 'Remove Bill', user_remove_bill()),
+        (3, 'View Current List of All Bills', user_view_all_bills()),
         (4, 'Return to Main Menu', main_menu)  # Return to Main Menu
     ],
 
     'Budgeted': [
-        (1, 'Current Budget', view_current_budget),
-        (2, 'New Budget', create_new_budget),
-        (3, 'Remove Budget', remove_budget),
-        (4, 'Update Budget', update_budget),
+        (1, 'Current Budget', user_view_current_budget()),
+        (2, 'New Budget', user_create_new_budget()),
+        (3, 'Remove Budget', user_remove_budget()),
+        (4, 'Update Budget', user_update_budget()),
         (5, 'Return to Main Menu', main_menu)  # Return to Main Menu
     ],
 
     'Personal Market Watch': [
-        (1, 'Indexes - Global', view_global_indexes),
-        (2, 'Indexes - By Region', view_indexes_by_region),
-        (3, 'Indexes - Favorites', view_favorite_indexes),
-        (4, 'Stocks - Watch List', view_stock_watchlist),
-        (5, 'Stocks - Add to Watchlist', add_to_stock_watchlist),
-        (6, 'Return to Main Menu', main_menu)  # Return to Main Menu
+        (1, 'Indexes - Global', user_view_global_indexes()),
+        (2, 'Indexes - By Region', user_view_indexes_by_region()),
+        (3, 'Set Favorite Index\'s', user_set_favorite_index()),
+        (4, 'Indexes - Favorites', user_view_favorite_index),
+        (5, 'Stocks - Watch List', user_view_stock_watchlist()),
+        (6, 'Stocks - Add to Watchlist', user_add_to_stock_watchlist()),
+        (7, 'Search Stock data', user_search_stock_data()),
+        (8, 'Return to Main Menu', main_menu)  # Return to Main Menu
     ]
 }
 
