@@ -17,7 +17,7 @@ Dependencies:
 - Requires input validation and user interaction functions from `interface.user_interaction`
   (e.g., `input_with_validation`, `get_user_confirmation`).
 """
-from interface.user_interaction import *
+from interface.user_interface_general import *
 from account_objects.accounts.account import Account
 
 
