@@ -1,4 +1,5 @@
 from data_handler.context_manager.context_manager import ContextManager
+from interface.menu_handler import main_menu
 
 
 class DatabaseUnpacker:
@@ -109,3 +110,58 @@ class DatabaseUnpacker:
                     print(f'{key}: {value}')
             else:
                 print(f'No account found for userID: {user_id}')
+
+
+def account_list_from_database():
+    """
+    Fetches the list of account usernames and user IDs from the `accountlog` table in the 'BankingData.db'
+    database and displays them in a numbered list.
+
+    The function enumerates the usernames and adds an additional option for the user to return to the main menu.
+    It prompts the user to select an option by entering a number.
+
+    The function performs the following actions:
+    - Lists the usernames along with their corresponding index.
+    - Provides an additional option for returning to the main menu.
+    - Based on user input:
+        - If the user selects a valid account, it displays the selected username and user ID.
+        - If the user selects the "Return to main menu" option, it invokes the `main_menu()` function.
+        - If the user enters invalid input, it displays an error message and prompts the user to try again.
+
+    Note: This function assumes that `ContextManager` is properly defined to handle database connections,
+    and that `main_menu()` is another function responsible for returning to the application's main menu.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+    """
+    with ContextManager('BankingData.db') as connection:
+        cursor = connection.cursor()
+        cursor.execute('SELECT user_name, userID FROM accountlog')
+        row = cursor.fetchall()
+
+        # Enumerate through the rows and print the usernames with numbers
+        for idx, (username, ident) in enumerate(row, start=1):
+            print(f"{idx}. {username}")
+
+        # Add an extra option for returning to the main menu
+        print(f"{len(row) + 1}. Return to main menu")
+
+        # Here you can prompt the user for input and handle their selection
+        user_input = input("Select an option: ")
+
+        # Convert user input to integer and check their selection
+        if user_input.isdigit():
+            user_selection = int(user_input)
+
+            if user_selection == len(row) + 1:
+                main_menu()
+            elif 1 <= user_selection <= len(row):
+                selected_user = row[user_selection - 1]
+                print(f"You selected: {selected_user[0]} (ID: {selected_user[1]})")
+            else:
+                print("Invalid selection, please try again.")
+        else:
+            print("Invalid input, please enter a number.")
