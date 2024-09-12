@@ -1,5 +1,5 @@
-import random
 import json
+
 
 class Account:
     """
@@ -24,7 +24,7 @@ class Account:
         self.transactions = []
         self.current_budget_warnings = 0
 
-    def view_account_details(self,checking_balance, savings_balance):
+    def view_account_details(self, checking_balance, savings_balance):
         """
         Prints account details to user.
         """
@@ -36,7 +36,7 @@ Checking Balance: {checking_balance}
 Savings Balance: {savings_balance}
 ********************************""")
 
-    def get_account_details(self,checking_balance, savings_balance, trans_history):
+    def get_account_details(self, checking_balance, savings_balance, trans_history):
         """
         Returns a dictionary containing the detailed account information for administrative purposes.
 
@@ -66,8 +66,3 @@ Savings Balance: {savings_balance}
                 'Checking_Balance': checking_balance, 'Savings_Balance': savings_balance,
                 'Current_Budget_Warnings': self.current_budget_warnings}
 
-
-
-
-# def budget_warnings(self, amount):
-#   pass  # set up 4 tiers. with warnings so you know when you go over budget.
