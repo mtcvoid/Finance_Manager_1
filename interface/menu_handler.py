@@ -35,8 +35,6 @@ from account_objects.accounts.account_creator import create_new_account_interfac
 from data_handler.database.data_base_handler import display_account_list
 
 
-
-
 def menu_header(header_title):
     """
     Displays a formatted header for a menu.
@@ -65,8 +63,8 @@ def menu_choices(choices_and_functions):
     Returns:
     None
     """
-    for number, choice, _ in MENU_LIST:
-        print(f'({number}) {choice}')
+    for number, name, _ in choices_and_functions:
+        print(f'({number}) {name}')
     print("******************************")
 
 
@@ -117,6 +115,8 @@ def get_user_choice(choices_and_funcs):
             int_choice = int(string_choice)
 
             # Adjust for zero-indexing in Python lists
+            if len(choices_and_funcs) == 1:
+                choices_and_funcs()
             if 1 <= int_choice <= len(choices_and_funcs):
                 number, description, action = choices_and_funcs[int_choice - 1]
 
@@ -131,24 +131,21 @@ def get_user_choice(choices_and_funcs):
         else:
             print("Invalid input. Please enter a number.")
 
+
 def exit_program():
     pass
 
+
 MENU_LIST = {
     'Main Menu': [
-        (1, 'Choose Account', 'Choose Account'),
+        (1, 'Choose Account', display_account_list),
         (2, 'Create Account', create_new_account_interface),
         (3, 'Exit', exit_program)
     ],
 
-    'Choose Account': [
-        (1, 'Account Name 1', display_account_list),
-
-    ],
-
     'Create Account': [
         (1, 'Run Create Account Program', create_new_account_interface),
-        (2, 'Return to Main Menu', main_menu)  # Return to Main Menu
+        (2, 'Return to Main Menu', main_menu)
     ],
 
     'Chosen-Account Menu': [
@@ -187,5 +184,3 @@ MENU_LIST = {
         (8, 'Return to Main Menu', main_menu)  # Return to Main Menu
     ]
 }
-
-
