@@ -145,6 +145,10 @@ def create_new_account():
 
     # pushes data to database
     data_handler.push_to_database(account_holder)
+    print('New account created. Returning to main menu.')
+    main_menu()
+
+
 
 
 def print_account_creation_banner():

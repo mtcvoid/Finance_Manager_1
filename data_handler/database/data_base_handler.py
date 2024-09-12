@@ -21,9 +21,10 @@ class DatabaseUnpacker:
              dict: A dictionary containing the account details and transaction information, structured for insertion
                    into the database.
          """
-        account_data = account.get_account_details(tran.balance['Checking_balance'],
-                                                   tran.balance['Savings_balance'],
-                                                   tran.transactions)
+        account_data = account.get_account_details(tran['Checking_balance'],
+                                                   tran['Savings_balance'],
+                                                   tran.transaction)
+
         return account_data
 
     def create_account_log_table(self):
@@ -55,7 +56,7 @@ class DatabaseUnpacker:
 
         Parameters:
             account (Account): An object containing account details such as username, balance, and password.
-            tran (Transactions): An object that holds transaction history and current balances.
+
         """
 
         with ContextManager('BankingData.db') as connection:

@@ -78,4 +78,5 @@ class Transactions:
         pass
 
     def new_balance_setter(self):
+
         return self.balance
