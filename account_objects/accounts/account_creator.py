@@ -38,7 +38,7 @@ def create_new_account_interface():
     print_account_creation_banner()
 
     while True:
-        create_account = get_user_confirmation('Create a new account? (Y)es, (N)o')
+        create_account = get_user_confirmation('Create a new account? (Y)es, (N)o: ')
         if not create_account:
             print('Exiting account creation...')
             return None  # User chooses not to create a new account
@@ -77,18 +77,31 @@ def create_new_account():
     if not account_name:
         return None
 
+    # Creates account object from user input
+    account = Account(user_name, new_password,holder_name, account_name)
 
+    # sets up object to pull data from new account
+    data_get = DatabaseUnpacker()
+
+    # pulls data
+    data_get.get_data(account)
+
+    # creates transaction object for new user
+    tran_pusher = Transactions
+
+    # initilizes checking and savings balance to zero
+    tran_pusher.new_balance_setter()
+
+    # links objects together to before getting sent to database
+    data_get.get_data(account,tran_pusher.new_balance_setter())
+
+    # pushes data to database
+    tran_pusher.push_to_database(account_pusher,tran_pusher)  #this all needs fixed.
     '''
            return {'User_ID': self._user_id, 'Account_Holder_Name': self.holder_name, 'User_name': self.user_name,
                 'User_password': self._user_password, 'Transaction_History': json.dumps(trans_history),
                 'Checking_Balance': checking_balance, 'Savings_Balance': savings_balance,
                 'Current_Budget_Warnings': self.current_budget_warnings}'''
-
-    user = Account(user_name, new_password, holder_name, account_name)
-    tran = Transactions
-    balance = tran.new_balance_setter()
-
-
 
 
 def print_account_creation_banner():
@@ -116,5 +129,3 @@ The following information will be required for creating a new account.
        - Initial fund's
                             **
     """)
-
-
