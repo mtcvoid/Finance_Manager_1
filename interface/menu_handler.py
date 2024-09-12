@@ -32,6 +32,11 @@ from interface.user_interface_bill_tracker import *
 from interface.user_interface_budget import *
 from interface.user_interface_market_watch import *
 from account_objects.accounts.account_creator import create_new_account_interface
+from data_handler.database.data_base_handler import display_account_list
+
+
+
+
 def menu_header(header_title):
     """
     Displays a formatted header for a menu.
@@ -75,7 +80,6 @@ def menu_maker(menu_key):
     Returns:
     None
     """
-    menu_key = input('Choice: ')
     if menu_key in MENU_LIST:
         header = menu_key
         choices_and_funcs = MENU_LIST[menu_key]
@@ -114,11 +118,12 @@ def get_user_choice(choices_and_funcs):
 
             # Adjust for zero-indexing in Python lists
             if 1 <= int_choice <= len(choices_and_funcs):
-                number, description, func_choice = choices_and_funcs[int_choice - 1]
+                number, description, action = choices_and_funcs[int_choice - 1]
 
                 # Call the function corresponding to the choice
-                if callable(func_choice):  # Ensure it's a function
-                    func_choice()
+                if callable(action):  # Ensure it's a function
+                    action()
+
                 else:
                     print(f"'{description}' is not a valid option.")
             else:
@@ -126,60 +131,61 @@ def get_user_choice(choices_and_funcs):
         else:
             print("Invalid input. Please enter a number.")
 
+def exit_program():
+    pass
 
 MENU_LIST = {
     'Main Menu': [
         (1, 'Choose Account', 'Choose Account'),
-        (2, 'Create Account', create_new_account_interface()),
+        (2, 'Create Account', create_new_account_interface),
         (3, 'Exit', exit_program)
     ],
 
     'Choose Account': [
-        (1, 'Account Name 1', account_1_menu),
-        (2, 'Account Name 2', account_2_menu),
-        (3, 'Return to Main Menu', main_menu)  # Return to Main Menu
+        (1, 'Account Name 1', display_account_list),
+
     ],
 
     'Create Account': [
-        (1, 'Run Create Account Program', create_account),
+        (1, 'Run Create Account Program', create_new_account_interface),
         (2, 'Return to Main Menu', main_menu)  # Return to Main Menu
     ],
 
     'Chosen-Account Menu': [
-        (1, 'View Balances', transaction_vew_balance() ),
+        (1, 'View Balances', transaction_vew_balance),
         (2, 'Deposit', transaction_interaction('Deposit')),
         (3, 'Withdrawal', transaction_interaction('Withdrawal')),
         (4, 'View Bill Tracker', 'Bill Tracker'),
         (5, 'View Budget', 'Budgeted'),
         (6, 'Personal Market Watch', 'Personal Market Watch'),
-        (7, 'Return to Main Menu', main_menu)  # Return to Main Menu
+        (7, 'Return to Main Menu', main_menu)
     ],
 
     'Bill Tracker': [
-        (1, 'Add Bill', user_add_bill()),
-        (2, 'Remove Bill', user_remove_bill()),
-        (3, 'View Current List of All Bills', user_view_all_bills()),
-        (4, 'Return to Main Menu', main_menu)  # Return to Main Menu
+        (1, 'Add Bill', user_add_bill),
+        (2, 'Remove Bill', user_remove_bill),
+        (3, 'View Current List of All Bills', user_view_all_bills),
+        (4, 'Return to Main Menu', main_menu)
     ],
 
     'Budgeted': [
-        (1, 'Current Budget', user_view_current_budget()),
-        (2, 'New Budget', user_create_new_budget()),
-        (3, 'Remove Budget', user_remove_budget()),
-        (4, 'Update Budget', user_update_budget()),
-        (5, 'Return to Main Menu', main_menu)  # Return to Main Menu
+        (1, 'Current Budget', user_view_current_budget),
+        (2, 'New Budget', user_create_new_budget),
+        (3, 'Remove Budget', user_remove_budget),
+        (4, 'Update Budget', user_update_budget),
+        (5, 'Return to Main Menu', main_menu)
     ],
 
     'Personal Market Watch': [
-        (1, 'Indexes - Global', user_view_global_indexes()),
-        (2, 'Indexes - By Region', user_view_indexes_by_region()),
-        (3, 'Set Favorite Index\'s', user_set_favorite_index()),
+        (1, 'Indexes - Global', user_view_global_indexes),
+        (2, 'Indexes - By Region', user_view_indexes_by_region),
+        (3, 'Set Favorite Index\'s', user_set_favorite_index),
         (4, 'Indexes - Favorites', user_view_favorite_index),
-        (5, 'Stocks - Watch List', user_view_stock_watchlist()),
-        (6, 'Stocks - Add to Watchlist', user_add_to_stock_watchlist()),
-        (7, 'Search Stock data', user_search_stock_data()),
+        (5, 'Stocks - Watch List', user_view_stock_watchlist),
+        (6, 'Stocks - Add to Watchlist', user_add_to_stock_watchlist),
+        (7, 'Search Stock data', user_search_stock_data),
         (8, 'Return to Main Menu', main_menu)  # Return to Main Menu
     ]
 }
 
-menu_choices()
+

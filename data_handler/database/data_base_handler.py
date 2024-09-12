@@ -1,5 +1,5 @@
 from data_handler.context_manager.context_manager import ContextManager
-from interface.menu_handler import main_menu
+from interface.menu_handler import *
 
 
 class DatabaseUnpacker:
@@ -130,6 +130,36 @@ class DatabaseUnpacker:
             else:
                 print(f'No account found for userID: {user_id}')
 
+    def get_user_choice(self, choices_and_funcs):
+        """
+        Prompts the user to select a choice from a menu, and:
+        - If the third element is a function, calls it.
+        - If the third element is a string (key), it navigates to the sub-menu associated with that key in MENU_LIST.
+        """
+        while True:
+            string_choice = input('Choice: ')
+
+            if string_choice.isdigit():
+                int_choice = int(string_choice)
+
+                # Ensure the selection is valid
+                if 1 <= int_choice <= len(choices_and_funcs):
+                    number, description, action = choices_and_funcs[int_choice - 1]
+
+                    # If it's a function, call it
+                    if callable(action):
+                        action()
+
+                    # If it's a string, use it as a key to find the next sub-menu
+                    elif isinstance(action, str):
+                        menu_maker(action)
+                    else:
+                        print(f"No sub-menu found for key: {action}")
+                else:
+                    print("Invalid choice. Please select a valid number.")
+            else:
+                print("Invalid input. Please enter a number.")
+
     def account_list_from_database(self):
         with ContextManager('BankingData.db') as connection:
             cursor = connection.cursor()
@@ -159,3 +189,6 @@ class DatabaseUnpacker:
                     print("Invalid selection, please try again.")
             else:
                 print("Invalid input, please enter a number.")
+def display_account_list():
+    accounts = DatabaseUnpacker()
+    accounts.account_list_from_database()
