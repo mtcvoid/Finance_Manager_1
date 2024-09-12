@@ -14,7 +14,7 @@ class DatabaseUnpacker:
          Retrieves account details and transaction information to prepare it for database insertion.
 
          Parameters:
-             account (Account): An object containing account details such as user name, balance, and password.
+             account (Account): An object containing account details such as username, balance, and password.
              tran (Transactions): An object that holds transaction history and current balances.
 
          Returns:
@@ -54,7 +54,7 @@ class DatabaseUnpacker:
         it will insert a new record.
 
         Parameters:
-            account (Account): An object containing account details such as user name, balance, and password.
+            account (Account): An object containing account details such as username, balance, and password.
             tran (Transactions): An object that holds transaction history and current balances.
         """
         account_data = self.get_data(account, tran)
@@ -189,6 +189,8 @@ class DatabaseUnpacker:
                     print("Invalid selection, please try again.")
             else:
                 print("Invalid input, please enter a number.")
+
+
 def display_account_list():
     accounts = DatabaseUnpacker()
     accounts.account_list_from_database()

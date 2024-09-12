@@ -76,3 +76,6 @@ class Transactions:
 
     def view_balances(self):
         pass
+
+    def new_balance_setter(self):
+        return self.balance
