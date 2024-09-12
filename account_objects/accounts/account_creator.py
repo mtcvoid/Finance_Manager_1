@@ -19,6 +19,8 @@ Dependencies:
 """
 from interface.user_interface_general import *
 from account_objects.accounts.account import Account
+from account_objects.accounting.transactions import *
+from data_handler.database.data_base_handler import *
 
 
 def create_new_account_interface():
@@ -75,7 +77,18 @@ def create_new_account():
     if not account_name:
         return None
 
-    return Account(user_name, new_password, holder_name, account_name)
+
+    '''
+           return {'User_ID': self._user_id, 'Account_Holder_Name': self.holder_name, 'User_name': self.user_name,
+                'User_password': self._user_password, 'Transaction_History': json.dumps(trans_history),
+                'Checking_Balance': checking_balance, 'Savings_Balance': savings_balance,
+                'Current_Budget_Warnings': self.current_budget_warnings}'''
+
+    user = Account(user_name, new_password, holder_name, account_name)
+    tran = Transactions
+    balance = tran.new_balance_setter()
+
+
 
 
 def print_account_creation_banner():
