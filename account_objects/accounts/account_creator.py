@@ -87,16 +87,16 @@ def create_new_account():
     data_get.get_data(account)
 
     # creates transaction object for new user
-    tran_pusher = Transactions
+    get_tran_data = Transactions
 
-    # initilizes checking and savings balance to zero
-    tran_pusher.new_balance_setter()
+    # initializes checking and savings balance to zero
+    new_user_tran = get_tran_data.new_balance_setter()
 
     # links objects together to before getting sent to database
-    data_get.get_data(account,tran_pusher.new_balance_setter())
+    data_get.get_data(account,new_user_tran)
 
     # pushes data to database
-    tran_pusher.push_to_database(account_pusher,tran_pusher)  #this all needs fixed.
+    data_get.push_to_database()  #this all needs fixed.
     '''
            return {'User_ID': self._user_id, 'Account_Holder_Name': self.holder_name, 'User_name': self.user_name,
                 'User_password': self._user_password, 'Transaction_History': json.dumps(trans_history),
