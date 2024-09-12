@@ -44,7 +44,7 @@ def input_with_validation(field_name):
     """
     while True:
         user_input = input(f'Please enter {field_name}: ')
-        if get_user_confirmation(f'Is this correct: {user_input}? (Y)es, (N)o'):
+        if get_user_confirmation(f'Is this correct: {user_input}? (Y)es, (N)o: '):
             return user_input
         else:
             retry_or_exit = get_retry_or_exit_choice()
