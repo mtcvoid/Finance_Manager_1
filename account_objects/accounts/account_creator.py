@@ -78,30 +78,34 @@ def create_new_account():
         return None
 
     # Creates account object from user input
-    account = Account(user_name, new_password,holder_name, account_name)
+    account = Account(user_name, new_password, holder_name, account_name)
 
     # sets up object to pull data from new account
-    data_get = DatabaseUnpacker()
-
-    # pulls data
-    data_get.get_data(account)
+    data_handler = DatabaseUnpacker()
 
     # creates transaction object for new user
-    get_tran_data = Transactions
+    get_tran_data = Transactions()
 
-    # initializes checking and savings balance to zero
     new_user_tran = get_tran_data.new_balance_setter()
 
-    # links objects together to before getting sent to database
-    data_get.get_data(account,new_user_tran)
+    account_holder = data_handler.get_data(account, new_user_tran)
 
     # pushes data to database
-    data_get.push_to_database()  #this all needs fixed.
+    data_handler.push_to_database(account_holder)  # this all needs fixed.
     '''
            return {'User_ID': self._user_id, 'Account_Holder_Name': self.holder_name, 'User_name': self.user_name,
                 'User_password': self._user_password, 'Transaction_History': json.dumps(trans_history),
                 'Checking_Balance': checking_balance, 'Savings_Balance': savings_balance,
-                'Current_Budget_Warnings': self.current_budget_warnings}'''
+                'Current_Budget_Warnings': self.current_budget_warnings}
+                
+                
+   account_data = account.get_account_details(tran.balance['Checking_balance'],
+                                                   tran.balance['Savings_balance'],
+                                                   tran.transactions) 
+                
+                
+                
+                '''
 
 
 def print_account_creation_banner():

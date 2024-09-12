@@ -47,7 +47,7 @@ class DatabaseUnpacker:
                            'text, user_name text, user_password text, transaction_history text, checking_balance '
                            'real, savings_balance real, current_budget_warnings integer)')
 
-    def push_to_database(self, account, tran):
+    def push_to_database(self, account_data): # you need to use get_data before pushing
         """
         Inserts or updates account information in the 'accountlog' table of the 'BankingData.db' database.
         If an account with the same userID already exists, it will update the existing record. Otherwise,
@@ -57,7 +57,7 @@ class DatabaseUnpacker:
             account (Account): An object containing account details such as username, balance, and password.
             tran (Transactions): An object that holds transaction history and current balances.
         """
-        account_data = self.get_data(account, tran)
+
         with ContextManager('BankingData.db') as connection:
             cursor = connection.cursor()
             cursor.execute('''
