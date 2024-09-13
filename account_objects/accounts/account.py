@@ -4,19 +4,32 @@ from account_objects.accounting.transactions import Transactions
 
 class Account:
     """
-    Class that takes in a userID, account holder name, type of account(savings, checking, etc.), and initial funds.
-    account will be able to update funds. Check transactions.
+    Represents a user account with basic details such as user ID, account holder name, and account type.
+
+    This class allows account holders to manage their account details, view account information,
+    and check transactions. It also handles password and transaction history for the account.
+
+    Attributes:
+        _account_name (str): The name of the account.
+        holder_name (str): The name of the account holder.
+        _user_id (int): A unique user ID (initialized to a static value of 654).
+        user_name (str): The username for the account.
+        _user_password (str): The password associated with the account.
+        transactions (list): A list of transactions associated with the account.
+        current_budget_warnings (int): A counter for budget warnings issued to the account holder.
     """
 
     def __init__(self, user_name: str, new_password: str,
                  holder_name: str = "", account_name: str = None):
         """
-        Takes in username, password, account holder name, and name of the account.
-        :param user_name:
-        :param new_password:
-        :param holder_name:
-        :param account_name:
-        """
+          Initializes the Account object with the user's details.
+
+          Args:
+              user_name (str): The username for the account.
+              new_password (str): The password for the account.
+              holder_name (str, optional): The name of the account holder (default is an empty string).
+              account_name (str, optional): The name of the account (default is None).
+          """
         self._account_name = account_name
         self.holder_name = holder_name
         self._user_id = 654  # this will be used as an ID . All objects will be named account?
@@ -27,7 +40,15 @@ class Account:
 
     def view_account_details(self, checking_balance, savings_balance):
         """
-        Prints account details to user.
+        Displays the account details, including the checking and savings balances.
+
+        Args:
+            checking_balance (float): The current balance of the checking account.
+            savings_balance (float): The current balance of the savings account.
+
+        Returns:
+            str: A formatted string containing the account details, such as account ID, account holder name,
+                 and balances for both checking and savings accounts.
         """
         return (f"""
 ********************************
@@ -39,28 +60,22 @@ Savings Balance: {savings_balance}
 
     def get_account_details(self):
         """
-        Returns a dictionary containing the detailed account information for administrative purposes.
+        Retrieves a detailed view of the account, including transaction history and balances.
 
-        This method provides a comprehensive view of the account details, including the user ID,
-        account holder name, username, password, transaction history, checking and savings balances,
-        and any current budget warnings. It is intended for backend operations such as data manipulation
-        or retrieval by administrators.
+        This method is intended for backend operations or administrative purposes, providing details
+        such as the user ID, account holder name, username, password, transaction history, and current
+        balances of both checking and savings accounts.
 
-        Parameters:
-        -----------
-        checking_balance : float
-            The current balance of the checking account.
-
-        savings_balance : float
-            The current balance of the savings account.
-
-        trans_history : list
-            A list of the transaction history associated with the account.
-
-        :param checking_balance:
-        :param savings_balance:
-        :param trans_history:
-        :return:
+        Returns:
+            dict: A dictionary containing the account details, including:
+                - User ID
+                - Account holder name
+                - Username
+                - Password (in plain text)
+                - Transaction history (in JSON format)
+                - Checking balance
+                - Savings balance
+                - Budget warnings
         """
         tran = Transactions()
         trans_history = tran.transactions

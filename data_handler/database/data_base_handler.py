@@ -32,14 +32,26 @@ class DatabaseUnpacker:
 
     def push_to_database(self, account_data):  # you need to use get_data before pushing
         """
-        Inserts or updates account information in the 'accountlog' table of the 'BankingData.db' database.
-        If an account with the same userID already exists, it will update the existing record. Otherwise,
-        it will insert a new record.
+         Inserts or updates account information in the 'accountlog' table of the 'BankingData.db' database.
+         If an account with the same userID already exists, it will update the existing record. Otherwise,
+         it will insert a new record.
 
-        Parameters:
-            account (Account): An object containing account details such as username, balance, and password.
+         Args:
+             account_data (dict): A dictionary containing account details such as username, balance, and password.
 
-        """
+         Example:
+             account_data = {
+                 'User_ID': 1,
+                 'Account_Holder_Name': 'John Doe',
+                 'User_name': 'johndoe',
+                 'User_password': 'password123',
+                 'Transaction_History': '[...]',
+                 'Checking_Balance': 1500.00,
+                 'Savings_Balance': 3000.00,
+                 'Current_Budget_Warnings': 0
+             }
+             push_to_database(account_data)
+         """
 
         with ContextManager('BankingData.db') as connection:
             cursor = connection.cursor()
@@ -115,10 +127,13 @@ class DatabaseUnpacker:
 
     def get_user_choice(self, choices_and_funcs):
         """
-        Prompts the user to select a choice from a menu, and:
-        - If the third element is a function, calls it.
-        - If the third element is a string (key), it navigates to the sub-menu associated with that key in MENU_LIST.
-        """
+         Prompts the user to select a choice from a menu. If the selected choice corresponds to a function,
+         the function is executed. Otherwise, if it corresponds to a string, the associated sub-menu is loaded.
+
+         Args:
+             choices_and_funcs (list): A list of tuples where each tuple contains a number, description,
+                                       and a function or menu key.
+         """
         while True:
             string_choice = input('Choice: ')
 
@@ -144,6 +159,11 @@ class DatabaseUnpacker:
                 print("Invalid input. Please enter a number.")
 
     def account_list_from_database(self):
+        """
+        Retrieves a list of accounts from the 'accountlog' table and displays the usernames
+        along with a numbered list. The user can then make a selection to either view a specific
+        account or return to the main menu.
+        """
         with ContextManager('BankingData.db') as connection:
             cursor = connection.cursor()
             cursor.execute('SELECT user_name, userID FROM accountlog')
@@ -176,5 +196,8 @@ class DatabaseUnpacker:
 
 
 def display_account_list():
+    """
+    Displays the list of accounts by calling the 'account_list_from_database' method.
+    """
     accounts = DatabaseUnpacker()
     accounts.account_list_from_database()

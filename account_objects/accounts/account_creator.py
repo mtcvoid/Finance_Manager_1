@@ -33,7 +33,6 @@ from account_objects.accounts.account import Account
 from data_handler.database.data_base_handler import *
 
 
-
 def create_new_account_interface():
     """
     Handles the user interaction for account creation.
@@ -43,8 +42,8 @@ def create_new_account_interface():
     whether the user wants to proceed with the account creation or cancel the process.
 
     Returns:
-    Account: The created Account object if the process is completed successfully.
-    None: If the user chooses to cancel the account creation process.
+        Account: The created Account object if the process is completed successfully.
+        None: If the user chooses to cancel the account creation process.
     """
     print_account_creation_banner()
 
@@ -62,58 +61,47 @@ def create_new_account_interface():
 
 def create_new_account():
     """
-       Gathers user input, creates an Account object, and stores the account data in the database.
+    Gathers user input, creates an Account object, and stores the account data in the database.
 
-       This function is responsible for guiding the user through the process of creating a new account by
-       prompting for the required information such as username, password, account holder name, and account name.
-       It validates each input step using the `input_with_validation` function to ensure correct and valid data.
-       If any input is invalid or the user cancels at any step, the function returns `None`.
+    This function is responsible for guiding the user through the process of creating a new account by
+    prompting for the required information such as username, password, account holder name, and account name.
+    It validates each input step using the `input_with_validation` function to ensure correct and valid data.
+    If any input is invalid or the user cancels at any step, the function returns `None`.
 
-       Once all the required information is gathered, the function creates an `Account` object and a
-       `Transactions` object for the user. It then combines the account and transaction data using the
-       `DatabaseUnpacker` to prepare the information for insertion into the 'accountlog' table in the database.
+    Once all the required information is gathered, the function creates an `Account` object and a
+    `Transactions` object for the user. It then combines the account and transaction data using the
+    `DatabaseUnpacker` to prepare the information for insertion into the 'accountlog' table in the database.
 
-       Finally, the account information, including balances and transaction history, is inserted into
-       or updated in the database using the `push_to_database` method.
+    Returns:
+        Account: The created `Account` object containing the provided information (username, password,
+                 account holder name, account name).
+        None: If the user cancels the account creation process or provides invalid inputs at any stage.
 
-       Parameters:
-       -----------
-       None
+    Steps:
+    ------
+    1. **Input Gathering**:
+       - The function prompts the user for:
+           - `Username`: Unique identifier for the account.
+           - `Password`: Account password.
+           - `Account holder name`: Name of the person who owns the account.
+           - `Account name`: A custom name for the account (e.g., "John's Savings").
+       - If any input validation fails, the function exits and returns `None`.
 
-       Returns:
-       --------
-       Account :
-           The created `Account` object containing the provided information (username, password,
-           account holder name, account name).
+    2. **Account Creation**:
+       - An `Account` object is created using the gathered user input.
 
-       None :
-           If the user cancels the account creation process or provides invalid inputs at any stage.
+    3. **Transaction Setup**:
+       - A `Transactions` object is created to manage the initial checking and savings balances.
+       - The method `new_balance_setter()` from `Transactions` is called to set up the user's initial balances.
 
-       Steps:
-       ------
-       1. **Input Gathering**:
-           - The function prompts the user for:
-               - `Username`: Unique identifier for the account.
-               - `Password`: Account password.
-               - `Account holder name`: Name of the person who owns the account.
-               - `Account name`: A custom name for the account (e.g., "John's Savings").
-           - If any input validation fails, the function exits and returns `None`.
+    4. **Data Handling**:
+       - A `DatabaseUnpacker` object is created to handle the preparation of the account data.
+       - The `get_data()` method is called to combine the account and transaction data into a structured format.
 
-       2. **Account Creation**:
-           - An `Account` object is created using the gathered user input.
-
-       3. **Transaction Setup**:
-           - A `Transactions` object is created to manage the initial checking and savings balances.
-           - The method `new_balance_setter()` from `Transactions` is called to set up the user's initial balances.
-
-       4. **Data Handling**:
-           - A `DatabaseUnpacker` object is created to handle the preparation of the account data.
-           - The `get_data()` method is called to combine the account and transaction data into a structured format.
-
-       5. **Database Insertion**:
-           - The combined account data is inserted or updated in the database by calling `push_to_database()`, which
-             stores the account details and the initial transaction history into the 'accountlog' table.
-       """
+    5. **Database Insertion**:
+       - The combined account data is inserted or updated in the database by calling `push_to_database()`, which
+         stores the account details and the initial transaction history into the 'accountlog' table.
+    """
     user_name = input_with_validation("Username")
     if not user_name:
         return None
@@ -146,7 +134,7 @@ def create_new_account():
     main_menu()
 
 
-def print_account_creation_banner():
+def print_account_creation_banner():  # THIS BANNER NEEDS UPDATED FOR ACCURACY
     """
     Prints the account creation banner and instructions.
 
@@ -154,7 +142,7 @@ def print_account_creation_banner():
     what information will be required and provides instructions for filling out the account details.
 
     Returns:
-    None
+        None
     """
     print(f"""
                    ####Finance Manager####

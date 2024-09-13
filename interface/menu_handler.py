@@ -5,12 +5,19 @@ This module defines functions to display different menu interfaces and handle us
 Each menu presents numbered options to the user, and based on their selection, corresponding functions
 are executed. The main menu is the entry point, and subsequent submenus can be called from there.
 
-Functions: ----------- - menu_header(header_title): Displays a formatted header for each menu. - menu_choices(
-choices_and_functions): Lists the available numbered menu options for the user. - menu_maker(menu_key): Displays a
-specified menu and handles user choice selection by calling the corresponding function.
+Functions:
+-----------
+- menu_header(header_title): Displays a formatted header for each menu.
+- menu_choices(choices_and_functions): Lists the available numbered menu options for the user.
+- menu_maker(menu_key): Displays a specified menu and handles user choice selection by calling the corresponding function.
+- main_menu(): Displays the main menu of the application.
+- get_user_choice(choices_and_funcs): Prompts the user to select a choice and executes the corresponding function.
+- exit_program(): Placeholder function to handle exiting the program.
 
-Data Structures: ---------------- - MENU_LIST: A dictionary that maps each menu to a list of numbered tuples. Each
-tuple contains a number, a string description of the menu option, and the corresponding function to execute.
+Data Structures:
+----------------
+- MENU_LIST: A dictionary that maps each menu to a list of numbered tuples. Each tuple contains a number,
+  a string description of the menu option, and the corresponding function to execute.
 
 Example:
 --------
@@ -18,14 +25,13 @@ MENU_LIST = {
     'Main Menu': [
         (1, 'Choose Account', choose_account),
         (2, 'Create Account', create_account),
-        (3, 'Options', options_menu),
-        (4, 'Exit', exit_program)
+        (3, 'Exit', exit_program)
     ]
 }
 
 Dependencies:
 -------------
-- Requires functions from `interface.user_interaction`, which handles user choice selection (e.g., `get_user_choice`).
+- Requires functions from `interface.user_interaction` to handle user choice selection (e.g., `get_user_choice`).
 """
 from interface.user_interface_transactions import transaction_interaction, transaction_vew_balance
 from interface.user_interface_bill_tracker import *
@@ -89,6 +95,9 @@ def menu_maker(menu_key):
 
 
 def main_menu():
+    """
+    Displays the main menu of the Finance Manager application.
+    """
     if 'Main Menu' in MENU_LIST:
         header = 'Main Menu'
         choices_and_funcs = MENU_LIST['Main Menu']
@@ -130,10 +139,6 @@ def get_user_choice(choices_and_funcs):
                 print("Invalid choice. Please select a valid number.")
         else:
             print("Invalid input. Please enter a number.")
-
-
-def exit_program():
-    pass
 
 
 MENU_LIST = {
