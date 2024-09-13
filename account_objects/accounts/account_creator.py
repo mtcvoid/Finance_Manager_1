@@ -30,8 +30,8 @@ Dependencies:
 
 from interface.user_interface_general import *
 from account_objects.accounts.account import Account
-from account_objects.accounting.transactions import *
 from data_handler.database.data_base_handler import *
+
 
 
 def create_new_account_interface():
@@ -136,19 +136,14 @@ def create_new_account():
     # sets up object to pull data from new account
     data_handler = DatabaseUnpacker()
 
-    # creates transaction object for new user to set check
-    get_tran_data = Transactions()
-
-    new_user_tran = get_tran_data.new_balance_setter()
-
-    account_holder = data_handler.get_data(account, new_user_tran)
+    # takes user input data and default account data moves them to a dictionary to be transferred to database
+    account_holder = account.get_account_details()
 
     # pushes data to database
     data_handler.push_to_database(account_holder)
     print('New account created. Returning to main menu.')
+    from interface.menu_handler import main_menu
     main_menu()
-
-
 
 
 def print_account_creation_banner():
@@ -176,3 +171,4 @@ The following information will be required for creating a new account.
        - Initial fund's
                             **
     """)
+# this needs updated
