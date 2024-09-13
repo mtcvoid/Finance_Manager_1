@@ -1,4 +1,5 @@
 import json
+from account_objects.accounting.transactions import Transactions
 
 
 class Account:
@@ -18,7 +19,7 @@ class Account:
         """
         self._account_name = account_name
         self.holder_name = holder_name
-        self._user_id = 555  # this will be used as an ID . All objects will be named account?
+        self._user_id = 654  # this will be used as an ID . All objects will be named account?
         self.user_name = user_name
         self._user_password = new_password
         self.transactions = []
@@ -36,7 +37,7 @@ Checking Balance: {checking_balance}
 Savings Balance: {savings_balance}
 ********************************""")
 
-    def get_account_details(self, checking_balance, savings_balance, trans_history):
+    def get_account_details(self):
         """
         Returns a dictionary containing the detailed account information for administrative purposes.
 
@@ -61,8 +62,10 @@ Savings Balance: {savings_balance}
         :param trans_history:
         :return:
         """
+        tran = Transactions()
+        trans_history = tran.transactions
+
         return {'User_ID': self._user_id, 'Account_Holder_Name': self.holder_name, 'User_name': self.user_name,
                 'User_password': self._user_password, 'Transaction_History': json.dumps(trans_history),
-                'Checking_Balance': checking_balance, 'Savings_Balance': savings_balance,
+                'Checking_Balance': tran.balance['Checking_balance'], 'Savings_Balance': tran.balance['Savings_balance'],
                 'Current_Budget_Warnings': self.current_budget_warnings}
-
