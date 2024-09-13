@@ -140,7 +140,7 @@ MENU_LIST = {
     'Main Menu': [
         (1, 'Choose Account', display_account_list),
         (2, 'Create Account', create_new_account_interface),
-        (3, 'Exit', exit_program)
+        (3, 'Exit', exit)
     ],
 
     'Create Account': [
