@@ -9,24 +9,6 @@ class DatabaseUnpacker:
     account data, and pulling account information from the database based on the user ID.
     """
 
-    def get_data(self, account, tran):
-        """
-         Retrieves account details and transaction information to prepare it for database insertion.
-
-         Parameters:
-             account (Account): An object containing account details such as username, balance, and password.
-             tran (Transactions): An object that holds transaction history and current balances.
-
-         Returns:
-             dict: A dictionary containing the account details and transaction information, structured for insertion
-                   into the database.
-         """
-        account_data = account.get_account_details(tran['Checking_balance'],
-                                                   tran['Savings_balance'],
-                                                   tran.transaction)
-
-        return account_data
-
     def create_account_log_table(self):
         """
         Creates the 'accountlog' table in the 'BankingData.db' SQLite database if it does not already exist.
@@ -48,7 +30,7 @@ class DatabaseUnpacker:
                            'text, user_name text, user_password text, transaction_history text, checking_balance '
                            'real, savings_balance real, current_budget_warnings integer)')
 
-    def push_to_database(self, account_data): # you need to use get_data before pushing
+    def push_to_database(self, account_data):  # you need to use get_data before pushing
         """
         Inserts or updates account information in the 'accountlog' table of the 'BankingData.db' database.
         If an account with the same userID already exists, it will update the existing record. Otherwise,
@@ -182,6 +164,7 @@ class DatabaseUnpacker:
                 user_selection = int(user_input)
 
                 if user_selection == len(row) + 1:
+                    from interface.menu_handler import main_menu  # Located here to avoid circular imports.
                     main_menu()
                 elif 1 <= user_selection <= len(row):
                     selected_user = row[user_selection - 1]
