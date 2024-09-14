@@ -13,3 +13,7 @@ def get_data(self, account, checking_balance: int, savings_balance: int):  # the
     account_data = account.get_account_details()
 
     return account_data
+
+
+
+    active_account = ActiveAccount(user_name, password, holder_name, account_name, user_id, transactions, c_b_w)  # test
