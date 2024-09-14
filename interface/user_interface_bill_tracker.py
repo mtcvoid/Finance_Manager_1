@@ -2,7 +2,9 @@
 handles user interaction for bill tracker
 """
 from interface.user_interface_general import *
-def user_add_bill():
+
+
+def user_add_bill(active_user_account):
     print("""
     You will need the following information: 
     - Name of bill
@@ -13,7 +15,7 @@ def user_add_bill():
     if confirmation:
         pass
     else:
-        pass # need to add an account menu.
+        pass  # need to add an account menu.
 
     '''
     
@@ -34,6 +36,7 @@ def user_add_bill():
 
 def user_remove_bill():
     pass
+
 
 def user_view_all_bills():
     pass

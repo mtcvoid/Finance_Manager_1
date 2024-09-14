@@ -3,7 +3,7 @@ handles user interaction for market watch
 """
 
 def user_view_global_indexes():
-    pass
+    view
 
 def user_view_indexes_by_region():
     pass
