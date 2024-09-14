@@ -84,7 +84,6 @@ def create_new_account():
            - `Username`: Unique identifier for the account.
            - `Password`: Account password.
            - `Account holder name`: Name of the person who owns the account.
-           - `Account name`: A custom name for the account (e.g., "John's Savings").
        - If any input validation fails, the function exits and returns `None`.
 
     2. **Account Creation**:
@@ -114,12 +113,8 @@ def create_new_account():
     if not holder_name:
         return None
 
-    account_name = input_with_validation("Name for the account")
-    if not account_name:
-        return None
-
     # Creates account object from user input
-    account = Account(user_name, new_password, holder_name, account_name)
+    account = Account(user_name, new_password, holder_name)
 
     # sets up object to pull data from new account
     data_handler = DatabaseUnpacker()
@@ -154,9 +149,8 @@ The following information will be required for creating a new account.
                             **
        - Account username and password for logging into account.
        - Account holder full name.
-       - A name for the Account. (Ex: John's Investment account)
-            L All account's come with a checking and a savings
-       - Initial fund's
+       - Checking and savings for account will start at zero.
+            L users will need to deposit initial amount before tracking can occur. 
                             **
     """)
-# this needs updated
+
