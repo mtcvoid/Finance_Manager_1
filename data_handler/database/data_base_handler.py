@@ -1,6 +1,7 @@
 from data_handler.context_manager.context_manager import ContextManager
 from interface.menu_handler import *
 from interface.user_interface_general import get_user_confirmation
+from account_objects.accounts.active_account import ActiveAccount
 
 
 class DatabaseUnpacker:
@@ -121,6 +122,10 @@ class DatabaseUnpacker:
                     'current_budget_warnings': row[7]
                 }
 
+                """
+                    def __init__(self, user_id: int, holder_name: str, user_name: str, user_password,
+                 transactions: list, checking_balance: int, savings_balance: int, c_b_w: int)"""
+
                 # Print the account info
                 return account_info
             else:
@@ -161,45 +166,95 @@ class DatabaseUnpacker:
 
     def account_list_from_database(self):
         """
-        Retrieves a list of accounts from the 'accountlog' table and displays the usernames
-        along with a numbered list. The user can then make a selection to either view a specific
-        account or return to the main menu.
+        Retrieves a list of accounts from the 'accountlog' table in the 'BankingData.db' SQLite database.
+
+        The function displays the usernames along with their corresponding account numbers in a numbered list.
+        The user can then select an account from the list by entering the corresponding number. After selection,
+        the function confirms the user's choice. If confirmed, the selected account's data is retrieved from
+        the database and an ActiveAccount object is created. This ActiveAccount is then passed to the
+        active_user_menu for further interaction.
+
+        If the user chooses to return to the main menu, the main_menu function from menu_handler is invoked.
+
+        Functionality:
+        1. Display a numbered list of all accounts from the database.
+        2. Provide the option to select an account or return to the main menu.
+        3. If an account is selected, confirm the choice and load the account details.
+        4. Create an ActiveAccount object and pass it to the active_user_menu.
+
+        Args:
+            None
+
+        Returns:
+            None
         """
+        # Connect to the BankingData.db database using the context manager.
         with ContextManager('BankingData.db') as connection:
             cursor = connection.cursor()
-            cursor.execute('SELECT user_name, userID FROM accountlog')
-            row = cursor.fetchall()
 
-            # Enumerate through the rows and print the usernames with numbers
+            # Retrieve all accounts from the accountlog table (fetch user_name and userID).
+            cursor.execute('SELECT user_name, userID FROM accountlog')
+            row = cursor.fetchall()  # Fetch all the rows from the query result.
+
+            # Display each account's username with a corresponding number.
             for idx, (username, ident) in enumerate(row, start=1):
                 print(f"{idx}. {username}")
 
-            # Add an extra option for returning to the main menu
+            # Add an extra option to return to the main menu.
             print(f"{len(row) + 1}. Return to main menu")
 
-            # Here you can prompt the user for input and handle their selection
+            # Prompt the user to select an account or choose to return to the main menu.
             user_input = input("Select an option: ")
 
-            # Convert user input to integer and check their selection
+            # Check if the input is a valid number.
             if user_input.isdigit():
                 user_selection = int(user_input)
 
+                # If the user selects the last option, return to the main menu.
                 if user_selection == len(row) + 1:
-                    from interface.menu_handler import main_menu  # Located here to avoid circular imports.
+                    from interface.menu_handler import main_menu  # Import here to avoid circular imports.
                     main_menu()
-                elif 1 <= user_selection <= len(row):  # selected_user[1] will default to the ID tag (MATT)
-                    selected_user = row[user_selection - 1]
+
+                # If the user selects a valid account from the list.
+                elif 1 <= user_selection <= len(row):
+                    selected_user = row[user_selection - 1]  # Get the selected user from the list.
                     print(f"You selected: {selected_user[0]} (ID: {selected_user[1]})")
+
+                    # Confirm the account selection with the user.
                     confirmation = get_user_confirmation('Is this the correct account? (Y),(N): ')
-                    if confirmation:
+
+                    if confirmation:  # If the user confirms the selection.
+
+                        # Retrieve the selected user's account details from the database.
                         handler = DatabaseUnpacker()
-                        tester = handler.pull_from_database(selected_user[1])
-                        print(tester)
+                        account_info = handler.pull_from_database(selected_user[1])  # Pull user data by user ID.
+
+                        # Create an ActiveAccount object using the retrieved data.
+                        active = ActiveAccount(
+                            account_info['user_id'],
+                            account_info['Account_Holder_Name'],
+                            account_info['user_name'],
+                            account_info['user_password'],
+                            account_info['transaction_history'],
+                            account_info['checking_balance'],
+                            account_info['savings_balance'],
+                            account_info['current_budget_warnings']
+                        )
+
+                        from interface.menu_handler import active_user_menu # negates circular imports
+                        # Call active_user_menu to allow further actions on the selected account.
+                        active_user_menu(active)
+
                     else:
-                        print('test FALSE')
+                        # If the user does not confirm the selection.
+                        print('Account selection canceled.')
+
                 else:
+                    # If the user selection is outside the valid range of account options.
                     print("Invalid selection, please try again.")
+
             else:
+                # If the input is not a valid number.
                 print("Invalid input, please enter a number.")
 
 
