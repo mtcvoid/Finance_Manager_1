@@ -84,9 +84,10 @@ def menu_maker(menu_key):
     Returns:
     None
     """
-    if menu_key in MENU_LIST:
+    menu_list = menu_holder()
+    if menu_key in menu_list:
         header = menu_key
-        choices_and_funcs = MENU_LIST[menu_key]
+        choices_and_funcs = menu_list[menu_key]
         menu_header(header)
         menu_choices(choices_and_funcs)
         get_user_choice(choices_and_funcs)
@@ -98,9 +99,10 @@ def main_menu():
     """
     Displays the main menu of the Finance Manager application.
     """
-    if 'Main Menu' in MENU_LIST:
+    menu_list = menu_holder()
+    if 'Main Menu' in menu_list:
         header = 'Main Menu'
-        choices_and_funcs = MENU_LIST['Main Menu']
+        choices_and_funcs = menu_list['Main Menu']
         menu_header(header)
         menu_choices(choices_and_funcs)
         get_user_choice(choices_and_funcs)
@@ -140,53 +142,65 @@ def get_user_choice(choices_and_funcs):
         else:
             print("Invalid input. Please enter a number.")
 
-ACTIVE_USER = []
 
-MENU_LIST = {
-    'Main Menu': [
-        (1, 'Choose Account', display_account_list),
-        (2, 'Create Account', create_new_account_interface),
-        (3, 'Exit', exit)
-    ],
+def active_user_menu(active_user):
+    menu_list = menu_holder(active_user)
+    if 'User Account Menu' in menu_list:
+        header = 'User Account Menu'
+        choices_and_funcs = menu_list['User Account Menu']
+        menu_header(header)
+        menu_choices(choices_and_funcs)
+        get_user_choice(choices_and_funcs)
+    else:
+        print('Error test')
 
-    'Create Account': [
-        (1, 'Run Create Account Program', create_new_account_interface),
-        (2, 'Return to Main Menu', main_menu)
-    ],
 
-    'Chosen-Account Menu': [
-        (1, 'View Balances', transaction_vew_balance),
-        (2, 'Deposit', transaction_interaction('Deposit')),
-        (3, 'Withdrawal', transaction_interaction('Withdrawal')),
-        (4, 'View Bill Tracker', 'Bill Tracker'),
-        (5, 'View Budget', 'Budgeted'),
-        (6, 'Personal Market Watch', 'Personal Market Watch'),
-        (7, 'Return to Main Menu', main_menu)
-    ],
+def menu_holder(active_user=None):
+    menu_list = {
+        'Main Menu': [
+            (1, 'Choose Account', display_account_list),
+            (2, 'Create Account', create_new_account_interface),
+            (3, 'Exit', exit)
+        ],
 
-    'Bill Tracker': [
-        (1, 'Add Bill', user_add_bill),
-        (2, 'Remove Bill', user_remove_bill),
-        (3, 'View Current List of All Bills', user_view_all_bills),
-        (4, 'Return to Main Menu', main_menu)
-    ],
+        'Create Account': [
+            (1, 'Run Create Account Program', create_new_account_interface),
+            (2, 'Return to Main Menu', main_menu)
+        ],
 
-    'Budgeted': [
-        (1, 'Current Budget', user_view_current_budget),
-        (2, 'New Budget', user_create_new_budget),
-        (3, 'Remove Budget', user_remove_budget),
-        (4, 'Update Budget', user_update_budget),
-        (5, 'Return to Main Menu', main_menu)
-    ],
+        'User Account Menu': [
+            (1, 'View Balances', lambda: transaction_vew_balance(active_user)),  # Pass the active user
+            (2, 'Deposit', lambda: transaction_interaction('Deposit', active_user)),
+            (3, 'Withdrawal', lambda: transaction_interaction('Withdrawal', active_user)),
+            (4, 'View Bill Tracker', lambda: user_add_bill(active_user)),
+            (5, 'View Budget', lambda: user_view_current_budget(active_user)),
+            (6, 'Personal Market Watch', 'Personal Market Watch'),
+            (7, 'Return to Main Menu', main_menu)
+        ],
+        'Bill Tracker': [
+            (1, 'Add Bill', user_add_bill),
+            (2, 'Remove Bill', user_remove_bill),
+            (3, 'View Current List of All Bills', user_view_all_bills),
+            (4, 'Return to Main Menu', main_menu)
+        ],
 
-    'Personal Market Watch': [
-        (1, 'Indexes - Global', user_view_global_indexes),
-        (2, 'Indexes - By Region', user_view_indexes_by_region),
-        (3, 'Set Favorite Index\'s', user_set_favorite_index),
-        (4, 'Indexes - Favorites', user_view_favorite_index),
-        (5, 'Stocks - Watch List', user_view_stock_watchlist),
-        (6, 'Stocks - Add to Watchlist', user_add_to_stock_watchlist),
-        (7, 'Search Stock data', user_search_stock_data),
-        (8, 'Return to Main Menu', main_menu)  # Return to Main Menu
-    ]
-}
+        'Budgeted': [
+            (1, 'Current Budget', user_view_current_budget),
+            (2, 'New Budget', user_create_new_budget),
+            (3, 'Remove Budget', user_remove_budget),
+            (4, 'Update Budget', user_update_budget),
+            (5, 'Return to Main Menu', main_menu)
+        ],
+
+        'Personal Market Watch': [
+            (1, 'Indexes - Global', user_view_global_indexes),
+            (2, 'Indexes - By Region', user_view_indexes_by_region),
+            (3, 'Set Favorite Index\'s', user_set_favorite_index),
+            (4, 'Indexes - Favorites', lambda: user_view_favorite_index()),
+            (5, 'Stocks - Watch List', lambda: user_view_stock_watchlist()),
+            (6, 'Stocks - Add to Watchlist', lambda: user_add_to_stock_watchlist()),
+            (7, 'Search Stock data', lambda: user_search_stock_data()),
+            (8, 'Return to Main Menu', main_menu)  # Return to Main Menu
+        ]
+    }
+    return menu_list
