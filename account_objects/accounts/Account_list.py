@@ -7,7 +7,8 @@ and prints each username to the console.
 
 Dependencies:
 -------------
-- Requires the `ContextManager` class from `data_handler.context_manager.context_manager` for managing the database connection.
+- Requires the `ContextManager` class from `data_handler.context_manager.context_manager` for managing the database
+ connection.
 
 Usage:
 ------

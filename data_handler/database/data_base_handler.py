@@ -1,5 +1,6 @@
 from data_handler.context_manager.context_manager import ContextManager
 from interface.menu_handler import *
+from interface.user_interface_general import get_user_confirmation
 
 
 class DatabaseUnpacker:
@@ -186,9 +187,16 @@ class DatabaseUnpacker:
                 if user_selection == len(row) + 1:
                     from interface.menu_handler import main_menu  # Located here to avoid circular imports.
                     main_menu()
-                elif 1 <= user_selection <= len(row):
+                elif 1 <= user_selection <= len(row):  # selected_user[1] will default to the ID tag (MATT)
                     selected_user = row[user_selection - 1]
                     print(f"You selected: {selected_user[0]} (ID: {selected_user[1]})")
+                    confirmation = get_user_confirmation('Is this the correct account? (Y),(N): ')
+                    if confirmation:
+                        handler = DatabaseUnpacker()
+                        tester = handler.pull_from_database(selected_user[1])
+                        print(tester)
+                    else:
+                        print('test FALSE')
                 else:
                     print("Invalid selection, please try again.")
             else:

@@ -140,6 +140,7 @@ def get_user_choice(choices_and_funcs):
         else:
             print("Invalid input. Please enter a number.")
 
+ACTIVE_USER = []
 
 MENU_LIST = {
     'Main Menu': [
