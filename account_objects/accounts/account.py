@@ -10,7 +10,7 @@ class Account:
     and check transactions. It also handles password and transaction history for the account.
 
     Attributes:
-        _account_name (str): The name of the account.
+
         holder_name (str): The name of the account holder.
         _user_id (int): A unique user ID (initialized to a static value of 654).
         user_name (str): The username for the account.
@@ -20,7 +20,7 @@ class Account:
     """
 
     def __init__(self, user_name: str, new_password: str,
-                 holder_name: str = "", account_name: str = None):
+                 holder_name: str = ""):
         """
           Initializes the Account object with the user's details.
 
@@ -28,9 +28,9 @@ class Account:
               user_name (str): The username for the account.
               new_password (str): The password for the account.
               holder_name (str, optional): The name of the account holder (default is an empty string).
-              account_name (str, optional): The name of the account (default is None).
+
           """
-        self._account_name = account_name
+
         self.holder_name = holder_name
         self._user_id = 654  # this will be used as an ID . All objects will be named account?
         self.user_name = user_name
