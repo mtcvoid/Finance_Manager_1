@@ -1,4 +1,6 @@
 import json
+import random
+
 from account_objects.accounting.transactions import Transactions
 
 
@@ -32,7 +34,7 @@ class Account:
           """
 
         self.holder_name = holder_name
-        self._user_id = 654  # this will be used as an ID . All objects will be named account?
+        self._user_id = random.randint(1, 31324)  # this will be used as an ID . All objects will be named account?
         self.user_name = user_name
         self._user_password = new_password
         self.transactions = []
@@ -82,5 +84,6 @@ Savings Balance: {savings_balance}
 
         return {'User_ID': self._user_id, 'Account_Holder_Name': self.holder_name, 'User_name': self.user_name,
                 'User_password': self._user_password, 'Transaction_History': json.dumps(trans_history),
-                'Checking_Balance': tran.balance['Checking_balance'], 'Savings_Balance': tran.balance['Savings_balance'],
+                'Checking_Balance': tran.balance['Checking_balance'],
+                'Savings_Balance': tran.balance['Savings_balance'],
                 'Current_Budget_Warnings': self.current_budget_warnings}
