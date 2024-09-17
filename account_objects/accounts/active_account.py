@@ -14,6 +14,18 @@ class ActiveAccount:
         self.checking_balance = checking_balance
         self.savings_balance = savings_balance
 
+    def __repr__(self):
+        # Returning dictionary representation in __repr__
+        return {
+            "user_id": self._user_id,
+            "Account_Holder_Name": self.holder_name,
+            "user_name": self.user_name,
+            "checking_balance": self.checking_balance,
+            "savings_balance": self.savings_balance,
+            "current_budget_warnings": self.current_budget_warnings,
+            "transaction_history": self.transactions
+        }
+
     def view_account_details(self, checking_balance, savings_balance):
         return (f"""
 ********************************

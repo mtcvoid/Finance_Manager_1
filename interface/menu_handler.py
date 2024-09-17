@@ -71,7 +71,7 @@ def menu_choices(choices_and_functions):
     """
     for number, name, _ in choices_and_functions:
         print(f'({number}) {name}')
-    print("******************************")
+    print("    ******************************")
 
 
 def menu_maker(menu_key):
