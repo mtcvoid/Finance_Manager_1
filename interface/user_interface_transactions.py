@@ -6,6 +6,7 @@ from interface.user_interface_general import get_user_confirmation
 from data_handler.database.data_base_handler import DatabaseUnpacker
 
 
+
 def transaction_interaction(transaction_type, active_user_account):
     transaction_confirmed = get_user_confirmation(f'You are making a {transaction_type}. Is this correct? (Y)/(N)')
     while transaction_confirmed:
@@ -16,7 +17,7 @@ def transaction_interaction(transaction_type, active_user_account):
             if amount.isdigit():
                 if amount_confirmation:
                     amount = float(amount)
-                    transaction_handler(transaction_type, c_or_s.lower(), amount)
+                    transaction_handler(transaction_type, c_or_s.lower(), amount, active_user_account)
                 else:
                     print('Please try again....')
             else:
@@ -33,9 +34,9 @@ def transaction_interaction(transaction_type, active_user_account):
         print('Returning to account menu...')
 
 
-def transaction_vew_balance(active_user):
+def transaction_vew_balance(active_user_account):
     from interface.menu_handler import menu_header
-    active = active_user.__repr__()
+    active = active_user_account.__repr__()
     total = active['checking_balance'] + active['savings_balance']
     menu_header(active['Account_Holder_Name'])
     print('        ACCOUNT BALANCES')
@@ -48,10 +49,17 @@ def transaction_vew_balance(active_user):
     print('Returning to account menu...')
 
 
-def transaction_handler(account,transaction_type, amount):
+def transaction_handler(account,transaction_type, amount, active_user_account):
     transaction = Transactions()
     data_push = DatabaseUnpacker()
+    acctive = active_user_account.
     if transaction_type == 'Deposit':
+
+        '''
+        i dont think you'll need the Transaction.deposit_withdrawal here. you should just be able to update the 
+        active account balance and push to database. However you may need it to check for overdrafts'''
+
+
         transaction.deposit_withdrawal(account: str, transaction_type: str, amount: float = 0)
     if transaction_type == 'Withdrawal':
         pass
