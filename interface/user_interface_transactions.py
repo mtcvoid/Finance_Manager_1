@@ -51,13 +51,22 @@ def transaction_vew_balance(active_user_account):
 
 def transaction_handler(account,transaction_type, amount, active_user_account):
     transaction = Transactions()
+
+
+
+    test = transaction.balance['Checking_balance']
+    print(test)
+
+    '''
+    send data to transaction from active user. use transaction object to handle the deposit withdrawal
+    return it back to send back to active user but updated so it can be matched with ID and pushed back to 
+    database.'''
+
     data_push = DatabaseUnpacker()
     acctive = active_user_account.
     if transaction_type == 'Deposit':
 
-        '''
-        i dont think you'll need the Transaction.deposit_withdrawal here. you should just be able to update the 
-        active account balance and push to database. However you may need it to check for overdrafts'''
+
 
 
         transaction.deposit_withdrawal(account: str, transaction_type: str, amount: float = 0)
