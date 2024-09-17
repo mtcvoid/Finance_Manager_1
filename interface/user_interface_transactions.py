@@ -54,6 +54,10 @@ def transaction_handler(account,transaction_type, amount, active_user_account):
 
 
 
+    active = active_user_account.__repr__()
+    current_checking = active['checking_balance']
+    current_savings = active['savings_balance']
+
     test = transaction.balance['Checking_balance']
     print(test)
 
@@ -63,7 +67,7 @@ def transaction_handler(account,transaction_type, amount, active_user_account):
     database.'''
 
     data_push = DatabaseUnpacker()
-    acctive = active_user_account.
+    a
     if transaction_type == 'Deposit':
 
 
