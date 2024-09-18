@@ -60,7 +60,7 @@ Checking Balance: {checking_balance}
 Savings Balance: {savings_balance}
 ********************************""")
 
-    def get_account_details(self):
+    def get_new_account_details(self):
         """
         Retrieves a detailed view of the account, including transaction history and balances.
 
