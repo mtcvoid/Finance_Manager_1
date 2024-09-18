@@ -1,8 +1,8 @@
 class Transactions:
-    CHECKING = 'Checking'
-    SAVINGS = 'Savings'
-    DEPOSIT = 'Deposit'
-    WITHDRAWAL = 'Withdrawal'
+    CHECKING = 'checking'
+    SAVINGS = 'savings'
+    DEPOSIT = 'deposit'
+    WITHDRAWAL = 'withdrawal'
 
     def __init__(self):
         """
