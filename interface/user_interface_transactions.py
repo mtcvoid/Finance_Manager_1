@@ -3,11 +3,9 @@ handles user interaction for transactions
 """
 from account_objects.accounting.transactions import Transactions
 from interface.user_interface_general import get_user_confirmation
-from data_handler.database.data_base_handler import DatabaseUnpacker
-import json
 
 
-def transaction_interaction(transaction_type, active_user_account):
+def transaction_interaction(transaction_type, active_user_account): # logic needs fixed. No need for the same code 2x
     transaction_confirmed = get_user_confirmation(f'You are making a {transaction_type}. Is this correct? (Y)/(N)')
     while transaction_confirmed:
         c_or_s = input('Checking or savings: ')
@@ -18,6 +16,7 @@ def transaction_interaction(transaction_type, active_user_account):
                 if amount_confirmation:
                     amount = float(amount)
                     transaction_handler(c_or_s.lower(), transaction_type, amount, active_user_account)
+                    transaction_confirmed = False
                 else:
                     print('Please try again....')
             else:
@@ -27,7 +26,13 @@ def transaction_interaction(transaction_type, active_user_account):
             amount_confirmation = get_user_confirmation(f'${amount} Correct? (Y)/(N)')
             if amount.isdigit():
                 if amount_confirmation:
-                    transaction_handler(c_or_s, transaction_type, amount)
+                    amount = float(amount)
+                    transaction_handler(c_or_s.lower(), transaction_type, amount, active_user_account)
+                    transaction_confirmed = False
+                else:
+                    print('Please try again....')
+            else:
+                print('Please try again and enter a valid amount.')
         else:
             print('Please try again and enter a valid account...')
     else:
@@ -36,13 +41,18 @@ def transaction_interaction(transaction_type, active_user_account):
 
 def transaction_vew_balance(active_user_account):
     from interface.menu_handler import menu_header
-    active = active_user_account.__repr__()
-    total = active['checking_balance'] + active['savings_balance']
-    menu_header(active['Account_Holder_Name'])
+    from data_handler.database.data_base_handler import DatabaseUnpacker
+    puller = DatabaseUnpacker()
+    active = active_user_account.get_account_details()
+
+    balance_viewer = puller.pull_from_database(active['User_ID'])
+
+    total = balance_viewer['checking_balance'] + balance_viewer['savings_balance']
+    menu_header(balance_viewer['Account_Holder_Name'])
     print('        ACCOUNT BALANCES')
     print(f"""
-    Checking Balance: ${active['checking_balance']}
-    Savings Balance: ${active['savings_balance']}
+    Checking Balance: ${balance_viewer['checking_balance']}
+    Savings Balance: ${balance_viewer['savings_balance']}
     Total balance: ${total}
         """)
     print("    ******************************")
@@ -50,16 +60,20 @@ def transaction_vew_balance(active_user_account):
 
 
 def transaction_handler(account, transaction_type, amount, active_user_account):
-    pusher = DatabaseUnpacker
+    from data_handler.database.data_base_handler import DatabaseUnpacker
+    pusher = DatabaseUnpacker()
     transaction = Transactions()
     active = active_user_account.get_account_details()
 
-    transaction.transactions = json.loads(active['Transaction_History'])
+    transaction.transactions = active['Transaction_History']
 
     transaction.balance['Checking_balance'] = active['Checking_Balance']
     transaction.balance['Savings_balance'] = active['Savings_Balance']
 
     transaction.deposit_withdrawal(account, transaction_type, amount)
 
-    test = transaction.transactions
-    print(test)
+    active['Checking_Balance'] = transaction.balance['Checking_balance']
+    active['Savings_Balance'] = transaction.balance['Savings_balance']
+    active['Transaction_History'] = transaction.transactions
+
+    pusher.push_to_database(active)
