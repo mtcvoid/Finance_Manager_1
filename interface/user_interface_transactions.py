@@ -4,7 +4,7 @@ handles user interaction for transactions
 from account_objects.accounting.transactions import Transactions
 from interface.user_interface_general import get_user_confirmation
 from data_handler.database.data_base_handler import DatabaseUnpacker
-
+import json
 
 
 def transaction_interaction(transaction_type, active_user_account):
@@ -17,7 +17,7 @@ def transaction_interaction(transaction_type, active_user_account):
             if amount.isdigit():
                 if amount_confirmation:
                     amount = float(amount)
-                    transaction_handler(transaction_type, c_or_s.lower(), amount, active_user_account)
+                    transaction_handler(c_or_s.lower(), transaction_type, amount, active_user_account)
                 else:
                     print('Please try again....')
             else:
@@ -49,33 +49,17 @@ def transaction_vew_balance(active_user_account):
     print('Returning to account menu...')
 
 
-def transaction_handler(account,transaction_type, amount, active_user_account):
+def transaction_handler(account, transaction_type, amount, active_user_account):
+    pusher = DatabaseUnpacker
     transaction = Transactions()
+    active = active_user_account.get_account_details()
 
+    transaction.transactions = json.loads(active['Transaction_History'])
 
+    transaction.balance['Checking_balance'] = active['Checking_Balance']
+    transaction.balance['Savings_balance'] = active['Savings_Balance']
 
-    active = active_user_account.__repr__()
-    current_checking = active['checking_balance']
-    current_savings = active['savings_balance']
+    transaction.deposit_withdrawal(account, transaction_type, amount)
 
-    test = transaction.balance['Checking_balance']
+    test = transaction.transactions
     print(test)
-
-    '''
-    send data to transaction from active user. use transaction object to handle the deposit withdrawal
-    return it back to send back to active user but updated so it can be matched with ID and pushed back to 
-    database.'''
-
-    data_push = DatabaseUnpacker()
-    a
-    if transaction_type == 'Deposit':
-
-
-
-
-        transaction.deposit_withdrawal(account: str, transaction_type: str, amount: float = 0)
-    if transaction_type == 'Withdrawal':
-        pass
-
-    data_push.push_to_database()
-
