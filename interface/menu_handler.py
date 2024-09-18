@@ -170,8 +170,8 @@ def menu_holder(active_user=None):
 
         'User Account Menu': [
             (1, 'View Balances', lambda: transaction_vew_balance(active_user)),  # Pass the active user
-            (2, 'Deposit', lambda: transaction_interaction('Deposit', active_user)),
-            (3, 'Withdrawal', lambda: transaction_interaction('Withdrawal', active_user)),
+            (2, 'Deposit', lambda: transaction_interaction('deposit', active_user)),
+            (3, 'Withdrawal', lambda: transaction_interaction('withdrawal', active_user)),
             (4, 'View Bill Tracker', lambda: user_add_bill(active_user)),
             (5, 'View Budget', lambda: user_view_current_budget(active_user)),
             (6, 'Personal Market Watch', 'Personal Market Watch'),
