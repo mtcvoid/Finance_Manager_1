@@ -2,6 +2,7 @@ from data_handler.context_manager.context_manager import ContextManager
 from interface.menu_handler import *
 from interface.user_interface_general import get_user_confirmation
 from account_objects.accounts.active_account import ActiveAccount
+import json
 
 
 class DatabaseUnpacker:
@@ -32,7 +33,7 @@ class DatabaseUnpacker:
                            'text, user_name text, user_password text, transaction_history text, checking_balance '
                            'real, savings_balance real, current_budget_warnings integer)')
 
-    def push_to_database(self, account_data):  # you need to use get_data before pushing
+    def push_to_database(self, account_data):
         """
          Inserts or updates account information in the 'accountlog' table of the 'BankingData.db' database.
          If an account with the same userID already exists, it will update the existing record. Otherwise,
@@ -55,6 +56,17 @@ class DatabaseUnpacker:
              push_to_database(account_data)
          """
 
+        # handles the json conversion while still being able to move the data in one variable to database.
+        data_converter = {
+            'User_ID': account_data['User_ID'], 'Account_Holder_Name': account_data['Account_Holder_Name'],
+            'User_name': account_data['User_name'],
+            'User_password': account_data['User_password'],
+            'Transaction_History': json.dumps(account_data['Transaction_History']),
+            'Checking_Balance': account_data['Checking_Balance'],
+            'Savings_Balance': account_data['Savings_Balance'],
+            'Current_Budget_Warnings': account_data['Current_Budget_Warnings']
+        }
+
         with ContextManager('BankingData.db') as connection:
             cursor = connection.cursor()
             cursor.execute('''
@@ -70,7 +82,7 @@ class DatabaseUnpacker:
                     checking_balance = excluded.checking_balance,
                     savings_balance = excluded.savings_balance,
                     current_budget_warnings = excluded.current_budget_warnings
-            ''', account_data)
+            ''', data_converter)
 
     def pull_from_database(self, user_id):
         """
@@ -116,7 +128,7 @@ class DatabaseUnpacker:
                     'Account_Holder_Name': row[1],
                     'user_name': row[2],
                     'user_password': row[3],
-                    'transaction_history': row[4],
+                    'transaction_history': json.loads(row[4]),
                     'checking_balance': row[5],
                     'savings_balance': row[6],
                     'current_budget_warnings': row[7]
@@ -241,7 +253,7 @@ class DatabaseUnpacker:
                             account_info['current_budget_warnings']
                         )
 
-                        from interface.menu_handler import active_user_menu # negates circular imports
+                        from interface.menu_handler import active_user_menu  # negates circular imports
                         # Call active_user_menu to allow further actions on the selected account.
                         active_user_menu(active)
 
