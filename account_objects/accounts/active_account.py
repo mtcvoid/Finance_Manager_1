@@ -37,7 +37,7 @@ Savings Balance: {savings_balance}
 
     def get_account_details(self):
         return {'User_ID': self._user_id, 'Account_Holder_Name': self.holder_name, 'User_name': self.user_name,
-                'User_password': self._user_password, 'Transaction_History': json.dumps(self.transactions),
+                'User_password': self._user_password, 'Transaction_History': self.transactions,
                 'Checking_Balance': self.checking_balance,
                 'Savings_Balance': self.savings_balance,
                 'Current_Budget_Warnings': self.current_budget_warnings}
