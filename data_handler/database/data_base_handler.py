@@ -13,6 +13,9 @@ class DatabaseUnpacker:
     account data, and pulling account information from the database based on the user ID.
     """
 
+    def __init__(self):
+        self.create_account_log_table()
+
     def create_account_log_table(self):
         """
         Creates the 'accountlog' table in the 'BankingData.db' SQLite database if it does not already exist.
@@ -32,7 +35,7 @@ class DatabaseUnpacker:
             cursor = connection.cursor()
             cursor.execute('CREATE TABLE IF NOT EXISTS accountlog(userID integer primary key, account_holder_name '
                            'text, user_name text, user_password text, transaction_history text, checking_balance '
-                           'real, savings_balance real, current_budget_warnings integer)')
+                           'real, savings_balance real, current_budget_warnings integer, bills text)')
 
     def push_to_database(self, account_data):
         """
@@ -53,6 +56,7 @@ class DatabaseUnpacker:
                  'Checking_Balance': 1500.00,
                  'Savings_Balance': 3000.00,
                  'Current_Budget_Warnings': 0
+                 'Bills: [name: bill_1, amount: 100, due_date: 2026-04-15]
              }
              push_to_database(account_data)
          """
@@ -65,16 +69,18 @@ class DatabaseUnpacker:
             TRANSACTION_HISTORY: json.dumps(account_data[TRANSACTION_HISTORY]),
             CHECKING_BALANCE: account_data[CHECKING_BALANCE],
             SAVINGS_BALANCE: account_data[SAVINGS_BALANCE],
-            CURRENT_BUDGET_WARNINGS: account_data[CURRENT_BUDGET_WARNINGS]
+            CURRENT_BUDGET_WARNINGS: account_data[CURRENT_BUDGET_WARNINGS],
+            BILLS: json.dumps(account_data[BILLS])
         }
 
         with ContextManager('BankingData.db') as connection:
             cursor = connection.cursor()
             cursor.execute('''
                 INSERT INTO accountlog (userID, account_holder_name, user_name, user_password, 
-                                        transaction_history, checking_balance, savings_balance, current_budget_warnings)
+                                        transaction_history, checking_balance, savings_balance, current_budget_warnings,
+                                        bills)
                 VALUES (:user_id, :account_holder_name, :user_name, :user_password, 
-                        :transaction_history, :checking_balance, :savings_balance, :current_budget_warnings)
+                        :transaction_history, :checking_balance, :savings_balance, :current_budget_warnings, :bills)
                 ON CONFLICT(userID) DO UPDATE SET 
                     account_holder_name = excluded.account_holder_name,
                     user_name = excluded.user_name,
@@ -82,7 +88,8 @@ class DatabaseUnpacker:
                     transaction_history = excluded.transaction_history,
                     checking_balance = excluded.checking_balance,
                     savings_balance = excluded.savings_balance,
-                    current_budget_warnings = excluded.current_budget_warnings
+                    current_budget_warnings = excluded.current_budget_warnings,
+                    bills = excluded.bills
             ''', data_converter)
 
     def pull_from_database(self, user_id):
@@ -107,6 +114,7 @@ class DatabaseUnpacker:
                 - 'checking_balance' (float): The current balance in the checking account.
                 - 'savings_balance' (float): The current balance in the savings account.
                 - 'current_budget_warnings' (int): The number of budget warnings.
+                - 'bills: (list): list of bills with name,amount, and due date'
 
             If no account is found for the given user ID, `None` is returned and a message is printed to the console.
 
@@ -132,7 +140,8 @@ class DatabaseUnpacker:
                     TRANSACTION_HISTORY: json.loads(row[4]),
                     CHECKING_BALANCE: row[5],
                     SAVINGS_BALANCE: row[6],
-                    CURRENT_BUDGET_WARNINGS: row[7]
+                    CURRENT_BUDGET_WARNINGS: row[7],
+                    BILLS: row[8]
                 }
 
                 return account_info
@@ -246,7 +255,8 @@ class DatabaseUnpacker:
                             account_info[TRANSACTION_HISTORY],
                             account_info[CHECKING_BALANCE],
                             account_info[SAVINGS_BALANCE],
-                            account_info[CURRENT_BUDGET_WARNINGS]
+                            account_info[CURRENT_BUDGET_WARNINGS],
+                            account_info[BILLS]
                         )
 
                         from interface.menu_handler import active_user_menu  # negates circular imports
