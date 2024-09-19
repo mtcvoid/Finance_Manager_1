@@ -120,7 +120,7 @@ def create_new_account():
     data_handler = DatabaseUnpacker()
 
     # takes user input data and default account data moves them to a dictionary to be transferred to database
-    account_holder = account.get_account_details()
+    account_holder = account.get_new_account_details()
 
     # pushes data to database
     data_handler.push_to_database(account_holder)
