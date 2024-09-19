@@ -40,6 +40,7 @@ class Account:
         self._user_password = new_password
         self.transactions = []
         self.current_budget_warnings = 0
+        self.bills = []
 
     def view_account_details(self, checking_balance, savings_balance):
         """
@@ -87,4 +88,5 @@ Savings Balance: {savings_balance}
                 USER_PASSWORD: self._user_password, TRANSACTION_HISTORY: self.transactions,
                 CHECKING_BALANCE: tran.balance[CHECKING_BALANCE],
                 SAVINGS_BALANCE: tran.balance[SAVINGS_BALANCE],
-                CURRENT_BUDGET_WARNINGS: self.current_budget_warnings}
+                CURRENT_BUDGET_WARNINGS: self.current_budget_warnings,
+                BILLS: self.bills}
