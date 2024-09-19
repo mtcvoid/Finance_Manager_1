@@ -1,4 +1,5 @@
 from data_handler.context_manager.context_manager import ContextManager
+from data_handler.variables.constants import *
 from interface.menu_handler import *
 from interface.user_interface_general import get_user_confirmation
 from account_objects.accounts.active_account import ActiveAccount
@@ -58,13 +59,13 @@ class DatabaseUnpacker:
 
         # handles the json conversion while still being able to move the data in one variable to database.
         data_converter = {
-            'User_ID': account_data['User_ID'], 'Account_Holder_Name': account_data['Account_Holder_Name'],
-            'User_name': account_data['User_name'],
-            'User_password': account_data['User_password'],
-            'Transaction_History': json.dumps(account_data['Transaction_History']),
-            'Checking_Balance': account_data['Checking_Balance'],
-            'Savings_Balance': account_data['Savings_Balance'],
-            'Current_Budget_Warnings': account_data['Current_Budget_Warnings']
+            USER_ID: account_data[USER_ID], ACCOUNT_HOLDER_NAME: account_data[ACCOUNT_HOLDER_NAME],
+            USER_NAME: account_data[USER_NAME],
+            USER_PASSWORD: account_data[USER_PASSWORD],
+            TRANSACTION_HISTORY: json.dumps(account_data[TRANSACTION_HISTORY]),
+            CHECKING_BALANCE: account_data[CHECKING_BALANCE],
+            SAVINGS_BALANCE: account_data[SAVINGS_BALANCE],
+            CURRENT_BUDGET_WARNINGS: account_data[CURRENT_BUDGET_WARNINGS]
         }
 
         with ContextManager('BankingData.db') as connection:
@@ -72,8 +73,8 @@ class DatabaseUnpacker:
             cursor.execute('''
                 INSERT INTO accountlog (userID, account_holder_name, user_name, user_password, 
                                         transaction_history, checking_balance, savings_balance, current_budget_warnings)
-                VALUES (:User_ID, :Account_Holder_Name, :User_name, :User_password, 
-                        :Transaction_History, :Checking_Balance, :Savings_Balance, :Current_Budget_Warnings)
+                VALUES (:user_id, :account_holder_name, :user_name, :user_password, 
+                        :transaction_history, :checking_balance, :savings_balance, :current_budget_warnings)
                 ON CONFLICT(userID) DO UPDATE SET 
                     account_holder_name = excluded.account_holder_name,
                     user_name = excluded.user_name,
@@ -124,21 +125,16 @@ class DatabaseUnpacker:
             if row:
                 # Map the fetched row into a dictionary
                 account_info = {
-                    'user_id': row[0],
-                    'Account_Holder_Name': row[1],
-                    'user_name': row[2],
-                    'user_password': row[3],
-                    'transaction_history': json.loads(row[4]),
-                    'checking_balance': row[5],
-                    'savings_balance': row[6],
-                    'current_budget_warnings': row[7]
+                    USER_ID: row[0],
+                    ACCOUNT_HOLDER_NAME: row[1],
+                    USER_NAME: row[2],
+                    USER_PASSWORD: row[3],
+                    TRANSACTION_HISTORY: json.loads(row[4]),
+                    CHECKING_BALANCE: row[5],
+                    SAVINGS_BALANCE: row[6],
+                    CURRENT_BUDGET_WARNINGS: row[7]
                 }
 
-                """
-                    def __init__(self, user_id: int, holder_name: str, user_name: str, user_password,
-                 transactions: list, checking_balance: int, savings_balance: int, c_b_w: int)"""
-
-                # Print the account info
                 return account_info
             else:
                 print(f'No account found for userID: {user_id}')
@@ -243,14 +239,14 @@ class DatabaseUnpacker:
 
                         # Create an ActiveAccount object using the retrieved data.
                         active = ActiveAccount(
-                            account_info['user_id'],
-                            account_info['Account_Holder_Name'],
-                            account_info['user_name'],
-                            account_info['user_password'],
-                            account_info['transaction_history'],
-                            account_info['checking_balance'],
-                            account_info['savings_balance'],
-                            account_info['current_budget_warnings']
+                            account_info[USER_ID],
+                            account_info[ACCOUNT_HOLDER_NAME],
+                            account_info[USER_NAME],
+                            account_info[USER_PASSWORD],
+                            account_info[TRANSACTION_HISTORY],
+                            account_info[CHECKING_BALANCE],
+                            account_info[SAVINGS_BALANCE],
+                            account_info[CURRENT_BUDGET_WARNINGS]
                         )
 
                         from interface.menu_handler import active_user_menu  # negates circular imports
