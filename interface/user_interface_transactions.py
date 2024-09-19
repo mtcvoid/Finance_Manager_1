@@ -1,11 +1,11 @@
 """
 handles user interaction for transactions
 """
-from account_objects.accounting.transactions import Transactions
 from interface.user_interface_general import get_user_confirmation
+from account_objects.accounting.transactions import *
 
 
-def transaction_interaction(transaction_type, active_user_account): # logic needs fixed. No need for the same code 2x
+def transaction_interaction(transaction_type, active_user_account):  # logic needs fixed. No need for the same code 2x
     transaction_confirmed = get_user_confirmation(f'You are making a {transaction_type}. Is this correct? (Y)/(N)')
     while transaction_confirmed:
         c_or_s = input('Checking or savings: ')
@@ -40,19 +40,31 @@ def transaction_interaction(transaction_type, active_user_account): # logic need
 
 
 def transaction_vew_balance(active_user_account):
+    """
+    Displays the current balance for both checking and savings accounts of the active user.
+
+    Args:
+        active_user_account (object): An instance of the user's account which holds account details.
+
+    Flow:
+        - Fetches the user's account details and pulls the latest checking and savings balances from the database.
+        - Displays the account holder's name, checking balance, savings balance, and the total balance.
+        - Returns control to the account menu after displaying the balances.
+    """
     from interface.menu_handler import menu_header
     from data_handler.database.data_base_handler import DatabaseUnpacker
+
     puller = DatabaseUnpacker()
     active = active_user_account.get_account_details()
 
-    balance_viewer = puller.pull_from_database(active['User_ID'])
+    balance_viewer = puller.pull_from_database(active[USER_ID])
 
-    total = balance_viewer['checking_balance'] + balance_viewer['savings_balance']
-    menu_header(balance_viewer['Account_Holder_Name'])
+    total = balance_viewer[CHECKING_BALANCE] + balance_viewer[SAVINGS_BALANCE]
+    menu_header(balance_viewer[ACCOUNT_HOLDER_NAME])
     print('        ACCOUNT BALANCES')
     print(f"""
-    Checking Balance: ${balance_viewer['checking_balance']}
-    Savings Balance: ${balance_viewer['savings_balance']}
+    Checking Balance: ${balance_viewer[CHECKING_BALANCE]}
+    Savings Balance: ${balance_viewer[SAVINGS_BALANCE]}
     Total balance: ${total}
         """)
     print("    ******************************")
@@ -61,19 +73,22 @@ def transaction_vew_balance(active_user_account):
 
 def transaction_handler(account, transaction_type, amount, active_user_account):
     from data_handler.database.data_base_handler import DatabaseUnpacker
-    pusher = DatabaseUnpacker()
+    pusher_puller = DatabaseUnpacker()
     transaction = Transactions()
+
     active = active_user_account.get_account_details()
 
-    transaction.transactions = active['Transaction_History']
+    current_data = pusher_puller.pull_from_database(active[USER_ID])
 
-    transaction.balance['Checking_balance'] = active['Checking_Balance']
-    transaction.balance['Savings_balance'] = active['Savings_Balance']
+    transaction.transactions = current_data[TRANSACTION_HISTORY]
+
+    transaction.balance[CHECKING_BALANCE] = current_data[CHECKING_BALANCE]
+    transaction.balance[SAVINGS_BALANCE] = current_data[SAVINGS_BALANCE]
 
     transaction.deposit_withdrawal(account, transaction_type, amount)
 
-    active['Checking_Balance'] = transaction.balance['Checking_balance']
-    active['Savings_Balance'] = transaction.balance['Savings_balance']
-    active['Transaction_History'] = transaction.transactions
+    current_data[CHECKING_BALANCE] = transaction.balance[CHECKING_BALANCE]
+    current_data[SAVINGS_BALANCE] = transaction.balance[SAVINGS_BALANCE]
+    current_data[TRANSACTION_HISTORY] = transaction.transactions
 
-    pusher.push_to_database(active)
+    pusher_puller.push_to_database(current_data)
