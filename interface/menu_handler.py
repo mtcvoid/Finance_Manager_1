@@ -33,7 +33,7 @@ Dependencies:
 -------------
 - Requires functions from `interface.user_interaction` to handle user choice selection (e.g., `get_user_choice`).
 """
-from interface.user_interface_transactions import transaction_interaction, transaction_vew_balance
+from interface.user_interface_transactions import transaction_interaction, transaction_view_balance
 from interface.user_interface_bill_tracker import *
 from interface.user_interface_budget import *
 from interface.user_interface_market_watch import *
@@ -169,7 +169,7 @@ def menu_holder(active_user=None):
         ],
 
         'User Account Menu': [
-            (1, 'View Balances', lambda: transaction_vew_balance(active_user)),  # Pass the active user
+            (1, 'View Balances', lambda: transaction_view_balance(active_user)),  # Pass the active user
             (2, 'Deposit', lambda: transaction_interaction('deposit', active_user)),
             (3, 'Withdrawal', lambda: transaction_interaction('withdrawal', active_user)),
             (4, 'View Bill Tracker', lambda: user_add_bill(active_user)),
