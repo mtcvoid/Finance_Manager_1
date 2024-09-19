@@ -1,5 +1,4 @@
-import json
-from account_objects.accounting.transactions import Transactions
+from data_handler.variables.constants import *
 
 
 class ActiveAccount:
@@ -14,30 +13,9 @@ class ActiveAccount:
         self.checking_balance = checking_balance
         self.savings_balance = savings_balance
 
-    def __repr__(self):
-        # Returning dictionary representation in __repr__
-        return {
-            "user_id": self._user_id,
-            "Account_Holder_Name": self.holder_name,
-            "user_name": self.user_name,
-            "checking_balance": self.checking_balance,
-            "savings_balance": self.savings_balance,
-            "current_budget_warnings": self.current_budget_warnings,
-            "transaction_history": self.transactions
-        }
-
-    def view_account_details(self, checking_balance, savings_balance):
-        return (f"""
-********************************
-Account ID: {self._user_id}
-Account Holder: {self.holder_name}
-Checking Balance: {checking_balance}
-Savings Balance: {savings_balance}
-********************************""")
-
     def get_account_details(self):
-        return {'User_ID': self._user_id, 'Account_Holder_Name': self.holder_name, 'User_name': self.user_name,
-                'User_password': self._user_password, 'Transaction_History': self.transactions,
-                'Checking_Balance': self.checking_balance,
-                'Savings_Balance': self.savings_balance,
-                'Current_Budget_Warnings': self.current_budget_warnings}
+        return {USER_ID: self._user_id, ACCOUNT_HOLDER_NAME: self.holder_name, USER_NAME: self.user_name,
+                USER_PASSWORD: self._user_password, TRANSACTION_HISTORY: self.transactions,
+                CHECKING_BALANCE: self.checking_balance,
+                SAVINGS_BALANCE: self.savings_balance,
+                CURRENT_BUDGET_WARNINGS: self.current_budget_warnings}
