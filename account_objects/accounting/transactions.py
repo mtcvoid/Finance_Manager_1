@@ -1,3 +1,5 @@
+from data_handler.variables.constants import *
+
 class Transactions:
     CHECKING = 'checking'
     SAVINGS = 'savings'
@@ -43,21 +45,21 @@ class Transactions:
         else:
             if transaction_type == Transactions.DEPOSIT:
                 if account == Transactions.CHECKING:
-                    self.balance['checking_balance'] += amount
+                    self.balance[CHECKING_BALANCE] += amount
                     self.transactions.append((account, amount))
                 elif account == Transactions.SAVINGS:
-                    self.balance['savings_balance'] += amount
+                    self.balance[SAVINGS_BALANCE] += amount
                     self.transactions.append((account, amount))
             elif transaction_type == Transactions.WITHDRAWAL:
                 if account == Transactions.CHECKING:
                     if self.over_draft_checker(Transactions.CHECKING, amount):
-                        self.balance['checking_balance'] -= amount
+                        self.balance[CHECKING_BALANCE] -= amount
                         self.transactions.append((account, -amount))
                     else:
                         print(f'${amount} would cause an overdraft. Please try again.')
                 elif account == Transactions.SAVINGS:
                     if self.over_draft_checker(Transactions.SAVINGS, amount):
-                        self.balance['savings_balance'] -= amount
+                        self.balance[SAVINGS_BALANCE] -= amount
                         self.transactions.append((account, -amount))
                     else:
                         print(f'${amount} would cause an overdraft. Please try again.')
@@ -76,12 +78,12 @@ class Transactions:
             bool: True if the account has enough balance for the withdrawal, False if it would result in an overdraft.
         """
         if account == Transactions.CHECKING:
-            if self.balance['checking_balance'] - amount >= 0:
+            if self.balance[CHECKING_BALANCE] - amount >= 0:
                 return True
             else:
                 return False
         elif account == Transactions.SAVINGS:
-            if self.balance['savings_balance'] - amount >= 0:
+            if self.balance[SAVINGS_BALANCE] - amount >= 0:
                 return True
             else:
                 return False
@@ -106,11 +108,11 @@ class Transactions:
             None
         """
         if transfer_account == 'Checking':
-            self.balance['checking_balance'] -= amount
-            self.balance['savings_balance'] += amount
+            self.balance[CHECKING_BALANCE] -= amount
+            self.balance[SAVINGS_BALANCE] += amount
         elif transfer_account == 'Savings':
-            self.balance['savings_balance'] -= amount
-            self.balance['checking_balance'] += amount
+            self.balance[SAVINGS_BALANCE] -= amount
+            self.balance[CHECKING_BALANCE] += amount
 
     def view_balances(self):
         pass
