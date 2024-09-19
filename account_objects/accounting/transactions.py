@@ -14,7 +14,7 @@ class Transactions:
             balance (dict): A dictionary storing the current balance of both Checking and Savings accounts.
         """
         self.transactions = []
-        self.balance = {'Checking_balance': 0, 'Savings_balance': 0}
+        self.balance = {'checking_balance': 0, 'savings_balance': 0}
 
     def deposit_withdrawal(self, account: str, transaction_type: str, amount: float = 0):
         """
@@ -43,24 +43,24 @@ class Transactions:
         else:
             if transaction_type == Transactions.DEPOSIT:
                 if account == Transactions.CHECKING:
-                    self.balance['Checking_balance'] += amount
+                    self.balance['checking_balance'] += amount
                     self.transactions.append((account, amount))
                 elif account == Transactions.SAVINGS:
-                    self.balance['Savings_balance'] += amount
+                    self.balance['savings_balance'] += amount
                     self.transactions.append((account, amount))
             elif transaction_type == Transactions.WITHDRAWAL:
                 if account == Transactions.CHECKING:
                     if self.over_draft_checker(Transactions.CHECKING, amount):
-                        self.balance['Checking_balance'] -= amount
+                        self.balance['checking_balance'] -= amount
                         self.transactions.append((account, -amount))
                     else:
-                        return f'${amount} would cause an overdraft. Please choose another amount'
+                        print(f'${amount} would cause an overdraft. Please try again.')
                 elif account == Transactions.SAVINGS:
                     if self.over_draft_checker(Transactions.SAVINGS, amount):
-                        self.balance['Savings_balance'] -= amount
+                        self.balance['savings_balance'] -= amount
                         self.transactions.append((account, -amount))
                     else:
-                        return f'${amount} would cause an overdraft. Please choose another amount'
+                        print(f'${amount} would cause an overdraft. Please try again.')
 
     def over_draft_checker(self, account, amount: float):
         """
@@ -76,12 +76,12 @@ class Transactions:
             bool: True if the account has enough balance for the withdrawal, False if it would result in an overdraft.
         """
         if account == Transactions.CHECKING:
-            if self.balance['Checking_balance'] - amount >= 0:
+            if self.balance['checking_balance'] - amount >= 0:
                 return True
             else:
                 return False
         elif account == Transactions.SAVINGS:
-            if self.balance['Savings_balance'] - amount >= 0:
+            if self.balance['savings_balance'] - amount >= 0:
                 return True
             else:
                 return False
@@ -106,11 +106,11 @@ class Transactions:
             None
         """
         if transfer_account == 'Checking':
-            self.balance['Checking_balance'] -= amount
-            self.balance['Savings_balance'] += amount
+            self.balance['checking_balance'] -= amount
+            self.balance['savings_balance'] += amount
         elif transfer_account == 'Savings':
-            self.balance['Savings_balance'] -= amount
-            self.balance['Checking_balance'] += amount
+            self.balance['savings_balance'] -= amount
+            self.balance['checking_balance'] += amount
 
     def view_balances(self):
         pass
