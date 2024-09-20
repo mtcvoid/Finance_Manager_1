@@ -74,7 +74,7 @@ def menu_choices(choices_and_functions):
     print("    ******************************")
 
 
-def menu_maker(menu_key):
+def menu_maker(menu_key,active_user):
     """
     Displays the menu based on the given key and handles user choice selection.
 
@@ -84,7 +84,7 @@ def menu_maker(menu_key):
     Returns:
     None
     """
-    menu_list = menu_holder()
+    menu_list = menu_holder(active_user)
     if menu_key in menu_list:
         header = menu_key
         choices_and_funcs = menu_list[menu_key]
@@ -106,6 +106,8 @@ def main_menu():
         menu_header(header)
         menu_choices(choices_and_funcs)
         get_user_choice(choices_and_funcs)
+
+
 
 
 def get_user_choice(choices_and_funcs):
@@ -143,11 +145,14 @@ def get_user_choice(choices_and_funcs):
             print("Invalid input. Please enter a number.")
 
 
-def active_user_menu(active_user):
+
+
+
+def previous_menu(active_user, menu):
     menu_list = menu_holder(active_user)
-    if 'User Account Menu' in menu_list:
-        header = 'User Account Menu'
-        choices_and_funcs = menu_list['User Account Menu']
+    if menu in menu_list:
+        header = menu
+        choices_and_funcs = menu_list[menu]
         menu_header(header)
         menu_choices(choices_and_funcs)
         get_user_choice(choices_and_funcs)
@@ -169,18 +174,18 @@ def menu_holder(active_user=None):
         ],
 
         'User Account Menu': [
-            (1, 'View Balances', lambda: transaction_view_balance(active_user)),  # Pass the active user
+            (1, 'View Balances', lambda: transaction_view_balance(active_user)),
             (2, 'Deposit', lambda: transaction_interaction('deposit', active_user)),
             (3, 'Withdrawal', lambda: transaction_interaction('withdrawal', active_user)),
-            (4, 'View Bill Tracker', lambda: user_add_bill(active_user)),
-            (5, 'View Budget', lambda: user_view_current_budget(active_user)),
-            (6, 'Personal Market Watch', 'Personal Market Watch'),
+            (4, 'View Bill Tracker', lambda:  menu_maker('Bill Tracker', active_user)),
+            (5, 'View Budget', lambda: menu_maker('Budgeted', active_user)),
+            (6, 'Personal Market Watch', lambda: menu_maker('Personal Market Watch', active_user)),
             (7, 'Return to Main Menu', main_menu)
         ],
         'Bill Tracker': [
-            (1, 'Add Bill', user_add_bill),
-            (2, 'Remove Bill', user_remove_bill),
-            (3, 'View Current List of All Bills', user_view_all_bills),
+            (1, 'Add Bill', lambda: user_add_bill(active_user)),
+            (2, 'Remove Bill', lambda: user_remove_bill(active_user)),
+            (3, 'View Current List of All Bills', lambda: user_view_all_bills()),
             (4, 'Return to Main Menu', main_menu)
         ],
 

@@ -82,11 +82,11 @@ def transaction_interaction(transaction_type, active_user_account):
 
     print('Returning to account menu...')
 
-    from interface.menu_handler import active_user_menu
+    from interface.menu_handler import menu_maker
 
     time.sleep(2)
 
-    active_user_menu(active_user_account)
+    menu_maker('User Account Menu', active_user_account)
 
 
 def transaction_view_balance(active_user_account):
@@ -131,11 +131,11 @@ def transaction_view_balance(active_user_account):
     print('Returning to account menu...')
 
     # Import the menu for returning the user to the account menu and add a short delay before calling it
-    from interface.menu_handler import active_user_menu
+    from interface.menu_handler import menu_maker
     time.sleep(2)
 
     # Return control to the active user menu after displaying the balance
-    active_user_menu(active_user_account)
+    menu_maker('User Account Menu', active_user_account)
 
 
 def transaction_handler(account, transaction_type, amount, active_user_account):
