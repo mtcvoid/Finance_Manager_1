@@ -41,6 +41,7 @@ class Account:
         self.transactions = []
         self.current_budget_warnings = 0
         self.bills = []
+        self.bill_reminders = []
 
     def view_account_details(self, checking_balance, savings_balance):
         """
@@ -82,11 +83,10 @@ Savings Balance: {savings_balance}
                 - Budget warnings
         """
         tran = Transactions()
-        trans_history = tran.transactions
 
         return {USER_ID: self._user_id, ACCOUNT_HOLDER_NAME: self.holder_name, USER_NAME: self.user_name,
                 USER_PASSWORD: self._user_password, TRANSACTION_HISTORY: self.transactions,
                 CHECKING_BALANCE: tran.balance[CHECKING_BALANCE],
                 SAVINGS_BALANCE: tran.balance[SAVINGS_BALANCE],
                 CURRENT_BUDGET_WARNINGS: self.current_budget_warnings,
-                BILLS: self.bills}
+                BILLS: self.bills, BILL_REMINDERS: self.bill_reminders }
