@@ -35,7 +35,8 @@ class DatabaseUnpacker:
             cursor = connection.cursor()
             cursor.execute('CREATE TABLE IF NOT EXISTS accountlog(userID integer primary key, account_holder_name '
                            'text, user_name text, user_password text, transaction_history text, checking_balance '
-                           'real, savings_balance real, current_budget_warnings integer, bills text)')
+                           'real, savings_balance real, current_budget_warnings integer, bills text,'
+                           'bill_reminders text)')
 
     def push_to_database(self, account_data):
         """
@@ -57,6 +58,7 @@ class DatabaseUnpacker:
                  'Savings_Balance': 3000.00,
                  'Current_Budget_Warnings': 0
                  'Bills: [name: bill_1, amount: 100, due_date: 2026-04-15]
+                 'bill_reminders : []
              }
              push_to_database(account_data)
          """
@@ -70,7 +72,8 @@ class DatabaseUnpacker:
             CHECKING_BALANCE: account_data[CHECKING_BALANCE],
             SAVINGS_BALANCE: account_data[SAVINGS_BALANCE],
             CURRENT_BUDGET_WARNINGS: account_data[CURRENT_BUDGET_WARNINGS],
-            BILLS: json.dumps(account_data[BILLS])
+            BILLS: json.dumps(account_data[BILLS]),
+            BILL_REMINDERS: json.dumps(account_data[BILL_REMINDERS])
         }
 
         with ContextManager('BankingData.db') as connection:
@@ -78,9 +81,10 @@ class DatabaseUnpacker:
             cursor.execute('''
                 INSERT INTO accountlog (userID, account_holder_name, user_name, user_password, 
                                         transaction_history, checking_balance, savings_balance, current_budget_warnings,
-                                        bills)
+                                        bills, bill_reminders )
                 VALUES (:user_id, :account_holder_name, :user_name, :user_password, 
-                        :transaction_history, :checking_balance, :savings_balance, :current_budget_warnings, :bills)
+                        :transaction_history, :checking_balance, :savings_balance, :current_budget_warnings, :bills,
+                        :bill_reminders)
                 ON CONFLICT(userID) DO UPDATE SET 
                     account_holder_name = excluded.account_holder_name,
                     user_name = excluded.user_name,
@@ -90,6 +94,7 @@ class DatabaseUnpacker:
                     savings_balance = excluded.savings_balance,
                     current_budget_warnings = excluded.current_budget_warnings,
                     bills = excluded.bills
+                    bill_reminders = excluded.bill_reminders
             ''', data_converter)
 
     def pull_from_database(self, user_id):
@@ -141,7 +146,8 @@ class DatabaseUnpacker:
                     CHECKING_BALANCE: row[5],
                     SAVINGS_BALANCE: row[6],
                     CURRENT_BUDGET_WARNINGS: row[7],
-                    BILLS: row[8]
+                    BILLS: row[8],
+                    BILL_REMINDERS: row[9]
                 }
 
                 return account_info
@@ -256,12 +262,14 @@ class DatabaseUnpacker:
                             account_info[CHECKING_BALANCE],
                             account_info[SAVINGS_BALANCE],
                             account_info[CURRENT_BUDGET_WARNINGS],
-                            account_info[BILLS]
-                        )
+                            account_info[BILLS],
+                            account_info[BILL_REMINDERS])
 
-                        from interface.menu_handler import active_user_menu  # negates circular imports
+                        from interface.menu_handler import menu_maker  # negates circular imports
                         # Call active_user_menu to allow further actions on the selected account.
-                        active_user_menu(active)
+                        menu_maker('User Account Menu', active)
+
+
 
                     else:
                         # If the user does not confirm the selection.
