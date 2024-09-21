@@ -74,7 +74,7 @@ def menu_choices(choices_and_functions):
     print("    ******************************")
 
 
-def menu_maker(menu_key,active_user):
+def menu_maker(menu_key, active_user):
     """
     Displays the menu based on the given key and handles user choice selection.
 
@@ -106,8 +106,6 @@ def main_menu():
         menu_header(header)
         menu_choices(choices_and_funcs)
         get_user_choice(choices_and_funcs)
-
-
 
 
 def get_user_choice(choices_and_funcs):
@@ -145,21 +143,6 @@ def get_user_choice(choices_and_funcs):
             print("Invalid input. Please enter a number.")
 
 
-
-
-
-def previous_menu(active_user, menu):
-    menu_list = menu_holder(active_user)
-    if menu in menu_list:
-        header = menu
-        choices_and_funcs = menu_list[menu]
-        menu_header(header)
-        menu_choices(choices_and_funcs)
-        get_user_choice(choices_and_funcs)
-    else:
-        print('Error test')
-
-
 def menu_holder(active_user=None):
     menu_list = {
         'Main Menu': [
@@ -177,7 +160,7 @@ def menu_holder(active_user=None):
             (1, 'View Balances', lambda: transaction_view_balance(active_user)),
             (2, 'Deposit', lambda: transaction_interaction('deposit', active_user)),
             (3, 'Withdrawal', lambda: transaction_interaction('withdrawal', active_user)),
-            (4, 'View Bill Tracker', lambda:  menu_maker('Bill Tracker', active_user)),
+            (4, 'View Bill Tracker', lambda: menu_maker('Bill Tracker', active_user)),
             (5, 'View Budget', lambda: menu_maker('Budgeted', active_user)),
             (6, 'Personal Market Watch', lambda: menu_maker('Personal Market Watch', active_user)),
             (7, 'Return to Main Menu', main_menu)
@@ -185,7 +168,7 @@ def menu_holder(active_user=None):
         'Bill Tracker': [
             (1, 'Add Bill', lambda: user_add_bill(active_user)),
             (2, 'Remove Bill', lambda: user_remove_bill(active_user)),
-            (3, 'View Current List of All Bills', lambda: user_view_all_bills()),
+            (3, 'View Current List of All Bills', lambda: user_get_bill_reminders(active_user)),
             (4, 'Return to Main Menu', main_menu)
         ],
 
