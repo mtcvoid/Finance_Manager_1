@@ -1,5 +1,43 @@
 """
-handles user interaction for bill tracker
+User Interface for Bill Tracker
+
+This module handles the interaction between the user and the bill tracking system. It provides
+functions that allow users to add new bills, retrieve bill reminders, and (in the future)
+remove bills. The module integrates with the `BillHandler` class for bill management and
+interacts with the database to store and retrieve bill-related information.
+
+Main Features:
+- **Add Bills**: Prompts the user to enter details for a new bill (name, total amount, and due date)
+  and adds the bill to the user's account, which is then saved to the database.
+- **Bill Reminders**: Retrieves all bills from the database, calculates the number of days until
+  their due date, and displays the reminders to the user.
+- **Remove Bills**: A placeholder function for removing bills from the user's account (functionality
+  to be implemented).
+
+Functions:
+    - `user_add_bill(active_user_account)`: Collects user input to add a new bill to the user's account
+      and updates the database with the new bill information.
+    - `user_remove_bill(active_user_account)`: (Currently a placeholder) Will allow the user to remove
+      a bill from their account.
+    - `user_get_bill_reminders(active_user_account)`: Retrieves bill reminders from the database and
+      displays the due dates for the user's bills.
+
+Dependencies:
+    - `time`: Used to introduce delays for user experience, e.g., returning to menus.
+    - `interface.user_interface_general`: Provides helper functions for user interactions, such as input validation
+      and confirmations.
+    - `mods.bill_tracker.bill_tracking_handler`: The `BillHandler` class is used for managing bill logic.
+    - `data_handler.database.data_base_handler`: Interacts with the database to store and retrieve user bills.
+
+Usage Example:
+    active_user_account = get_active_user()  # Assume this retrieves the currently logged-in user.
+    user_add_bill(active_user_account)       # Allows the user to add a new bill.
+    user_get_bill_reminders(active_user_account)  # Retrieves and displays bill reminders.
+
+Notes:
+    - The `DatabaseUnpacker` class handles interactions with the database, ensuring that bill data is
+      correctly saved and retrieved.
+    - The date format for due dates must follow the 'YYYY-MM-DD' format.
 """
 import time
 
