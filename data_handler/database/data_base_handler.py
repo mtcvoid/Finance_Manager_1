@@ -65,7 +65,8 @@ class DatabaseUnpacker:
 
         # handles the json conversion while still being able to move the data in one variable to database.
         data_converter = {
-            USER_ID: account_data[USER_ID], ACCOUNT_HOLDER_NAME: account_data[ACCOUNT_HOLDER_NAME],
+            USER_ID: account_data[USER_ID],
+            ACCOUNT_HOLDER_NAME: account_data[ACCOUNT_HOLDER_NAME],
             USER_NAME: account_data[USER_NAME],
             USER_PASSWORD: account_data[USER_PASSWORD],
             TRANSACTION_HISTORY: json.dumps(account_data[TRANSACTION_HISTORY]),
@@ -81,7 +82,7 @@ class DatabaseUnpacker:
             cursor.execute('''
                 INSERT INTO accountlog (userID, account_holder_name, user_name, user_password, 
                                         transaction_history, checking_balance, savings_balance, current_budget_warnings,
-                                        bills, bill_reminders )
+                                        bills, bill_reminders)
                 VALUES (:user_id, :account_holder_name, :user_name, :user_password, 
                         :transaction_history, :checking_balance, :savings_balance, :current_budget_warnings, :bills,
                         :bill_reminders)
@@ -93,7 +94,7 @@ class DatabaseUnpacker:
                     checking_balance = excluded.checking_balance,
                     savings_balance = excluded.savings_balance,
                     current_budget_warnings = excluded.current_budget_warnings,
-                    bills = excluded.bills
+                    bills = excluded.bills,
                     bill_reminders = excluded.bill_reminders
             ''', data_converter)
 
@@ -146,8 +147,8 @@ class DatabaseUnpacker:
                     CHECKING_BALANCE: row[5],
                     SAVINGS_BALANCE: row[6],
                     CURRENT_BUDGET_WARNINGS: row[7],
-                    BILLS: row[8],
-                    BILL_REMINDERS: row[9]
+                    BILLS: json.loads(row[8]),
+                    BILL_REMINDERS: json.loads(row[9])
                 }
 
                 return account_info
