@@ -44,11 +44,13 @@ def user_add_bill(active_user_account):
         bill_handler.add_bill(name, total, date, current_date=None, paid=None, days=None)
 
         # bill object gets transferred back to user for push to database
-        for bill in bill_handler.bills:
-            handler.append(bill)
+
+        handler.append(bill_handler.bills)
+
+        current_data[BILLS] = handler
 
         # Push the updated account data back into the database to save the changes
-        pusher_puller.push_to_database(handler)
+        pusher_puller.push_to_database(current_data)
 
         # returns to previous menu
         from interface.menu_handler import previous_menu
