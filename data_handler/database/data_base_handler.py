@@ -137,18 +137,22 @@ class DatabaseUnpacker:
             row = cursor.fetchone()  # Fetch only one row corresponding to the specific userID
 
             if row:
+                transaction_history_data = row[4] if row[4] else '[]'
+                bills_data = row[8] if row[8] else '[]'
+                bills_reminder_data = row[9] if row[9] else '[]'
+
                 # Map the fetched row into a dictionary
                 account_info = {
                     USER_ID: row[0],
                     ACCOUNT_HOLDER_NAME: row[1],
                     USER_NAME: row[2],
                     USER_PASSWORD: row[3],
-                    TRANSACTION_HISTORY: json.loads(row[4]),
+                    TRANSACTION_HISTORY: json.loads(transaction_history_data),
                     CHECKING_BALANCE: row[5],
                     SAVINGS_BALANCE: row[6],
                     CURRENT_BUDGET_WARNINGS: row[7],
-                    BILLS: json.loads(row[8]),
-                    BILL_REMINDERS: json.loads(row[9])
+                    BILLS: json.loads(bills_data),
+                    BILL_REMINDERS: json.loads(bills_reminder_data)
                 }
 
                 return account_info
