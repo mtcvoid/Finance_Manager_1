@@ -100,7 +100,7 @@ def user_add_bill(active_user_account):
 
         # bill object gets transferred back to user for push to database
 
-        # the problem is here
+
         for items in bill_handler.bills:
             handler.append(items)
 

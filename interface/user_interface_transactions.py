@@ -181,7 +181,9 @@ def transaction_handler(account, transaction_type, amount, active_user_account):
     # Update the current account data with the new balances and transaction history
     current_data[CHECKING_BALANCE] = transaction.balance[CHECKING_BALANCE]
     current_data[SAVINGS_BALANCE] = transaction.balance[SAVINGS_BALANCE]
-    current_data[TRANSACTION_HISTORY] = transaction.transactions
+
+    for item in transaction.transactions[:]:
+        current_data[TRANSACTION_HISTORY].append(item)
 
     # Push the updated account data back into the database to save the changes
     pusher_puller.push_to_database(current_data)
