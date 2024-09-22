@@ -1,9 +1,9 @@
+import json
+
+from account_objects.accounts.active_account import ActiveAccount
 from data_handler.context_manager.context_manager import ContextManager
-from data_handler.variables.constants import *
 from interface.menu_handler import *
 from interface.user_interface_general import get_user_confirmation
-from account_objects.accounts.active_account import ActiveAccount
-import json
 
 
 class DatabaseUnpacker:
