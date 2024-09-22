@@ -84,18 +84,18 @@ class BillHandler:
         and printing the reminder information for each bill.
         """
         for bill in self.bills:
-            for item in bill:
-                bill_name = item.get(BILLS)
 
-                current_date = datetime.now().date()
+            bill_name = bill.get(BILLS)
 
-                due_date = datetime.strptime(item.get(DUE_DATE), '%Y-%m-%d').date()
+            current_date = datetime.now().date()
 
-                days = (due_date - current_date).days
+            due_date = datetime.strptime(bill.get(DUE_DATE), '%Y-%m-%d').date()
 
-                paid = item.get(PAID)
+            days = (due_date - current_date).days
 
-                print(
+            paid = bill.get(PAID)
+
+            print(
 f'''Bill: {bill_name}
 Due: {due_date}
 Days till due: {days}
