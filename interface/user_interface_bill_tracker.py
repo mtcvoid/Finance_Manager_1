@@ -100,7 +100,9 @@ def user_add_bill(active_user_account):
 
         # bill object gets transferred back to user for push to database
 
-        handler.append(bill_handler.bills)
+        # the problem is here
+        for items in bill_handler.bills:
+            handler.append(items)
 
         current_data[BILLS] = handler
 
@@ -120,16 +122,41 @@ def user_add_bill(active_user_account):
 
 
 def user_remove_bill(active_user_account):
-    """
-    Placeholder function for removing a bill from the user's account.
+    from data_handler.database.data_base_handler import DatabaseUnpacker
+    from interface.menu_handler import menu_maker
 
-    Args:
-        active_user_account (object): The active user's account object, which contains their account details.
+    # object creation to handle bills and database
+    bill_handler = BillHandler()
+    pusher_puller = DatabaseUnpacker()
 
-    Note:
-        This function is currently a placeholder and has no implemented functionality.
-    """
-    pass
+    # Get the active user's account details.
+    active = active_user_account.get_account_details()
+    current_data = pusher_puller.pull_from_database(active[USER_ID])
+
+    bills_list = current_data[BILLS]  # returns a list of dictionaries
+
+    name_confirm = input_with_validation('Please enter the name of the bill you would like to remove: ')
+
+    # moves items from bills_list into the handler to get processed.
+    for item in bills_list:
+        bill_handler.bills().append(item)
+
+    # removes bill from list and returns updated list to be passed back to active account
+    updated_bill_list = bill_handler.remove_bill(name_confirm)
+
+    # moves list back to active account
+    current_data[BILLS] = updated_bill_list
+
+    # pushes active account information back to database
+    pusher_puller.push_to_database(current_data)
+
+    # Return to the previous menu.
+    print('Bill removed.')
+    time.sleep(1)
+    print('Returning to main menu....')
+    time.sleep(2)
+    from interface.menu_handler import menu_maker
+    menu_maker('Bill Tracker', active_user_account)
 
 
 def user_get_bill_reminders(active_user_account):
@@ -169,6 +196,6 @@ def user_get_bill_reminders(active_user_account):
     bill_handler.get_bill_reminders()
 
     # Return to the previous menu.
-    print('Returning to main menu....')
+    print('Returning to Bill Tracker....')
     time.sleep(2)
     menu_maker('Bill Tracker', active_user_account)
