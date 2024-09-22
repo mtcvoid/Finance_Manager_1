@@ -169,7 +169,7 @@ def transaction_handler(account, transaction_type, amount, active_user_account):
     current_data = pusher_puller.pull_from_database(active[USER_ID])
 
     # Retrieve the current transaction history from the database and set it in the transaction object
-    transaction.transactions = current_data[TRANSACTION_HISTORY]
+    transaction.transactions = current_data[TRANSACTION_HISTORY][:]  # make a copy of list to handle double copies.
 
     # Set the checking and savings balances in the transaction object from the current database data
     transaction.balance[CHECKING_BALANCE] = current_data[CHECKING_BALANCE]
@@ -182,8 +182,13 @@ def transaction_handler(account, transaction_type, amount, active_user_account):
     current_data[CHECKING_BALANCE] = transaction.balance[CHECKING_BALANCE]
     current_data[SAVINGS_BALANCE] = transaction.balance[SAVINGS_BALANCE]
 
+    # Prevent duplicates by checking if the transaction already exists in the history
     for item in transaction.transactions[:]:
-        current_data[TRANSACTION_HISTORY].append(item)
+        if item not in current_data[TRANSACTION_HISTORY]:
+            current_data[TRANSACTION_HISTORY].append(item)
+
+    # Clear the transactions after processing to avoid duplicate additions in the future
+    transaction.transactions.clear()
 
     # Push the updated account data back into the database to save the changes
     pusher_puller.push_to_database(current_data)
