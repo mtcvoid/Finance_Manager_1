@@ -76,6 +76,7 @@ class BillHandler:
         for bill in self.bills:
             if bill[BILLS] == bill_name:
                 self.bills.remove(bill)
+                return self.bills
 
     def get_bill_reminders(self):
         """
@@ -111,5 +112,3 @@ paid: {paid}
         for bill in self.bills:
             if bill[BILLS] == bill_name:
                 bill[PAID] = YES
-
-
