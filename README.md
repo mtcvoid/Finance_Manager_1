@@ -1,86 +1,131 @@
 
-Finance Manager Application
+# Free Finance - Financial Management System
 
-Overview
---------
+## Project Overview
 
-The Finance Manager application is a terminal-based financial account management tool that allows users to interact with various account-related functionalities, including account creation, modification, and data management. The application presents a simple menu-driven interface, enabling users to navigate and perform financial tasks intuitively.
+Free Finance is a modular financial management system designed to handle multiple aspects of personal finance, including:
+- Account management
+- Transaction processing
+- Budgeting and bill tracking
+- Market watch for financial updates
 
-Features
---------
+The project includes unit testing for core functionalities and supports database management for storing and retrieving financial data.
 
-- Account Management:
-  - Create new accounts.
-  - Select and modify existing accounts.
-- Menu-Driven Interface:
-  - Provides an easy-to-use menu system for navigating different options.
-- Modular Design:
-  - The application is organized into different modules, each responsible for specific aspects of the program, making it easily extendable and maintainable.
+## Project Structure
 
-Project Structure
------------------
+The project is organized as follows:
 
-Finance_Manager_1-master/
-├── account_objects/           # Handles financial account-related objects and classes
-├── data_handler/              # Manages data storage, retrieval, and modification
-├── interface/                 # Contains user interface and menu handling
-│   ├── menu_handler.py        # Builds and manages menus for user interaction
-│   └── user_interaction.py    # Handles input/output with users
-├── main/                      # Core application logic
-│   └── app.py                 # Entry point for the application
-├── mods/                      # Contains any additional modifications or enhancements
-├── testing/                   # Unit tests for the various modules
-└── README.md                  # Project description and instructions
+```plaintext
+Free_Finance-master/
+│
+├── account_objects/
+│   ├── accounting/         # Handles financial transactions
+│   └── accounts/           # Manages user accounts (creation, listing, etc.)
+│
+├── data_handler/
+│   ├── context_manager/    # Manages the execution context (sessions, transactions)
+│   ├── database/           # Interacts with the database for persistent data storage
+│   └── variables/          # Stores constants and configurations
+│
+├── interface/              # Contains user interface components for different finance modules
+│   ├── user_interface_bill_tracker.py
+│   ├── user_interface_budget.py
+│   └── ...
+│
+├── mods/                   # Feature modules (e.g., bill tracking, budgeting, market watch)
+│   ├── bill_tracker/
+│   ├── budget/
+│   └── market_watch/
+│
+├── testing/                # Unit tests for the project
+│   ├── account_transaction_unit_test.py
+│   ├── database_unit_testing.py
+│   └── ...
+│
+└── main/
+    └── app.py              # Main entry point for running the application
+```
 
-How It Works
-------------
+## Features
 
-The application is based on a menu-driven system where users are presented with different options based on the available actions. These menus are built using Python and organized in the interface module, specifically within the menu_handler.py file.
+### 1. Account Management
+The `account_objects` package handles account-related tasks such as:
+- **Account creation** (`account_creator.py`)
+- **Account listing** (`Account_list.py`)
+- **Transaction management** (`transactions.py`)
 
-Main Components
----------------
+### 2. Data Handling
+The `data_handler` package manages the flow and storage of financial data. Key components include:
+- **Database interaction** (`data_base_handler.py`)
+- **Context management** for transactions (`context_manager.py`)
+- **Constants and configurations** (`constants.py`)
 
-- app.py (Main entry point): The app.py file starts the application by invoking the main_menu() function from menu_handler.py. This initializes the first user interaction.
+### 3. User Interface
+The `interface` package defines various user interfaces:
+- **Budgeting** (`user_interface_budget.py`)
+- **Bill tracker** (`user_interface_bill_tracker.py`)
+- **Market watch** for real-time financial updates (`user_interface_market_watch.py`)
 
-- menu_handler.py: This file is responsible for displaying menus, handling user selections, and calling the corresponding functions for each menu option. It uses a dictionary structure (MENU_LIST) to map options to specific functions like "Create Account" or "Choose Account."
+### 4. Modular Features
+The `mods` package includes feature-specific modules, like:
+- **Bill Tracker** (`bill_tracking_handler.py`)
+- **Budget Management** (`budget_handler.py`)
+- **Market Watch** (`market_watch_handler.py`)
 
-- Account Management: The actual account management functionality is modularized in the account_objects/ folder, which handles the creation, modification, and retrieval of account data.
+### 5. Testing
+The project includes unit tests to verify the functionality of key components, found in the `testing/` directory. You can run these tests to ensure everything works as expected.
 
-Example Flow
-------------
+## Installation
 
-1. Main Menu: The program first displays the main menu with options like "Create Account" or "Choose Account."
-2. User Input: Based on the user's choice, the program executes the corresponding function. For example, selecting "Create Account" leads to the account creation process.
-3. Submenus: Depending on the action, the program may present further submenus to refine the user's choice or collect additional information.
+### Prerequisites
+Ensure you have the following software installed:
+- Python 3.x
+- Pip (Python package manager)
+- Any required packages listed in `requirements.txt` (if provided)
 
-Dependencies
-------------
+### Steps
 
-This application uses only Python's standard libraries, making it lightweight and easy to run. However, it is important to ensure that Python 3.x is installed on your machine.
+1. Clone the repository to your local machine:
+   ```bash
+   git clone https://github.com/yourusername/Free_Finance.git
+   ```
 
-Installation
-------------
+2. Navigate to the project directory:
+   ```bash
+   cd Free_Finance-master
+   ```
 
-To get started with the Finance Manager application, follow these steps:
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-1. Clone this repository or download the zip file.
-2. Ensure that you have Python 3.x installed.
-3. Navigate to the project directory.
-4. Run the application:
-   python3 main/app.py
+4. Run the main application:
+   ```bash
+   python main/app.py
+   ```
 
-Testing
--------
+## Usage
 
-The testing/ folder contains unit tests for various components of the application. To run the tests, use the following command:
+Once the application is running, you can:
+- Create and manage accounts
+- Track expenses and income
+- Monitor bills and budgeting performance
+- Watch market trends for financial instruments
 
-python3 -m unittest discover -s testing
+## Running Tests
 
-Future Improvements
--------------------
+To run the unit tests:
+```bash
+pytest testing/
+```
 
-- Add more financial functionalities such as transaction tracking and report generation.
-- Implement data encryption for enhanced security.
-- Expand the account options with more detailed financial information.
+The tests will cover functionality such as account transactions, database interactions, and user interface interactions.
 
+## Contribution
 
+Contributions are welcome! If you'd like to improve the project or add features, feel free to submit a pull request. Be sure to include tests for any new features.
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
