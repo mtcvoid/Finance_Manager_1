@@ -1,6 +1,6 @@
 import json
 
-from account_objects.accounts.active_account import ActiveAccount
+from account_objects.accounts.account import Account
 from data_handler.context_manager.context_manager import ContextManager
 from interface.menu_handler import *
 from interface.user_interface_general import get_user_confirmation
@@ -258,7 +258,7 @@ class DatabaseUnpacker:
                         account_info = handler.pull_from_database(selected_user[1])  # Pull user data by user ID.
 
                         # Create an ActiveAccount object using the retrieved data.
-                        active = ActiveAccount(
+                        active = Account(
                             account_info[USER_ID],
                             account_info[ACCOUNT_HOLDER_NAME],
                             account_info[USER_NAME],
@@ -271,7 +271,7 @@ class DatabaseUnpacker:
                             account_info[BILL_REMINDERS])
 
                         from interface.menu_handler import menu_maker  # negates circular imports
-                        # Call active_user_menu to allow further actions on the selected account.
+                        # Call menu_maker to allow further actions on the selected account.
                         menu_maker('User Account Menu', active)
 
 
