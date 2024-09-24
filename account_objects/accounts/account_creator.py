@@ -27,6 +27,7 @@ Dependencies:
 - Requires input validation and user interaction functions from `interface.user_interaction`
   (e.g., `input_with_validation`, `get_user_confirmation`).
 """
+import random
 
 from interface.user_interface_general import *
 from account_objects.accounts.account import Account
@@ -113,8 +114,10 @@ def create_new_account():
     if not holder_name:
         return None
 
+    # Create a random identification number
+    user_id = random.randint(1,31000)
     # Creates account object from user input
-    account = Account(user_name, new_password, holder_name)
+    account = Account(user_id, holder_name,user_name, new_password)
 
     # sets up object to pull data from new account
     data_handler = DatabaseUnpacker()
@@ -154,3 +157,10 @@ The following information will be required for creating a new account.
                             **
     """)
 
+
+def print_account_creation_banner_advanced():
+    pass
+
+
+def set_new_user_id():
+    return random.randint(1, 31000)
