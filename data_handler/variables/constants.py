@@ -5,6 +5,15 @@ USER_ID = 'user_id'
 ACCOUNT_HOLDER_NAME = 'account_holder_name'
 USER_NAME = 'user_name'
 USER_PASSWORD = 'user_password'
+MONTHLY_INCOME = 'monthly_income'
+EXPENSES = 'expenses'
+BUDGETS = 'budgets'
+BUDGET_ALERTS = 'budget_alerts'
+CURRENT_DEBT = 'current_debt'
+TOTAL_DEBT = 'total_debt'
+ASSETS = 'assets'
+CREDIT_CARD_BALANCES_AND_LIMITS = 'credit_card_balances_and_limits'
+NETWORTH = 'net_worth'
 
 # transactions and accounting
 TRANSACTION_HISTORY = 'transaction_history'
@@ -23,7 +32,7 @@ DAYS = 'days'
 YES = 'yes'
 NO = 'no'
 
-#debt handler
+# debt handler
 ADD = 'add'
 REMOVE = 'remove'
 ESSENTIAL_EXPENSES = 'essential expenses'
@@ -52,5 +61,3 @@ RETIREMENT_SAVINGS = 'retirement savings'
 INVESTMENTS = 'investments'
 EDUCATION_SAVINGS = 'education savings'
 MAJOR_PURCHASES = 'major purchases'
-
-
