@@ -36,7 +36,9 @@ class DatabaseUnpacker:
             cursor.execute('CREATE TABLE IF NOT EXISTS accountlog(userID integer primary key, account_holder_name '
                            'text, user_name text, user_password text, transaction_history text, checking_balance '
                            'real, savings_balance real, current_budget_warnings integer, bills text,'
-                           'bill_reminders text)')
+                           'bill_reminders text, monthly_income int, expenses text, budgets text, budget_alerts text,'
+                           'current_debt text, total_debt int, assets int, credit_card_balances_and_limits text,'
+                           'net_worth int )')
 
     def push_to_database(self, account_data):
         """
@@ -72,20 +74,31 @@ class DatabaseUnpacker:
             TRANSACTION_HISTORY: json.dumps(account_data[TRANSACTION_HISTORY]),
             CHECKING_BALANCE: account_data[CHECKING_BALANCE],
             SAVINGS_BALANCE: account_data[SAVINGS_BALANCE],
-            CURRENT_BUDGET_WARNINGS: account_data[CURRENT_BUDGET_WARNINGS],
+            CURRENT_BUDGET_WARNINGS: json.dumps(account_data[CURRENT_BUDGET_WARNINGS]),
             BILLS: json.dumps(account_data[BILLS]),
-            BILL_REMINDERS: json.dumps(account_data[BILL_REMINDERS])
-        }
+            BILL_REMINDERS: json.dumps(account_data[BILL_REMINDERS]),
+            MONTHLY_INCOME: account_data[MONTHLY_INCOME],
+            EXPENSES: json.dumps(account_data[EXPENSES]),
+            BUDGETS: json.dumps(account_data[BUDGETS]),
+            BUDGET_ALERTS: json.dumps(account_data[BUDGET_ALERTS]),
+            CURRENT_DEBT: json.dumps([CURRENT_DEBT]),
+            TOTAL_DEBT: account_data[TOTAL_DEBT],
+            ASSETS: account_data[ASSETS],
+            CREDIT_CARD_BALANCES_AND_LIMITS: json.dumps(account_data[CREDIT_CARD_BALANCES_AND_LIMITS]),
+            NETWORTH: account_data[NETWORTH]}
 
         with ContextManager('BankingData.db') as connection:
             cursor = connection.cursor()
             cursor.execute('''
                 INSERT INTO accountlog (userID, account_holder_name, user_name, user_password, 
                                         transaction_history, checking_balance, savings_balance, current_budget_warnings,
-                                        bills, bill_reminders)
+                                        bills, bill_reminders, monthly_income, expenses, budgets, budget_alerts, 
+                                        current_debt, total_debt, assets, credit_card_balances_and_limits,
+                                        net_worth)
                 VALUES (:user_id, :account_holder_name, :user_name, :user_password, 
                         :transaction_history, :checking_balance, :savings_balance, :current_budget_warnings, :bills,
-                        :bill_reminders)
+                        :bill_reminders, :monthly_income, :expenses, :budgets, :budget_alerts, :current_debt,
+                        :total_debt, :assets, :credit_card_balances_and_limits, :net_worth)
                 ON CONFLICT(userID) DO UPDATE SET 
                     account_holder_name = excluded.account_holder_name,
                     user_name = excluded.user_name,
@@ -95,7 +108,16 @@ class DatabaseUnpacker:
                     savings_balance = excluded.savings_balance,
                     current_budget_warnings = excluded.current_budget_warnings,
                     bills = excluded.bills,
-                    bill_reminders = excluded.bill_reminders
+                    bill_reminders = excluded.bill_reminders,
+                    monthly_income = excluded.monthly_income,
+                    expenses = excluded.expenses,
+                    budgets = excluded.budgets,
+                    budget_alerts = excluded.budget_alerts,
+                    current_debt = excluded.current_debt,
+                    total_debt = excluded.total_debt,
+                    assets = excluded.assets,
+                    credit_card_balances_and_limits = excluded.credit_card_balances_and_limits,
+                    net_worth = excluded.net_worth
             ''', data_converter)
 
     def pull_from_database(self, user_id):
@@ -137,6 +159,8 @@ class DatabaseUnpacker:
             row = cursor.fetchone()  # Fetch only one row corresponding to the specific userID
 
             if row:
+
+                # this should now be taken care of with the account creation. Double check before you delete.
                 transaction_history_data = row[4] if row[4] else '[]'
                 bills_data = row[8] if row[8] else '[]'
                 bills_reminder_data = row[9] if row[9] else '[]'
@@ -147,50 +171,25 @@ class DatabaseUnpacker:
                     ACCOUNT_HOLDER_NAME: row[1],
                     USER_NAME: row[2],
                     USER_PASSWORD: row[3],
-                    TRANSACTION_HISTORY: json.loads(transaction_history_data),
+                    TRANSACTION_HISTORY: json.loads(row[4]),
                     CHECKING_BALANCE: row[5],
                     SAVINGS_BALANCE: row[6],
                     CURRENT_BUDGET_WARNINGS: row[7],
-                    BILLS: json.loads(bills_data),
-                    BILL_REMINDERS: json.loads(bills_reminder_data)
-                }
+                    BILLS: json.loads(row[8]),
+                    BILL_REMINDERS: json.loads(row[9]),
+                    MONTHLY_INCOME: row[10],
+                    EXPENSES: json.loads(row[11]),
+                    BUDGETS: json.loads(row[12]),
+                    BUDGET_ALERTS: json.loads(row[13]),
+                    CURRENT_DEBT: json.loads(row[14]),
+                    TOTAL_DEBT: row[15],
+                    ASSETS: row[16],
+                    CREDIT_CARD_BALANCES_AND_LIMITS: json.loads(row[17]),
+                    NETWORTH: row[18]}
 
                 return account_info
             else:
                 print(f'No account found for userID: {user_id}')
-
-    def get_user_choice(self, choices_and_funcs):
-        """
-         Prompts the user to select a choice from a menu. If the selected choice corresponds to a function,
-         the function is executed. Otherwise, if it corresponds to a string, the associated sub-menu is loaded.
-
-         Args:
-             choices_and_funcs (list): A list of tuples where each tuple contains a number, description,
-                                       and a function or menu key.
-         """
-        while True:
-            string_choice = input('Choice: ')
-
-            if string_choice.isdigit():
-                int_choice = int(string_choice)
-
-                # Ensure the selection is valid
-                if 1 <= int_choice <= len(choices_and_funcs):
-                    number, description, action = choices_and_funcs[int_choice - 1]
-
-                    # If it's a function, call it
-                    if callable(action):
-                        action()
-
-                    # If it's a string, use it as a key to find the next sub-menu
-                    elif isinstance(action, str):
-                        menu_maker(action)
-                    else:
-                        print(f"No sub-menu found for key: {action}")
-                else:
-                    print("Invalid choice. Please select a valid number.")
-            else:
-                print("Invalid input. Please enter a number.")
 
     def account_list_from_database(self):
         """
@@ -268,7 +267,16 @@ class DatabaseUnpacker:
                             account_info[SAVINGS_BALANCE],
                             account_info[CURRENT_BUDGET_WARNINGS],
                             account_info[BILLS],
-                            account_info[BILL_REMINDERS])
+                            account_info[BILL_REMINDERS],
+                            account_info[MONTHLY_INCOME],
+                            account_info[EXPENSES],
+                            account_info[BUDGETS],
+                            account_info[BUDGET_ALERTS],
+                            account_info[CURRENT_DEBT],
+                            account_info[TOTAL_DEBT],
+                            account_info[ASSETS],
+                            account_info[CREDIT_CARD_BALANCES_AND_LIMITS],
+                            account_info[NETWORTH])
 
                         from interface.menu_handler import menu_maker  # negates circular imports
                         # Call menu_maker to allow further actions on the selected account.
