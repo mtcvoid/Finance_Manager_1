@@ -172,7 +172,7 @@ def menu_holder(active_user=None):
             (4, 'Return to Main Menu', main_menu)
         ],
 
-        'Budgeted': [  # needs updated with current items and new menu added
+        'Budgeted': [
             (1, 'Current Budget', 'test'),
             (2, 'New Budget', 'test'),
             (3, 'Remove Budget', 'test'),
