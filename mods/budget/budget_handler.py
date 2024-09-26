@@ -27,27 +27,39 @@ class Budget:
         self.assets = 0
         self.checking_balance = 0
         self.savings_balance = 0
-        self.credit_card_balances = []
-        self.credit_card_limits = []
+        self.credit_card_information = []
         self.net_worth = 0
 
     def expense(self, expense_category: str, expense_type: str, expense_total: float):
         if expense_category == ESSENTIAL_EXPENSES:
-            pass
+            self.budgets.append({EXPENSE_CATEGORY: ESSENTIAL_EXPENSES,
+                                 EXPENSE_TYPE: expense_type, EXPENSE_TOTAL: expense_total, EXPENSE_DATE: TODAY_DATE})
+
         elif expense_category == NON_ESSENTIAL_EXPENSES:
-            pass
+            self.budgets.append({EXPENSE_CATEGORY: NON_ESSENTIAL_EXPENSES,
+                                 EXPENSE_TYPE: expense_type, EXPENSE_TOTAL: expense_total})
         elif expense_category == SAVINGS_AND_INVESTMENTS:
-            pass
+            self.budgets.append({EXPENSE_CATEGORY: SAVINGS_AND_INVESTMENTS,
+                                 EXPENSE_TYPE: expense_type, EXPENSE_TOTAL: expense_total})
         else:
             print('Please select a valid expense category.')
 
-    def add_remove_credit_info(self):
-        pass
+    def add_remove_credit_info(self, add_remove, credit_card: str, credit_debt: float, credit_limit: float):
+        if add_remove == 1:
+            self.credit_card_information.append({CREDIT_CARD: credit_card,
+                                                 CREDIT_DEBT: credit_debt, CREDIT_LIMIT: credit_limit})
+        elif add_remove == 2:
+            self.credit_card_information.remove({CREDIT_CARD: credit_card,
+                                                 CREDIT_DEBT: credit_debt, CREDIT_LIMIT: credit_limit})
 
-    def add_remove_budget(self, budget_name, budget_total):
-        self.budgets.append({'budget_name': budget_name, 'budget_total': budget_total})
-
-    def budget_alerter(self, budget_name, ):
+    def add_remove_budget(self,add_remove, budget_name, budget_total):
+        if add_remove == 1:
+            self.budgets.append({BUDGET_NAME: budget_name, BUDGET_TOTAL: budget_total})
+        elif add_remove == 2 and budget_name in self.budgets:
+            self.budgets.remove(budget_name)
+        else:
+            print('please enter a valid option')
+    def budget_alerter(self, budget_name):
         """
         needs to take in current budget name and check to see what the budget total is set at. then needs to scan all
         expenses that match that budget name. needs to return a percentage of used budget. and how many $$ the use has
@@ -56,29 +68,38 @@ class Budget:
         """
         pass
 
-    def add_remove_debt(self, debt_name, debt_total, add_or_remove):  # add date
+    def add_remove_debt(self, add_or_remove, debt_name, debt_total):  # add date
         """Adds or removes deb from debt list."""
-        if add_or_remove == ADD:
-            self.current_debt.append({'debt_name': debt_name, 'debt_total': debt_total})
-        elif add_or_remove == REMOVE:
+        if add_or_remove == 1:
+            self.current_debt.append({DEBT_NAME: debt_name, DEBT_TOTAL: debt_total})
+        elif add_or_remove == 2:
             self.current_debt.remove(debt_name) if debt_name in self.current_debt else print('Debt not found.')
         else:
             print('Please enter a valid choice.')
 
-    def debt_handler(self):
-        """
-        This mau need to be under the user section to add differnt menues to it.
+    def debt_handler(self, add_subtract, debt_name: str, amount: float):
 
-        """
-        pass
+        for item in self.current_debt:
+            if debt_name in item and add_subtract == 1:
+                item[DEBT_TOTAL] -= amount
+            elif debt_name in item and add_subtract == 2:
+                item[DEBT_TOTAL] += amount
+            else:
+                print('Debt not found.')
 
     def net_savings(self):
-        #Net Savings = Income – Expenses
-        pass
+        #Net Savings = Income – Expense
+        total_expenses = 0
+        for item in self.expenses:
+            total_expenses += item['Expense Total']
 
-    def savings_rate(self):
+        net_savings = self.monthly_income - total_expenses
+        return net_savings
+
+    def savings_rate(self, ):
         #Savings Rate (%) = (Savings ÷ Income) × 100
-        pass
+        savings_rate = self.savings_balance / self.monthly_income
+        return savings_rate
 
     def debt_to_income_ratio(self):
         #Debt-to-Income Ratio (%) = (Debt Payments ÷ Income) × 100
@@ -102,7 +123,15 @@ A popular budgeting guideline:
 
     def emergency_fund_calculator(self):
         # Emergency Fund = 3-6 × Monthly Expenses
-        pass
+        emergency_fund = []
+        total = 0
+        for item in self.expenses:
+            if ESSENTIAL_EXPENSES in item:
+                total += item['Expense Total']
+        for multiplier in range(3, 7):
+            emergency_fund.append(total * multiplier)
+
+        return emergency_fund
 
     def sinking_fund_contribution(self):
         #Sinking Fund Contribution = Goal ÷ Time
