@@ -51,7 +51,7 @@ class BillHandler:
         self.bills = []
         self.bill_reminders = []
 
-    def add_bill(self, bill_name: str, bill_total: float, due_date: str, current_date, paid=NO, days=None):
+    def add_bill(self, bill_name: str, bill_total: float, due_date: str,  paid=NO, days=None):
         """
         Adds a new bill to the list of bills.
 
@@ -63,7 +63,7 @@ class BillHandler:
             paid (str, optional): The paid status of the bill. Default is NO.
             days (int, optional): Days remaining until the due date. Default is None.
         """
-        self.bills.append({BILLS: bill_name, TOTAL: bill_total, DUE_DATE: due_date, CURRENT_DATE: current_date,
+        self.bills.append({BILLS: bill_name, TOTAL: bill_total, DUE_DATE: due_date, CURRENT_DATE: TODAY_DATE,
                            PAID: paid, DAYS: days})
 
     def remove_bill(self, bill_name):
