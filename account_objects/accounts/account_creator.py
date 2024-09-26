@@ -46,7 +46,7 @@ def create_new_account_interface():
         Account: The created Account object if the process is completed successfully.
         None: If the user chooses to cancel the account creation process.
     """
-    print_account_creation_banner()
+    print_account_creation_select()
 
     while True:
         create_account = get_user_confirmation('Create a new account? (Y)es, (N)o: ')
@@ -54,9 +54,14 @@ def create_new_account_interface():
             print('Exiting account creation...')
             return None  # User chooses not to create a new account
 
-        account = create_new_account()
-        if account:
-            print('Account Created Successfully!')
+        user_choice = input_with_validation('Which account would you like to create (1)Basic (2)Advanced')
+        if user_choice == 1:
+            print_account_creation_banner()
+            account = create_new_account()
+            return account
+        elif user_choice == 2:
+            account = create_new_account_advanced()
+            print_account_creation_banner_advanced()
             return account
 
 
@@ -115,9 +120,9 @@ def create_new_account():
         return None
 
     # Create a random identification number
-    user_id = random.randint(1,31000)
+    user_id = random.randint(1, 31000)
     # Creates account object from user input
-    account = Account(user_id, holder_name,user_name, new_password)
+    account = Account(user_id, holder_name, user_name, new_password)
 
     # sets up object to pull data from new account
     data_handler = DatabaseUnpacker()
@@ -147,20 +152,123 @@ def print_account_creation_banner():  # THIS BANNER NEEDS UPDATED FOR ACCURACY
                 *****************************
                       Account Creation
                 *****************************
-The following information will be required for creating a new account. 
-        Please review all information for accuracy. 
+The following information will be required for creating a new Basic Account.  
                             **
        - Account username and password for logging into account.
-       - Account holder full name.
-       - Checking and savings for account will start at zero.
-            L users will need to deposit initial amount before tracking can occur. 
+       - Account holder name. 
                             **
     """)
 
 
 def print_account_creation_banner_advanced():
-    pass
+    print(f"""
+                       ####Finance Manager####
+                    *****************************
+                          Account Creation
+                    *****************************
+    The following information will be required for creating a new Advanced Account.  
+                                **
+           - Account username and password for logging into account.
+           - Account holder name. 
+           - Current reoccurring bills
+           - Monthly income
+           - Budget goals
+           - Current debt
+           - Total assets
+           - Credit card debt and credit limits
+           - current networth
+                                **
+                                
+    Not all information is required but the more you are able to supply the 
+    better you'll be able to manage you future finances.
+        """)
 
 
 def set_new_user_id():
     return random.randint(1, 31000)
+
+
+def create_new_account_advanced():
+    """
+    Gathers user input, creates an Account object, and stores the account data in the database.
+
+    This function is responsible for guiding the user through the process of creating a new account by
+    prompting for the required information such as username, password, account holder name, and account name.
+    It validates each input step using the `input_with_validation` function to ensure correct and valid data.
+    If any input is invalid or the user cancels at any step, the function returns `None`.
+
+    Once all the required information is gathered, the function creates an `Account` object and a
+    `Transactions` object for the user. It then combines the account and transaction data using the
+    `DatabaseUnpacker` to prepare the information for insertion into the 'accountlog' table in the database.
+
+    Returns:
+        Account: The created `Account` object containing the provided information (username, password,
+                 account holder name, account name).
+        None: If the user cancels the account creation process or provides invalid inputs at any stage.
+
+    Steps:
+    ------
+    1. **Input Gathering**:
+       - The function prompts the user for:
+           - `Username`: Unique identifier for the account.
+           - `Password`: Account password.
+           - `Account holder name`: Name of the person who owns the account.
+       - If any input validation fails, the function exits and returns `None`.
+
+    2. **Account Creation**:
+       - An `Account` object is created using the gathered user input.
+
+    3. **Transaction Setup**:
+       - A `Transactions` object is created to manage the initial checking and savings balances.
+       - The method `new_balance_setter()` from `Transactions` is called to set up the user's initial balances.
+
+    4. **Data Handling**:
+       - A `DatabaseUnpacker` object is created to handle the preparation of the account data.
+       - The `get_data()` method is called to combine the account and transaction data into a structured format.
+
+    5. **Database Insertion**:
+       - The combined account data is inserted or updated in the database by calling `push_to_database()`, which
+         stores the account details and the initial transaction history into the 'accountlog' table.
+    """
+    user_name = input_with_validation("Username")
+    if not user_name:
+        return None
+
+    new_password = input_with_validation("Password")
+    if not new_password:
+        return None
+
+    holder_name = input_with_validation("Account holder name")
+    if not holder_name:
+        return None
+
+    # Create a random identification number
+    user_id = random.randint(1, 31000)
+    # Creates account object from user input
+    account = Account(user_id, holder_name, user_name, new_password)
+
+    # sets up object to pull data from new account
+    data_handler = DatabaseUnpacker()
+
+    # takes user input data and default account data moves them to a dictionary to be transferred to database
+    account_holder = account.get_new_account_details()
+
+    # pushes data to database
+    data_handler.push_to_database(account_holder)
+    print('New account created. Returning to main menu.')
+    from interface.menu_handler import main_menu
+    main_menu()
+
+
+def print_account_creation_select():
+    print("""
+    Welcome to the account creation screen. There are two types of account that you can create
+    -Basic Account
+            -A Basic Account allows you to quickly create an account and explore all account features. However,
+            you will need to add more information to your account over time to use some of the functionality. 
+            
+    -Advanced Account
+            - Advanced account creation will ask you for more information about your financial status. Not all the 
+            information is required at account creation but the more you enter the more functionality will be
+            available to you. 
+    """)
