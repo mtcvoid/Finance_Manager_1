@@ -1,3 +1,5 @@
+from datetime import datetime
+
 # constants
 
 # account
@@ -32,13 +34,13 @@ DAYS = 'days'
 YES = 'yes'
 NO = 'no'
 
-# debt handler
+# budget handler
 ADD = 'add'
 REMOVE = 'remove'
 ESSENTIAL_EXPENSES = 'essential expenses'
 NON_ESSENTIAL_EXPENSES = 'non-essential expenses'
 SAVINGS_AND_INVESTMENTS = 'savings and investments'
-# debt handler essential
+# budget handler essential
 HOUSING = 'housing'
 UTILITIES = 'utilities'
 GROCERIES = 'groceries'
@@ -46,7 +48,7 @@ TRANSPORTATION = 'transportation'
 INSURANCE = 'insurance'
 HEALTHCARE = 'healthcare'
 DEBT_PAYMENTS = 'debt payments'
-# debt handler non essential
+# budget handler non essential
 DINING_OUT = 'dining out'
 ENTERTAINMENT = 'entertainment'
 PERSONAL_CARE = 'personal care'
@@ -61,3 +63,20 @@ RETIREMENT_SAVINGS = 'retirement savings'
 INVESTMENTS = 'investments'
 EDUCATION_SAVINGS = 'education savings'
 MAJOR_PURCHASES = 'major purchases'
+
+# budget handler random
+EXPENSE_CATEGORY = 'Expense Category'
+EXPENSE_TYPE = 'Expense Type'
+EXPENSE_TOTAL = 'Expense Total'
+CREDIT_CARD = 'Credit Card'
+CREDIT_DEBT = 'Credit Debt'
+CREDIT_LIMIT = 'Credit Limit'
+BUDGET_NAME = 'budget_name'
+BUDGET_TOTAL = 'budget_total'
+EXPENSE_DATE = 'Expense date'
+DEBT_NAME = 'debt_name'
+DEBT_TOTAL = 'debt_total'
+
+# time constants
+CURRENT_MONTH = datetime.now().strftime('%B')
+TODAY_DATE = datetime.now().date()
